@@ -1,0 +1,2 @@
+backtesting==0.3.3
+ta-lib==0.4.24

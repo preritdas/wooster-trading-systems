@@ -1,0 +1,15 @@
+# Environments
+venv/
+win_venv/
+winvenv/
+win-venv/
+
+
+# Private files
+keys.ini
+_keys.py
+
+
+# Cache files
+__pycache__/
+.DS_Store
