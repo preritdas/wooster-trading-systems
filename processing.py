@@ -4,6 +4,7 @@ Process systems.
 # External imports
 import backtesting as bt
 import pandas as pd
+import mypytoolkit as kit
 
 # Local imports
 import os
@@ -51,10 +52,18 @@ def _process_system(
         optimizers["maximize"] = optimizer
         stats = backtest.optimize(**optimizers)
 
-    filename = os.path.join(current_dir, f"results/plots/{name}.html")
-    backtest.plot(filename=filename, open_browser=False)
+    filepath = os.path.join(current_dir, f"results/plots/{name}.html")
+    backtest.plot(filename=filepath, open_browser=False)
 
-    return stats, filename
+    # Reset the page title so it's not the filename
+    kit.append_by_query(
+        query = "<title>",
+        content = f"\t\t<title>{name} Interactive Plot</title>",
+        file = filepath,
+        replace = True
+    )
+
+    return stats, filepath
 
 
 def process_system_idx(
