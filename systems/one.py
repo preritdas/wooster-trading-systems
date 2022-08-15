@@ -21,6 +21,11 @@ class Params:
     start = dt.datetime.today() - dt.timedelta(days=55)
     end = dt.datetime.today() - dt.timedelta(days=1)
 
+    optimizers = {
+        "rsi_period": range(2, 30),
+        "constraint": lambda params: params.rsi_period > 2  # handled by above
+    }
+
 
 # ---- Strategy ----
 
