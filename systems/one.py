@@ -3,8 +3,6 @@ Wooster One trading system, trained and backtested.
 """
 # External imports
 import talib as ta
-import yfinance as yf
-import pandas as pd
 import backtesting as bt
 
 
