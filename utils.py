@@ -48,7 +48,7 @@ def plot_path(idx: int = None) -> bool | str:
     If it doesn't exist, returns False.
     """
     name = idx_to_name(idx)
-    path = os.path.join(current_dir, f"results/{name}.html")
+    path = os.path.join(current_dir, f"results/plots/{name}.html")
 
     if not os.path.exists(path):
         return False
