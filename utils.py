@@ -1,10 +1,14 @@
 """
 Data downloads, etc.
 """
-import yfinance as yf
-import pandas as pd
+# External imports
+import yfinance as yf  # data
+import pandas as pd  # type hints
 from rich.console import Console; console = Console()
-import num2words as numwords
+import num2words as numwords  # idx to words
+
+# Local imports
+import os  # file paths
 
 
 # ---- Data ----
@@ -20,6 +24,27 @@ def data(symbol: str, interval: str, period: str) -> pd.DataFrame:
         progress = False,
         show_errors = True
     )
+
+
+# ---- Files ----
+
+current_dir = os.path.dirname(
+    os.path.realpath(__file__)
+)
+
+
+def plot_path(idx: int = None) -> bool | str:
+    """
+    Searches for the result path of the given indexed strategy.
+    If it doesn't exist, returns False.
+    """
+    name = idx_to_name(idx)
+    path = os.path.join(current_dir, f"results/{name}.html")
+
+    if not os.path.exists(path):
+        return False
+    
+    return path
 
 
 # ---- Language ----
