@@ -51,7 +51,7 @@ def _process_system(
         optimizers["maximize"] = optimizer
         stats = backtest.optimize(**optimizers)
 
-    filename = os.path.join(current_dir, f"results/{name}.html")
+    filename = os.path.join(current_dir, f"results/plots/{name}.html")
     backtest.plot(filename=filename, open_browser=False)
 
     return stats, filename
