@@ -10,4 +10,4 @@ wooster processlatest --launch
 wooster process 1 --no-results 
 ```
 
-![plot-preview](readme-content/plot_preview.PNG)
+[![plot-preview](readme-content/plot_preview.PNG)](https://wooster.preritdas.com/plots/Wooster%20One.html)
