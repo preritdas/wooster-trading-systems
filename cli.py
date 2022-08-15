@@ -19,7 +19,8 @@ def process(
     index: int,
     results: bool = typer.Option(
         default = True,
-        help = "Show a rendering of the system's performance."
+        help = "Show a rendering of the system's performance, with various " \
+            "respected performance metrics."
     ),
     launch: bool = typer.Option(
         default = False,
@@ -31,11 +32,15 @@ def process(
     ),
     optimizer: str = typer.Option(
         default = config.Optimization.default_optimizer,
-        help = "Choose what statistic to optimize."
+        help = "Change the performance metric being optimized."
     )
 ):
-    """
+    f"""
     Process a strategy by index, and optimize it based on the selected optimizer.
+
+    The default optimizer is {config.Optimization.default_optimizer}. Specify 
+    a different optimizer with the [blue]--optimizer[/] flag. You can optimize
+    pretty much any numeric metric as outputted in the results.
     """
     optimizing_str = "and optimizing " if optimize else ""
     with utils.console.status(
@@ -84,7 +89,8 @@ def launch(
     )
 ):
     """
-    Launch an existing results plot in the browser.
+    Launch an existing results plot in the browser. Use this command to view 
+    pre-computed results without having to re-process a strategy.
     """
     if not (path := utils.plot_path(index)):
         utils.console.print(
