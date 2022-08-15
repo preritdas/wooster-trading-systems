@@ -58,33 +58,17 @@ def process(
         
 
 @app.command()
-def processlatest(
-    results: bool = typer.Option(
-        default = True,
-        help = "Show a rendering of the system's performance."
-    ),
-    launch: bool = typer.Option(
-        default = False,
-        help = "Launch a browser to interactively view the results plot."
+def latest():
+    """
+    Get the name and index of the latest Wooster system. 
+    """
+    idx = max(processing.systems.systems)
+    name = utils.idx_to_name(idx)
+
+    utils.console.print(
+        f"The latest system is [red]{name}[/]. "
+        f"As its name suggests, you can process it with the index [red]{idx}[/]."
     )
-):
-    """
-    Process the latest Wooster system.
-    """
-    with utils.console.status("Processing the latest system."):
-        result = processing.process_latest_system()
-
-    if results:
-        utils.render_results(result[0])
-
-    if launch:
-        with utils.console.status("Launching interactive plot in your browser."):
-            webbrowser.open(result[1])
-            pyperclip.copy(result[1])
-            utils.console.print(
-                "Launched in your browser. If you'd like to use a different "
-                "browser, paste the contents of your clipboard into your preferred browser."
-            )
 
 
 @app.command()
