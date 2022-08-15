@@ -21,16 +21,20 @@ def process(
     launch: bool = typer.Option(
         default = False,
         help = "Launch a browser to interactively view the results plot."
+    ),
+    optimize: bool = typer.Option(
+        default = True,
+        help = "Optimize the strategy parameters."
     )
 ):
     """
     Docs go here!
     """
-    with utils.console.status(f"Processing {utils.idx_to_name(index)}."):
-        result = processing.process_system_idx(index)
+    optimizing_str = "and optimizing" if optimize else ""
+    with utils.console.status(f"Processing {optimizing_str} {utils.idx_to_name(index)}."):
+        result = processing.process_system_idx(index, optimize=optimize)
 
-    if results:
-        utils.render_results(result[0])
+    if results: utils.render_results(result[0])
 
     if launch:
         with utils.console.status("Launching interactive plot in your browser."):

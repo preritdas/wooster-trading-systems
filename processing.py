@@ -20,10 +20,13 @@ current_dir = os.path.dirname(
 )
 
 
+# ---- Strategy backtests and processing ----
+
 def _process_system(
     strategy: bt.Strategy, 
     name: str, 
-    data: pd.DataFrame
+    data: pd.DataFrame,
+    optimize: bool = False
 ) -> tuple[pd.Series, str]:
     """
     Base processor. Backtests, stores performance website, 
@@ -39,13 +42,17 @@ def _process_system(
     )
 
     stats = backtest.run()
+
+    if optimize:
+        stats = backtest.optimize()
+    
     filename = os.path.join(current_dir, f"results/{name}.html")
     backtest.plot(filename=filename, open_browser=False)
 
     return stats, filename
 
 
-def process_system_idx(index: int) -> tuple[pd.Series, str]:
+def process_system_idx(index: int, optimize: bool = False) -> tuple[pd.Series, str]:
     """
     Find and process a system by its given index.
 
@@ -64,7 +71,8 @@ def process_system_idx(index: int) -> tuple[pd.Series, str]:
             symbol = system[1].Params.symbol,
             interval = system[1].Params.timeframe,
             period = system[1].Params.period
-        )
+        ),
+        optimize = optimize
     )
 
 
@@ -76,3 +84,25 @@ def process_latest_system() -> tuple[pd.Series, str]:
     to the interactive plot.
     """
     return process_system_idx(index=max(systems.systems))
+
+
+# ---- Strategy parameter optimization ----
+
+def _optimize_system_idx(index: int) -> bt.Backtest:
+    """
+    Optimize strategy and return a backtest object.
+    """
+    system = systems.systems[index]
+
+    backtest = bt.Backtest(
+        data = utils.data(
+            system[1].Params.symbol,
+            system[1].Params.timeframe,
+            system[1].Params.period
+        ),
+        strategy = system[2],
+        cash = 100_000
+    )
+
+    backtest.optimize()
+    return backtest
