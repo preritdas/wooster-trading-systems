@@ -7,6 +7,7 @@ import pandas as pd
 
 # Local imports
 import os
+import multiprocessing; multiprocessing.set_start_method('fork')
 
 # Project modules
 import systems
