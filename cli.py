@@ -39,7 +39,7 @@ def process(
     """
     optimizing_str = "and optimizing " if optimize else ""
     with utils.console.status(
-        f"Processing {optimizing_str}{utils.idx_to_name(index)}."
+        f"Processing {optimizing_str}[red]{utils.idx_to_name(index)}[/]."
     ):
         result = processing.process_system_idx(
             index, 
@@ -62,7 +62,10 @@ def process(
 @app.command()
 def latest():
     """
-    Get the name and index of the latest Wooster system. 
+    Get the name and index of the latest Wooster system. You can use the index
+    to then process or launch results, if they exist, by calling 
+    `wooster process idx` or `wooster launch idx` where `idx` is replaced
+    by the index specified by this command.
     """
     idx = max(processing.systems.systems)
     name = utils.idx_to_name(idx)
@@ -85,8 +88,11 @@ def launch(
     """
     if not (path := utils.plot_path(index)):
         utils.console.print(
-            f"There are currently no results stored for {utils.idx_to_name(index)}. "
-            "If the strategy exists, process it with the `process` command. "
+            "There are currently no results stored for "
+            f"[red]{utils.idx_to_name(index)}[/]. "
+            "If the strategy exists, first process it with the [blue]process[/] command. "
+            "Note that you can launch the interactive plot directly from the "
+            "process command with the [blue]--launch[/] flag."
         )
         return
 
