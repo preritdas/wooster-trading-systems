@@ -35,10 +35,10 @@ def process(
         help = "Change the performance metric being optimized."
     )
 ):
-    f"""
+    """
     Process a strategy by index, and optimize it based on the selected optimizer.
 
-    The default optimizer is {config.Optimization.default_optimizer}. Specify 
+    The default optimizer is set in config.ini, currently SQN. Specify 
     a different optimizer with the [blue]--optimizer[/] flag. You can optimize
     pretty much any numeric metric as outputted in the results.
     """
