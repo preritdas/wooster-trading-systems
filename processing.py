@@ -85,16 +85,3 @@ def process_system_idx(
         optimize = optimize,
         optimizer = optimizer
     )
-
-
-def process_latest_system() -> tuple[pd.Series, str]:
-    """
-    Process the latest system based on the systems submodule catalog.
-
-    Returns a tuple containing the results series and a string path 
-    to the interactive plot.
-
-    Deprecate this or build its functionality into process_system_idx.
-    if idx is greater than the max, idx = the max or smth.
-    """
-    return process_system_idx(index=max(systems.systems))
