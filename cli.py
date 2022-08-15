@@ -9,6 +9,7 @@ import pyperclip
 # Project modules
 import processing
 import utils
+import config
 
 
 @app.command()
@@ -23,16 +24,26 @@ def process(
         help = "Launch a browser to interactively view the results plot."
     ),
     optimize: bool = typer.Option(
-        default = True,
+        default = True,  
         help = "Optimize the strategy parameters."
+    ),
+    optimizer: str = typer.Option(
+        default = config.Optimization.default_optimizer,
+        help = "Choose what statistic to optimize."
     )
 ):
     """
-    Docs go here!
+    Process a strategy by index, and optimize it based on the selected optimizer.
     """
-    optimizing_str = "and optimizing" if optimize else ""
-    with utils.console.status(f"Processing {optimizing_str} {utils.idx_to_name(index)}."):
-        result = processing.process_system_idx(index, optimize=optimize)
+    optimizing_str = "and optimizing " if optimize else ""
+    with utils.console.status(
+        f"Processing {optimizing_str}{utils.idx_to_name(index)}."
+    ):
+        result = processing.process_system_idx(
+            index, 
+            optimize = optimize, 
+            optimizer = optimizer
+        )
 
     if results: utils.render_results(result[0])
 
@@ -41,7 +52,7 @@ def process(
             webbrowser.open(result[1])
             pyperclip.copy(result[1])
             utils.console.print(
-                "Launched in your browser. If you'd like to use a different "
+                "\nLaunched in your browser. If you'd like to use a different "
                 "browser, paste the contents of your clipboard into your preferred browser."
             )
         
