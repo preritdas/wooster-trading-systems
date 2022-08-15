@@ -70,3 +70,28 @@ def processlatest(
                 "Launched in your browser. If you'd like to use a different "
                 "browser, paste the contents of your clipboard into your preferred browser."
             )
+
+
+@app.command()
+def launch(
+    index: int = typer.Argument(
+        ..., 
+        help="Numeric index of the queried strategy."
+    )
+):
+    """
+    Launch an existing results plot in the browser.
+    """
+    if not (path := utils.plot_path(index)):
+        utils.console.print(
+            f"There are currently no results stored for {utils.idx_to_name(index)}. "
+            "If the strategy exists, process it with the `process` command. "
+        )
+        return
+
+    webbrowser.open(path)
+    pyperclip.copy(path)
+    utils.console.print(
+        "Launched in your browser. If you'd like to use a different "
+        "browser, paste the contents of your clipboard into your preferred browser."
+    )
