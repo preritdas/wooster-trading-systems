@@ -58,7 +58,7 @@ def _process_system(
     # Reset the page title so it's not the filename
     kit.append_by_query(
         query = "<title>",
-        content = f"\t\t<title>{name} Interactive Plot</title>",
+        content = f"\t\t<title>{name}</title>",
         file = filepath,
         replace = True
     )
