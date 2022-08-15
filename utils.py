@@ -9,18 +9,27 @@ import num2words as numwords  # idx to words
 
 # Local imports
 import os  # file paths
+import datetime as dt
 
 
 # ---- Data ----
 
-def data(symbol: str, interval: str, period: str) -> pd.DataFrame:
+def data(
+    symbol: str, 
+    interval: str, 
+    start: dt.datetime,
+    end: dt.datetime
+) -> pd.DataFrame:
     """
-    Download data from yfinance.
+    Download data from yfinance. Does not work with period, must take start
+    and end as datetime type, where end is at least one day prior. 
+    This is because if you run the system while the market is open, plotting breaks.
     """
     return yf.download(
         tickers = symbol,
         interval = interval,
-        period = period,
+        start = start,
+        end = end,
         progress = False,
         show_errors = True
     )

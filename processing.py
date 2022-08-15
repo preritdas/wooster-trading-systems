@@ -70,7 +70,8 @@ def process_system_idx(index: int, optimize: bool = False) -> tuple[pd.Series, s
         data = utils.data(
             symbol = system[1].Params.symbol,
             interval = system[1].Params.timeframe,
-            period = system[1].Params.period
+            start = system[1].Params.start,
+            end = system[1].Params.end
         ),
         optimize = optimize
     )
@@ -98,7 +99,8 @@ def _optimize_system_idx(index: int) -> bt.Backtest:
         data = utils.data(
             system[1].Params.symbol,
             system[1].Params.timeframe,
-            system[1].Params.period
+            system[1].Params.start,
+            system[1].Params.end
         ),
         strategy = system[2],
         cash = 100_000

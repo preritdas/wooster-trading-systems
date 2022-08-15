@@ -5,6 +5,9 @@ Wooster One trading system, trained and backtested.
 import talib as ta
 import backtesting as bt
 
+# Local imports
+import datetime as dt
+
 
 class Params:
     """
@@ -15,6 +18,8 @@ class Params:
     symbol = "AAPL"
     timeframe = "5m"
     period = "60d"
+    start = dt.datetime.today() - dt.timedelta(days=55)
+    end = dt.datetime.today() - dt.timedelta(days=1)
 
 
 # ---- Strategy ----
