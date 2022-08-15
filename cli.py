@@ -3,7 +3,7 @@ Create the CLI.
 """
 # External imports
 import webbrowser
-import typer; app = typer.Typer()
+import typer
 import pyperclip
 
 # Project modules
@@ -11,6 +11,8 @@ import processing
 import utils
 import config
 
+
+app = typer.Typer(no_args_is_help=True, add_completion=False)
 
 @app.command()
 def process(
