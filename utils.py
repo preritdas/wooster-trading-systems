@@ -97,7 +97,7 @@ def idx_to_name(idx: int, prefix: str = "Wooster ") -> str:
     full_num = ""
     for word in words: full_num += word
 
-    prefix + full_num
+    return prefix + full_num
 
 
 # ---- Renders ----
