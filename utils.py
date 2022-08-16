@@ -4,12 +4,17 @@ Data downloads, etc.
 # External imports
 import yfinance as yf  # data
 import pandas as pd  # type hints
-from rich.console import Console; console = Console()
 import num2words as numwords  # idx to words
+
+# Rich
+from rich.console import Console; console = Console()
+from rich.table import Table
+from rich.text import Text
 
 # Local imports
 import os  # file paths
 import datetime as dt
+import config
 
 
 # ---- Data ----
@@ -75,8 +80,48 @@ def idx_to_name(idx: int, prefix: str = "Wooster ") -> str:
 
 # ---- Renders ----
 
-def render_results(results: pd.Series) -> None:
+def render_results(results: pd.Series, name: str = "") -> None:
     """
     Renders results to console.
     """
-    console.print(results)
+    if name: name += " "
+
+    # Get all metrics as long as they're not private attributes
+    all_metrics = [metric for metric in results.index if metric[0] != "_"]
+    
+    # Preferred metrics
+
+    preferred_table = Table(
+        title = f"[red]{name}[/]Preferred Performance Metrics",
+        style = "dim"
+    )
+    preferred_table.add_column("Metric")
+    preferred_table.add_column("Value")
+
+    for metric in config.Results.preferred_metrics:
+        all_metrics.remove(metric)
+        if isinstance((result := results[metric]), float): result = round(result, 3)
+        preferred_table.add_row(metric, str(result))
+
+    # Secondary metrics, loop over remaining metrics
+
+    secondary_table = Table(
+        title = f"[red]{name}[/]Secondary Performance Metrics", 
+        style = "dim"
+    )
+    secondary_table.add_column("Metric")
+    secondary_table.add_column("Value")
+
+    for metric in all_metrics: 
+        if isinstance((result := results[metric]), float): result = round(result, 3)
+        secondary_table.add_row(Text(metric, style="dim"), Text(str(result), style="dim"))
+
+    # Display
+
+    display_table = Table.grid(padding=0, expand=False)
+    display_table.add_column(""); display_table.add_column("")
+    display_table.add_row(preferred_table, secondary_table)
+
+    console.line()
+    console.print(display_table)
+    console.line()
