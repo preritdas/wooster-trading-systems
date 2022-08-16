@@ -87,7 +87,7 @@ def stats_path(idx: int = None, flag_nonexistent: bool = False) -> bool | str:
 
 # ---- Language ----
 
-def idx_to_name(idx: int, prefix: str = "Wooster ") -> str:
+def idx_to_name(idx: int, prefix: str = "Wooster ", force: bool = False) -> str:
     """
     Ex. turns `2` into "Wooster Two", and 23 into "Wooster TwentyTwo".
     """
@@ -95,11 +95,10 @@ def idx_to_name(idx: int, prefix: str = "Wooster ") -> str:
     words = [word.title() for word in num.split("-")]
 
     full_num = ""
-    # Join them
-    for word in words:
-        full_num += word
+    for word in words: full_num += word
 
-    return prefix + full_num
+    if force: return prefix + full_num
+    else: return prefix
 
 
 # ---- Renders ----
