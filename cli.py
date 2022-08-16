@@ -52,7 +52,7 @@ def process(
             optimizer = optimizer
         )
 
-    if results: utils.render_results(result[0])
+    if results: utils.render_results(result[0], utils.idx_to_name(index))
 
     if launch:
         with utils.console.status("Launching interactive plot in your browser."):
