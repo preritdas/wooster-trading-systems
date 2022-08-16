@@ -43,7 +43,7 @@ def process(
     """
     optimizing_str = "and optimizing " if optimize else ""
     with utils.console.status(
-        f"Processing {optimizing_str}[red]{utils.idx_to_name(index, force=True)}[/]."
+        f"Processing {optimizing_str}[red]{utils.idx_to_name(index)}[/]."
     ):
         result = processing.process_system_idx(
             index, 
@@ -51,7 +51,7 @@ def process(
             optimizer = optimizer
         )
 
-    result_table = utils.render_results(result[0], utils.idx_to_name(index, force=True))
+    result_table = utils.render_results(result[0], utils.idx_to_name(index))
     html_console = utils.create_recorded_console()
     html_console.print(result_table)
     html_console.save_html(utils.stats_path(index))
@@ -75,7 +75,7 @@ def latest():
     by the index specified by this command.
     """
     idx = max(processing.systems.systems)
-    name = utils.idx_to_name(idx, force=True)
+    name = utils.idx_to_name(idx)
 
     utils.console.print(
         f"The latest system is [red]{name}[/]. "
@@ -97,7 +97,7 @@ def launch(
     if not (path := utils.plot_path(index, flag_nonexistent=True)):
         utils.console.print(
             "There are currently no results stored for "
-            f"[red]{utils.idx_to_name(index, force=True)}[/]. "
+            f"[red]{utils.idx_to_name(index)}[/]. "
             "If the strategy exists, first process it with the [blue]process[/] command. "
             "Note that you can launch the interactive plot directly from the "
             "process command with the [blue]--launch[/] flag."
