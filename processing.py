@@ -59,31 +59,39 @@ def _process_system(
         optimizers["maximize"] = optimizer
         stats = backtest.optimize(**optimizers)
 
-    filepath = os.path.join(current_dir, "results", "plots", f"{name}.html")
-    backtest.plot(filename=filepath, open_browser=False)
+    plotpath = os.path.join(current_dir, "results", "plots", f"{name}.html")
+    backtest.plot(filename=plotpath, open_browser=False)
 
     # Reset the page title so it's not the filename
-    try:
-        kit.append_by_query(
-            query = "<title>",
-            content = f"\t\t<title>{name}</title>",
-            file = fr"{filepath}",
-            replace = True
-        )
-    except OSError as e:
-        if "Invalid argument" in str(e): 
-            utils.console.log("Caught invalid argument error.")
-            time.sleep(1)
-            kit.append_by_query(
-                query = "<title>",
-                content = f"\t\t<title>{name}</title>",
-                file = fr"{filepath}",
-                replace = True
-            )
-        else:
-            raise OSError(e)
+    time.sleep(1)  # experimental: does this trigger OSError 22? 
+    kit.append_by_query(
+        query = "<title>",
+        content = f"\t\t<title>{name}</title>",
+        file = fr"{plotpath}",
+        replace = True
+    )
 
-    return stats, filepath
+    # try:
+    #     kit.append_by_query(
+    #         query = "<title>",
+    #         content = f"\t\t<title>{name}</title>",
+    #         file = fr"{filepath}",
+    #         replace = True
+    #     )
+    # except OSError as e:
+    #     if "Invalid argument" in str(e): 
+    #         utils.console.log("Caught invalid argument error.")
+    #         time.sleep(1)
+    #         kit.append_by_query(
+    #             query = "<title>",
+    #             content = f"\t\t<title>{name}</title>",
+    #             file = fr"{filepath}",
+    #             replace = True
+    #         )
+    #     else:
+            # raise OSError(e)
+
+    return stats, plotpath
 
 
 def process_system_idx(
