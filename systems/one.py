@@ -48,14 +48,10 @@ class WoosterOne(bt.Strategy):
     def next(self):
         # Sell signal
         if self.rsi[-1] > 80:
-            if self.position.is_long:
-                self.position.close()
-            elif not self.position:
-                self.sell()
+            if self.position.is_long: self.position.close()
+            elif not self.position: self.sell()
 
         # Buy signal
         elif self.rsi[-1] < 20:
-            if self.position.is_short:
-                self.position.close()
-            elif not self.position:
-                self.buy()
+            if self.position.is_short: self.position.close()
+            elif not self.position: self.buy()
