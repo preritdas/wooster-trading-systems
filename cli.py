@@ -19,8 +19,7 @@ def process(
     index: int,
     results: bool = typer.Option(
         default = True,
-        help = "Deprecated. Show a rendering of the system's performance, " \
-            "with various respected performance metrics."
+        help = "Deprecated. Results are now always shown for console html rendering."
     ),
     launch: bool = typer.Option(
         default = False,
