@@ -22,4 +22,14 @@ class Optimization:
     Optimization parameters and defaults.
     """
     optimization_config = config["Optimization"]
+
     default_optimizer = optimization_config["default_optimizer"]
+
+
+class Results:
+    """
+    Preferred metrics, etc.
+    """
+    results_config = config["Results"]
+
+    preferred_metrics = results_config["preferred_metrics"].split(", ")
