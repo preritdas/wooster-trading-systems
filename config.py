@@ -33,3 +33,6 @@ class Results:
     results_config = config["Results"]
 
     preferred_metrics = results_config["preferred_metrics"].split(", ")
+    secondary_metrics_style = results_config["secondary_metrics_style"]
+    highlight_preferred = results_config["highlight_preferred"].split(", ")
+    highlight_preferred_style = results_config["highlight_preferred_style"]
