@@ -2,6 +2,7 @@
 Data downloads, etc.
 """
 # External imports
+from sys import displayhook
 import yfinance as yf  # data
 import pandas as pd  # type hints
 import num2words as numwords  # idx to words
@@ -15,6 +16,15 @@ from rich.text import Text
 import os  # file paths
 import datetime as dt
 import config
+
+
+# ---- Console tools ----
+def create_recorded_console() -> Console:
+    """
+    Creates a new console object with recording enabled, 
+    so it can then be exported as HTML etc.
+    """
+    return Console(record=True)
 
 
 # ---- Data ----
@@ -47,7 +57,7 @@ current_dir = os.path.dirname(
 )
 
 
-def plot_path(idx: int = None) -> bool | str:
+def plot_path(idx: int = None, flag_nonexistent: bool = False) -> bool | str:
     """
     Searches for the result path of the given indexed strategy.
     If it doesn't exist, returns False.
@@ -55,8 +65,22 @@ def plot_path(idx: int = None) -> bool | str:
     name = idx_to_name(idx)
     path = os.path.join(current_dir, f"results/plots/{name}.html")
 
-    if not os.path.exists(path):
-        return False
+    if flag_nonexistent:
+        if not os.path.exists(path): return False
+    
+    return path
+
+
+def stats_path(idx: int = None, flag_nonexistent: bool = False) -> bool | str:
+    """
+    Searches for the result path of the given indexed strategy.
+    If it doesn't exist, returns False.
+    """
+    name = idx_to_name(idx)
+    path = os.path.join(current_dir, f"results/stats/{name}.html")
+
+    if flag_nonexistent:
+        if not os.path.exists(path): return False
     
     return path
 
@@ -80,7 +104,7 @@ def idx_to_name(idx: int, prefix: str = "Wooster ") -> str:
 
 # ---- Renders ----
 
-def render_results(results: pd.Series, name: str = "") -> None:
+def render_results(results: pd.Series, name: str = "") -> Table:
     """
     Renders results to console.
     """
@@ -101,20 +125,44 @@ def render_results(results: pd.Series, name: str = "") -> None:
     for metric in config.Results.preferred_metrics:
         all_metrics.remove(metric)
         if isinstance((result := results[metric]), float): result = round(result, 3)
-        preferred_table.add_row(metric, str(result))
+
+        # Style certain results
+        style = "none"
+        if metric in config.Results.highlight_preferred:
+            style = config.Results.highlight_preferred_style
+        preferred_table.add_row(Text(metric, style), Text(str(result), style))
 
     # Secondary metrics, loop over remaining metrics
 
     secondary_table = Table(
-        title = f"[red]{name}[/]Secondary Performance Metrics", 
-        style = "dim"
+        title = Text(
+            f"Secondary Performance Metrics", 
+            style=config.Results.secondary_metrics_style
+        ), 
+        style = config.Results.secondary_metrics_style
     )
-    secondary_table.add_column("Metric")
-    secondary_table.add_column("Value")
+    secondary_table.add_column(
+        Text(
+            "Metric", 
+            style=config.Results.secondary_metrics_style
+        )
+    )
+    secondary_table.add_column(
+        Text(
+            "Value", 
+            style=config.Results.secondary_metrics_style
+        )
+    )
 
     for metric in all_metrics: 
         if isinstance((result := results[metric]), float): result = round(result, 3)
-        secondary_table.add_row(Text(metric, style="dim"), Text(str(result), style="dim"))
+        secondary_table.add_row(
+            Text(
+                metric, 
+                style=config.Results.secondary_metrics_style
+            ), 
+            Text(str(result), style=config.Results.secondary_metrics_style)
+        )
 
     # Display
 
@@ -122,6 +170,4 @@ def render_results(results: pd.Series, name: str = "") -> None:
     display_table.add_column(""); display_table.add_column("")
     display_table.add_row(preferred_table, secondary_table)
 
-    console.line()
-    console.print(display_table)
-    console.line()
+    return display_table
