@@ -19,8 +19,8 @@ def process(
     index: int,
     results: bool = typer.Option(
         default = True,
-        help = "Show a rendering of the system's performance, with various " \
-            "respected performance metrics."
+        help = "Deprecated. Show a rendering of the system's performance, " \
+            "with various respected performance metrics."
     ),
     launch: bool = typer.Option(
         default = False,
@@ -52,7 +52,10 @@ def process(
             optimizer = optimizer
         )
 
-    if results: utils.render_results(result[0], utils.idx_to_name(index))
+    result_table = utils.render_results(result[0], utils.idx_to_name(index))
+    html_console = utils.create_recorded_console()
+    html_console.print(result_table)
+    html_console.save_html(utils.stats_path(index))
 
     if launch:
         with utils.console.status("Launching interactive plot in your browser."):
@@ -92,7 +95,7 @@ def launch(
     Launch an existing results plot in the browser. Use this command to view 
     pre-computed results without having to re-process a strategy.
     """
-    if not (path := utils.plot_path(index)):
+    if not (path := utils.plot_path(index, flag_nonexistent=True)):
         utils.console.print(
             "There are currently no results stored for "
             f"[red]{utils.idx_to_name(index)}[/]. "
