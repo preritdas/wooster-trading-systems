@@ -8,11 +8,18 @@ import mypytoolkit as kit
 
 # Local imports
 import os
-import multiprocessing; multiprocessing.set_start_method('fork')
+import sys  # check operating system
+import multiprocessing  # change start method if macOS
+import time  # handle invalid argument OSError 22
 
 # Project modules
 import systems
 import utils
+
+
+# Multiprocessing start method for backtesting
+if sys.platform == "darwin":
+    multiprocessing.set_start_method("fork")
 
 
 # ---- Absolute file paths ----
@@ -52,16 +59,29 @@ def _process_system(
         optimizers["maximize"] = optimizer
         stats = backtest.optimize(**optimizers)
 
-    filepath = os.path.join(current_dir, f"results/plots/{name}.html")
+    filepath = os.path.join(current_dir, "results", "plots", f"{name}.html")
     backtest.plot(filename=filepath, open_browser=False)
 
     # Reset the page title so it's not the filename
-    kit.append_by_query(
-        query = "<title>",
-        content = f"\t\t<title>{name}</title>",
-        file = filepath,
-        replace = True
-    )
+    try:
+        kit.append_by_query(
+            query = "<title>",
+            content = f"\t\t<title>{name}</title>",
+            file = fr"{filepath}",
+            replace = True
+        )
+    except OSError as e:
+        if "Invalid argument" in str(e): 
+            utils.console.log("Caught invalid argument error.")
+            time.sleep(1)
+            kit.append_by_query(
+                query = "<title>",
+                content = f"\t\t<title>{name}</title>",
+                file = fr"{filepath}",
+                replace = True
+            )
+        else:
+            raise OSError(e)
 
     return stats, filepath
 
