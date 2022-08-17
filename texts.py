@@ -16,8 +16,12 @@ def keys_given() -> bool:
     """
     Determines whether or not all keys have been given for Nexmo.
     """
-    nexmo_keys = keys["Nexmo"]
     fields = "api_key", "api_secret", "sender", "receiver"
+
+    try:
+        nexmo_keys = keys["Nexmo"]
+    except KeyError:
+        return False
 
     for field in fields:
         try: 
