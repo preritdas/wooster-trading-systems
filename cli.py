@@ -15,7 +15,12 @@ import utils
 import config
 
 
-app = typer.Typer(no_args_is_help=True, add_completion=False)
+app = typer.Typer(
+    no_args_is_help = True, 
+    add_completion = False, 
+    help = "Process, optimize, and view the results for Wooster trading systems."
+)
+
 
 @app.command()
 def process(
