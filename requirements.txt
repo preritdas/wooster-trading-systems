@@ -7,3 +7,4 @@ pyperclip==1.8.2
 rich==12.5.1
 num2words==0.5.11
 mypytoolkit==1.5.0
+nexmo==2.5.2
