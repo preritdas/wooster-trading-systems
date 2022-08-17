@@ -21,10 +21,10 @@ class Params:
 
     optimizers: dict = {
         "rsi_period": range(3, 30, 1),
-        "buy_rsi_entry": range(5, 49, 1),
-        "buy_rsi_target": range(5, 95, 1),
-        "sell_rsi_entry": range(51, 95, 1),
-        "sell_rsi_target": range(5, 95, 1),
+        "buy_rsi_entry": range(10, 30, 1),
+        "buy_rsi_target": range(70, 90, 1),
+        "sell_rsi_entry": range(70, 90, 1),
+        "sell_rsi_target": range(10, 30, 1),
         "constraint": lambda params: params.buy_rsi_entry < params.buy_rsi_target and params.sell_rsi_entry > params.sell_rsi_target
     }
 
