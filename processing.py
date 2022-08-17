@@ -36,7 +36,9 @@ def _process_system(
     index: int,
     data: pd.DataFrame,
     optimize: bool,
-    optimizer: str
+    optimizer: str,
+    method: str,
+    progress: bool
 ) -> tuple[pd.Series, str]:
     """
     Base processor. Backtests, stores performance website, 
@@ -56,7 +58,12 @@ def _process_system(
     if optimize:
         optimizers = systems.systems[index][1].Params.optimizers
         optimizers["maximize"] = optimizer
-        stats = backtest.optimize(show_progress=True, **optimizers)
+        stats = backtest.optimize(
+            max_tries = 1, 
+            show_progress = progress, 
+            method = method, 
+            **optimizers
+        )
 
     plotpath = os.path.join(current_dir, "results", "plots", f"{name}.html")
     backtest.plot(filename=plotpath, open_browser=False)
@@ -96,7 +103,9 @@ def _process_system(
 def process_system_idx(
     index: int, 
     optimize: bool, 
-    optimizer: str
+    optimizer: str,
+    method = "grid",
+    progress: bool = True
 ) -> tuple[pd.Series, str]:
     """
     Find and process a system by its given index.
@@ -120,5 +129,7 @@ def process_system_idx(
             end = system[1].Params.end
         ),
         optimize = optimize,
-        optimizer = optimizer
+        optimizer = optimizer,
+        method = method,
+        progress = progress
     )

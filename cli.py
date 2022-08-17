@@ -29,10 +29,6 @@ def process(
         ...,
         help = "Strategy identifier. Ex. 2 for Wooster Two."
     ),
-    results: bool = typer.Option(
-        default = True,
-        help = "Deprecated. Results are now always shown for console html rendering."
-    ),
     time: bool = typer.Option(
         default = False,
         help = "Time the operation and print the result to console."
@@ -48,6 +44,10 @@ def process(
     optimizer: str = typer.Option(
         default = config.Optimization.default_optimizer,
         help = "Change the performance metric being optimized."
+    ),
+    method: str = typer.Option(
+        default = "grid",
+        help = "Optimization method. Currently only grid and skopt are supported."
     ),
     textalert: bool = typer.Option(
         default = False,
@@ -74,7 +74,9 @@ def process(
     result = processing.process_system_idx(
         index, 
         optimize = optimize, 
-        optimizer = optimizer
+        optimizer = optimizer,
+        method = method,
+        progress = True
     )
 
     utils.console.line()
