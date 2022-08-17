@@ -51,15 +51,17 @@ def process(
     if time: start = perf_counter()
 
     optimizing_str = "and optimizing " if optimize else ""
-    with utils.console.status(
-        f"Processing {optimizing_str}[red]{utils.idx_to_name(index)}[/]."
-    ):
-        result = processing.process_system_idx(
-            index, 
-            optimize = optimize, 
-            optimizer = optimizer
-        )
+    utils.console.log(
+        f"Processing {optimizing_str}[red]{utils.idx_to_name(index)}[/].\n"
+    )
 
+    result = processing.process_system_idx(
+        index, 
+        optimize = optimize, 
+        optimizer = optimizer
+    )
+
+    utils.console.line()
     result_table = utils.render_results(result[0], utils.idx_to_name(index))
     html_console = utils.create_recorded_console()
     html_console.print(result_table)

@@ -18,8 +18,7 @@ import utils
 
 
 # Multiprocessing start method for backtesting
-if sys.platform == "darwin":
-    multiprocessing.set_start_method("fork")
+if sys.platform == "darwin": multiprocessing.set_start_method("fork")
 
 
 # ---- Absolute file paths ----
@@ -52,12 +51,12 @@ def _process_system(
         cash = 100_000
     )
 
-    stats = backtest.run()
+    stats = backtest.run(show_progress=True)
 
     if optimize:
         optimizers = systems.systems[index][1].Params.optimizers
         optimizers["maximize"] = optimizer
-        stats = backtest.optimize(**optimizers)
+        stats = backtest.optimize(show_progress=True, **optimizers)
 
     plotpath = os.path.join(current_dir, "results", "plots", f"{name}.html")
     backtest.plot(filename=plotpath, open_browser=False)
