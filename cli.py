@@ -6,6 +6,9 @@ import webbrowser
 import typer
 import pyperclip
 
+# Local imports
+from time import perf_counter # optionally time commands
+
 # Project modules
 import processing
 import utils
@@ -20,6 +23,10 @@ def process(
     results: bool = typer.Option(
         default = True,
         help = "Deprecated. Results are now always shown for console html rendering."
+    ),
+    time: bool = typer.Option(
+        default = False,
+        help = "Time the operation and print the result to console."
     ),
     launch: bool = typer.Option(
         default = False,
@@ -41,6 +48,8 @@ def process(
     a different optimizer with the [blue]--optimizer[/] flag. You can optimize
     pretty much any numeric metric as outputted in the results.
     """
+    if time: start = perf_counter()
+
     optimizing_str = "and optimizing " if optimize else ""
     with utils.console.status(
         f"Processing {optimizing_str}[red]{utils.idx_to_name(index)}[/]."
@@ -64,6 +73,8 @@ def process(
                 "\nLaunched in your browser. If you'd like to use a different "
                 "browser, paste the contents of your clipboard into your preferred browser."
             )
+    
+    if time: utils.console.print(f"That took {perf_counter() - start:.2f} seconds.")
         
 
 @app.command()
