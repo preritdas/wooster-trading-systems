@@ -46,7 +46,7 @@ class WoosterTwo(bt.Strategy):
         """
         Indicators etc.
         """
-        self.rsi = self.I(ta.RSI, self.data.Close, self.rsi_period)
+        self.rsi = self.I(ta.RSI, self.data.Close, timeperiod=self.rsi_period)
 
     def next(self):
         """
@@ -54,10 +54,10 @@ class WoosterTwo(bt.Strategy):
         """
         # Position management
         if self.position.is_long:  # check for buy target
-            if self.rsi[0] >= self.buy_rsi_target: self.position.close()
+            if self.rsi[-1] >= self.buy_rsi_target: self.position.close()
         if self.position.is_short:
-            if self.rsi[0] <= self.sell_rsi_target: self.position.close()
+            if self.rsi[-1] <= self.sell_rsi_target: self.position.close()
         
         # New positions
-        if self.rsi[0] < self.buy_rsi_entry: self.buy()
-        elif self.rsi[0] > self.sell_rsi_entry: self.sell()
+        if self.rsi[-1] < self.buy_rsi_entry: self.buy()
+        elif self.rsi[-1] > self.sell_rsi_entry: self.sell()
