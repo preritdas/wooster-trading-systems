@@ -1,4 +1,5 @@
 git+https://github.com/preritdas/backtesting.py.git@progress-bar  # progress bar PR
+scikit-optimize==0.9.0
 ta-lib==0.4.24
 yfinance==0.1.74
 pandas==1.4.3
