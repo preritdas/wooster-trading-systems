@@ -13,6 +13,7 @@ from time import perf_counter # optionally time commands
 import processing
 import utils
 import config
+import texts
 
 
 app = typer.Typer(
@@ -24,7 +25,10 @@ app = typer.Typer(
 
 @app.command()
 def process(
-    index: int,
+    index: int = typer.Argument(
+        ...,
+        help = "Strategy identifier. Ex. 2 for Wooster Two."
+    ),
     results: bool = typer.Option(
         default = True,
         help = "Deprecated. Results are now always shown for console html rendering."
@@ -44,6 +48,12 @@ def process(
     optimizer: str = typer.Option(
         default = config.Optimization.default_optimizer,
         help = "Change the performance metric being optimized."
+    ),
+    textalert: bool = typer.Option(
+        default = False,
+        help = "Send a text message alerting when the operation is over. " \
+            "This is useful when optimizing powerful, computationally " \
+            "intensive strategies. Must be pre-configured."
     )
 ):
     """
@@ -55,9 +65,10 @@ def process(
     """
     if time: start = perf_counter()
 
+    system_name = utils.idx_to_name(index)
     optimizing_str = "and optimizing " if optimize else ""
     utils.console.log(
-        f"Processing {optimizing_str}[red]{utils.idx_to_name(index)}[/].\n"
+        f"Processing {optimizing_str}[red]{system_name}[/].\n"
     )
 
     result = processing.process_system_idx(
@@ -82,6 +93,20 @@ def process(
             )
     
     if time: utils.console.print(f"That took {perf_counter() - start:.2f} seconds.")
+
+    # Text alert
+    if textalert:
+        if not texts.keys_given():
+            utils.console.print(
+                "You must provide yoru Nexmo credentials in keys.ini "
+                "if you'd like to use the textalert feature."
+            )
+            return
+
+        texts.text_me(
+            f"{system_name} has finished backtesting"
+            f"{' and optimizing.' if optimize else '.'}"
+        )
         
 
 @app.command()
