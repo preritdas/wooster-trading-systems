@@ -75,7 +75,7 @@ def process(
         index, 
         optimize = optimize, 
         optimizer = optimizer,
-        method = method,
+        method = method.lower(),
         progress = True
     )
 
