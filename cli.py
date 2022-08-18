@@ -127,24 +127,45 @@ def latest():
 
 @app.command()
 def launch(
+    view: str = typer.Argument(
+        ...,
+        help = "Specify whether launching the stats or a plot."
+    ),
     index: int = typer.Argument(
         ..., 
         help="Numeric index of the queried strategy."
+    ),
+    label: str = typer.Option(
+        default = "train",
+        help = "If opening a plot, specify train, up, down, or chop results."
     )
 ):
     """
     Launch an existing results plot in the browser. Use this command to view 
     pre-computed results without having to re-process a strategy.
     """
-    if not (path := utils.plot_path(index, flag_nonexistent=True)):
-        utils.console.print(
-            "There are currently no results stored for "
-            f"[red]{utils.idx_to_name(index)}[/]. "
-            "If the strategy exists, first process it with the [blue]process[/] command. "
-            "Note that you can launch the interactive plot directly from the "
-            "process command with the [blue]--launch[/] flag."
-        )
-        return
+    view = view.lower()
+
+    if "plot" in view:
+        if not (path := utils.plot_path(index, label, flag_nonexistent=True)):
+            utils.console.print(
+                "There are currently no results stored for "
+                f"[red]{utils.idx_to_name(index)}[/]. "
+                "If the strategy exists, first process it with the [blue]process[/] command. "
+                "Note that you can launch the interactive plot directly from the "
+                "process command with the [blue]--launch[/] flag."
+            )
+            return
+    elif "stat" in view:
+        if not (path := utils.stats_path(index, flag_nonexistent=True)):
+            utils.console.print(
+                "There are currently no results stored for "
+                f"[red]{utils.idx_to_name(index)}[/]. "
+                "If the strategy exists, first process it with the [blue]process[/] command. "
+                "Note that you can launch the interactive plot directly from the "
+                "process command with the [blue]--launch[/] flag."
+            )
+            return
 
     webbrowser.open(path)
     pyperclip.copy(path)
