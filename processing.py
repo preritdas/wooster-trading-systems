@@ -77,26 +77,6 @@ def _process_system(
         replace = True
     )
 
-    # try:
-    #     kit.append_by_query(
-    #         query = "<title>",
-    #         content = f"\t\t<title>{name}</title>",
-    #         file = fr"{filepath}",
-    #         replace = True
-    #     )
-    # except OSError as e:
-    #     if "Invalid argument" in str(e): 
-    #         utils.console.log("Caught invalid argument error.")
-    #         time.sleep(1)
-    #         kit.append_by_query(
-    #             query = "<title>",
-    #             content = f"\t\t<title>{name}</title>",
-    #             file = fr"{filepath}",
-    #             replace = True
-    #         )
-    #     else:
-            # raise OSError(e)
-
     return stats, plotpath
 
 
