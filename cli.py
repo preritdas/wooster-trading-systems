@@ -80,10 +80,7 @@ def process(
     )
 
     utils.console.line()
-    result_table = utils.render_results(result[0], utils.idx_to_name(index))
-    html_console = utils.create_recorded_console()
-    html_console.print(result_table)
-    html_console.save_html(utils.stats_path(index))
+    utils.display_results(result, index)
 
     if launch:
         with utils.console.status("Launching interactive plot in your browser."):
