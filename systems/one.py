@@ -18,8 +18,12 @@ class Params:
     symbol = "AAPL"
     timeframe = "5m"
     period = "60d"
-    start = dt.datetime.today() - dt.timedelta(days=55)
-    end = dt.datetime.today() - dt.timedelta(days=1)
+
+    walkforward = {
+        "train": (dt.datetime(2022, 6, 24), dt.datetime(2022, 8, 17)),
+        "up": (dt.datetime(2022, 6, 24), dt.datetime(2022, 8, 17)),
+        "chop": (dt.datetime(2022, 6, 23), dt.datetime(2022, 8, 13))
+    }
 
     optimizers = {
         "rsi_period": range(2, 30),
