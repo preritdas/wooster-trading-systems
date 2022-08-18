@@ -17,11 +17,15 @@ p {font-family:Georgia, serif;font-size:14px;font-style:normal;font-weight:norma
 <h1>Wooster Trading Systems</h1>
 <p>This is just a landing page for the site that hosts results. Learn more on Twitter at https://twitter.com/PreritDas.</p>
 
-<p>View system results. Enter the system name, ex. Wooster Two or Wooster ThirtyThree.</p>
+<p>View system results and performance. Enter the system name, ex. Wooster Two or Wooster ThirtyThree. Then, click one of the buttons below. The stats page has results from all in- and out-of-sample backtests, while there is a separate page for each interactive plot.</p>
+
 <input type="text" id="systemID"><br><br>
 
-<button id="stats" name="stats" type="submit" onclick="statsPage()">Performance Metrics</button>
-<button id="plot" name="plot" type="submit" onclick="plotPage()">Interactive Plot</button>
+<button id="stats" name="stats" type="submit" onclick="statsPage()">Performance Metrics</button> <br><br>
+<button id="plot" name="plot-train" type="submit" onclick="plotPage('Train')">In-Sample Training Results</button>
+<button id="plot" name="plot-up" type="submit" onclick="plotPage('Up')">Out-of-Sample Uptrend Results</button>
+<button id="plot" name="plot-down" type="submit" onclick="plotPage('Down')">Out-of-Sample Downtrend Results</button>
+<button id="plot" name="plot-chop" type="submit" onclick="plotPage('Chop')">Out-of-Sample Chop Results</button>
 
 <script>
 function statsPage() {
@@ -34,14 +38,14 @@ function statsPage() {
   window.open(`https://wooster.preritdas.com/stats/${id}.html`);
 }
 
-function plotPage() {
+function plotPage(label) {
   var id = document.getElementById("systemID").value;
   id = id.toLowerCase()
     .split(' ')
     .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
     .join(' ')
     .trim();
-  window.open(`https://wooster.preritdas.com/plots/${id}.html`);
+  window.open(`https://wooster.preritdas.com/plots/${id} ${label}.html`);
 }
 </script>
 
