@@ -34,62 +34,73 @@ def _process_system(
     strategy: bt.Strategy, 
     name: str,
     index: int,
-    data: pd.DataFrame | dict[str, pd.DataFrame],
+    data: dict[str, pd.DataFrame],
     optimize: bool,
     optimizer: str,
     method: str,
     progress: bool
-) -> tuple[pd.Series, str]:
+) -> dict[str, pd.Series]:
     """
     Base processor. Backtests, stores performance website, 
     and returns results series.
 
-    If data is passed in as a dict, keys must be "train", "up", "down", and "chop."
+    Data must be passed as a dict, keys must be "train", "up", "down", and "chop."
     Each key's value must be a DataFrame. If a dict is passed and all four of these
     keys are not present with their correct values, a ValueError is raised.
 
     Returns a tuple containing the results series and a string path 
     to the interactive plot.
     """
-    # If dict, ensure data is labeled properly with DataFrame data
-    if isinstance(data, dict) and optimize:
-        assert "train" in data and "up" in data and "down" in data and "chop" in data
-        assert isinstance(data["train"], pd.DataFrame) \
-            and isinstance(data["up"], pd.DataFrame) \
-            and isinstance(data["down"], pd.DataFrame) \
-            and isinstance(data["chop"], pd.DataFrame)
+    assert isinstance(data, dict)
+    assert all([label in {"train", "up", "down", "chop"} for label in data.keys()])
+    assert all(isinstance(value, pd.DataFrame) for value in data.values())
 
     backtest = bt.Backtest(
-        data = data,
+        data = data["train"],
         strategy = strategy,
         cash = 100_000
     )
-
+    
     stats = backtest.run(show_progress=progress)
+    params = stats._strategy._params
 
     if optimize:
-        optimizers = systems.systems[index][1].Params.optimizers
-        optimizers["maximize"] = optimizer
         stats = backtest.optimize(
-            max_tries = 1, 
-            show_progress = progress, 
-            method = method, 
-            **optimizers
+            max_tries = 1,
+            show_progress = progress,
+            method = method,
+            maximize = optimizer,
+            **systems.systems[index][1].Params.optimizers
+        )
+        params = stats._strategy._params
+
+    results = {}
+    for label in data:
+        _walkforward_bt = bt.Backtest(
+            data[label], 
+            strategy, 
+            cash = 100_000
+        )
+        results[label] = _walkforward_bt.run(
+            show_progress = True,
+            progress_message = f"Backtesting on {label} data...",
+            **params
+        )
+        
+        # Save results
+        _plotpath = utils.plot_path(index, label)
+        backtest.plot(filename=_plotpath, open_browser=False)
+
+        # Reset the page title so it's not the filename
+        time.sleep(1)  # Prevent OS error 22
+        kit.append_by_query(
+            query = "<title>",
+            content = f"\t\t<title>{name}</title>",
+            file = fr"{_plotpath}",
+            replace = True
         )
 
-    plotpath = os.path.join(current_dir, "results", "plots", f"{name}.html")
-    backtest.plot(filename=plotpath, open_browser=False)
-
-    # Reset the page title so it's not the filename
-    time.sleep(1)  # Prevent OS error 22
-    kit.append_by_query(
-        query = "<title>",
-        content = f"\t\t<title>{name}</title>",
-        file = fr"{plotpath}",
-        replace = True
-    )
-
-    return stats, plotpath
+    return results
 
 
 def process_system_idx(
@@ -98,7 +109,7 @@ def process_system_idx(
     optimizer: str,
     method = "grid",
     progress: bool = True
-) -> tuple[pd.Series, str]:
+) -> dict[str, pd.Series]:
     """
     Find and process a system by its given index.
 
@@ -117,8 +128,7 @@ def process_system_idx(
         data = utils.data(
             symbol = system[1].Params.symbol,
             interval = system[1].Params.timeframe,
-            start = system[1].Params.start,
-            end = system[1].Params.end
+            walkforward = system[1].Params.walkforward
         ),
         optimize = optimize,
         optimizer = optimizer,
