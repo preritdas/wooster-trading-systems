@@ -30,7 +30,7 @@ def create_recorded_console() -> Console:
 
 # ---- Data ----
 
-def data(
+def _fetch_data(
     symbol: str, 
     interval: str, 
     start: dt.datetime,
@@ -51,6 +51,23 @@ def data(
     )
 
 
+def data(
+    symbol: str, 
+    interval: str,
+    walkforward: dict[str, tuple[dt.datetime]]
+) -> dict[str, pd.DataFrame]:
+    """
+    `walkforward` must be a dict containing walkforward labels, ex. train, up, down...
+    The values with each of these must be a tuple with two, Datetime objects, the first
+    being the start date and the end being the end date.
+    """
+    return_data = {}
+    for label, start_end in walkforward.items():
+        return_data[label] = _fetch_data(symbol, interval, start_end[0], start_end[1])
+
+    return return_data
+
+
 def full_label_name(label: str) -> str:
     """
     Returns the full label name. Ex. "train" becomes "In-Sample Training",
@@ -59,10 +76,10 @@ def full_label_name(label: str) -> str:
     assert isinstance(label, str)
     assert (label := label.lower()) in {"train", "up", "down", "chop"}
 
-    if label == "train": return "In-Sample Training"
-    elif label == "up": return "Out-of-Sample Uptrend"
-    elif label == "down": return "Out-of-Sample Downtrend"
-    elif label == "chop": return "Out-of-Sample Chop"
+    if label == "train": return "In-Sample Training Results"
+    elif label == "up": return "Out-of-Sample Uptrend Results"
+    elif label == "down": return "Out-of-Sample Downtrend Results"
+    elif label == "chop": return "Out-of-Sample Chop Results"
 
 
 # ---- Files ----
