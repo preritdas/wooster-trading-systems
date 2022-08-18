@@ -19,6 +19,7 @@ import config
 
 
 # ---- Console tools ----
+
 def create_recorded_console() -> Console:
     """
     Creates a new console object with recording enabled, 
@@ -50,6 +51,20 @@ def data(
     )
 
 
+def full_label_name(label: str) -> str:
+    """
+    Returns the full label name. Ex. "train" becomes "In-Sample Training",
+    "up" becomes "Out-of-Sample Uptrend", etc.
+    """
+    assert isinstance(label, str)
+    assert (label := label.lower()) in {"train", "up", "down", "chop"}
+
+    if label == "train": return "In-Sample Training"
+    elif label == "up": return "Out-of-Sample Uptrend"
+    elif label == "down": return "Out-of-Sample Downtrend"
+    elif label == "chop": return "Out-of-Sample Chop"
+
+
 # ---- Files ----
 
 current_dir = os.path.dirname(
@@ -57,13 +72,20 @@ current_dir = os.path.dirname(
 )
 
 
-def plot_path(idx: int = None, flag_nonexistent: bool = False) -> bool | str:
+def plot_path(idx: int, label: str, flag_nonexistent: bool = False) -> bool | str:
     """
     Searches for the result path of the given indexed strategy.
     If it doesn't exist, returns False.
+
+    Label is the plot type, either "train", "up", "down", or "chop". 
     """
+    if not label in {"train", "up", "down", "chop"}:
+        raise ValueError(f"Invalid plot label value, {label}.")
+    
+    label = label.title()
+
     name = idx_to_name(idx)
-    path = os.path.join(current_dir, f"results/plots/{name}.html")
+    path = os.path.join(current_dir, f"results/plots/{name} {label}.html")
 
     if flag_nonexistent:
         if not os.path.exists(path): return False
@@ -102,11 +124,13 @@ def idx_to_name(idx: int, prefix: str = "Wooster ") -> str:
 
 # ---- Renders ----
 
-def render_results(results: pd.Series, name: str = "") -> Table:
+def _render_results(results: pd.Series, idx: int = None, name: str = "") -> Table:
     """
-    Renders results to console.
+    Renders results to console. Provide a results series. Only need to provide either
+    `idx` or `name`. 
     """
     if name: name += " "
+    if idx: name = idx_to_name(idx)
 
     # Get all metrics as long as they're not private attributes
     all_metrics = [metric for metric in results.index if metric[0] != "_"]
@@ -169,3 +193,28 @@ def render_results(results: pd.Series, name: str = "") -> Table:
     display_table.add_row(preferred_table, secondary_table)
 
     return display_table
+
+
+def display_results(
+    results: dict[str, pd.Series], 
+    idx: int, 
+    record: bool = True
+) -> None:
+    """
+    Print rendered results to console and save them to console.
+    """
+    if not isinstance(results, Table) and not isinstance(results, dict):
+        raise ValueError("Results must be a table or dict of labeled tables.")
+
+    html_console = create_recorded_console()
+    if not record: html_console = Console()
+
+    for label, result in results.items():
+        table = _render_results(result)
+        html_console.line()
+        html_console.rule(full_label_name(label))
+        html_console.line()
+        html_console.print(table, justify="center")
+        html_console.line()
+
+    html_console.save_html(stats_path(idx))
