@@ -141,8 +141,9 @@ def launch(
     )
 ):
     """
-    Launch an existing results plot in the browser. Use this command to view 
-    pre-computed results without having to re-process a strategy.
+    Launch an existing results plot or comprehensive performance stats in the browser. 
+    Use this command to view pre-computed results without having to re-process 
+    a strategy.
     """
     view = view.lower()
 
