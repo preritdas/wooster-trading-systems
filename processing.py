@@ -74,8 +74,10 @@ def _process_system(
         )
         params = stats._strategy._params
 
-    results = {}
+    results = {"train": stats}  # use precomputed train backtest results
     for label in data:
+        if label == "train": continue  # don't backtest train data twice
+
         _walkforward_bt = bt.Backtest(
             data[label], 
             strategy, 
@@ -83,13 +85,13 @@ def _process_system(
         )
         results[label] = _walkforward_bt.run(
             show_progress = True,
-            progress_message = f"Backtesting on {label} data...",
+            progress_message = f"Testing {'optimized' if optimize else ''} strategy on {label} data...",
             **params
         )
         
         # Save results
         _plotpath = utils.plot_path(index, label)
-        backtest.plot(filename=_plotpath, open_browser=False)
+        _walkforward_bt.plot(filename=_plotpath, open_browser=False)
 
         # Reset the page title so it's not the filename
         time.sleep(1)  # Prevent OS error 22
