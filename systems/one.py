@@ -19,10 +19,10 @@ class Params:
     timeframe = "1m"
 
     walkforward = {
-        "train": (dt.datetime(2013, 5, 1), dt.datetime(2016, 5, 31)),
-        "up": (dt.datetime(2019, 9, 1), dt.datetime(2020, 8, 31)),
+        "train": (dt.datetime(2014, 7, 1), dt.datetime(2015, 8, 31)),
+        "up": (dt.datetime(2021, 7, 1), dt.datetime(2022, 1, 1)),
         "down": (dt.datetime(2018, 9, 1), dt.datetime(2019, 2, 1)),
-        "chop": (dt.datetime(2020, 9, 1), dt.datetime(2022, 7, 15))
+        "chop": (dt.datetime(2020, 9, 1), dt.datetime(2021, 2, 20))
     }
 
     optimizers = {
