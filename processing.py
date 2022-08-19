@@ -92,7 +92,7 @@ def _process_system(
         
         # Save results
         _plotpath = utils.plot_path(index, label)
-        _walkforward_bt.plot(filename=_plotpath, open_browser=False)
+        _walkforward_bt.plot(filename=_plotpath, open_browser=False, resample=False)
 
         # Reset the page title so it's not the filename
         time.sleep(1)  # Prevent OS error 22
