@@ -11,6 +11,8 @@ import time
 import configparser
 import os
 
+import utils  # console data status
+
 
 # ---- Tools and keys ----
 
@@ -133,8 +135,39 @@ def data(symbol: str, interval: str, walkforward: str) -> dict[str, pd.DataFrame
     """
     Get data from Finnhub.
     """
-    return_data = {}
-    for label, start_end in walkforward.items():
-        return_data[label] = _fetch_data_finnhub(symbol, interval, start_end[0], start_end[1])
+    with utils.console.status("Aggregating market data from Finnhub..."):
+        return_data = {}
+        for label, start_end in walkforward.items():
+            # If not getting intraday data, Finnhub iteration unnecessary
+            if interval in {"D", "W"}:
+                return_data[label] = _fetch_data_finnhub(
+                    symbol,
+                    interval,
+                    start_end[0],
+                    start_end[1]
+                )
+                continue
+
+            real_start = start_end[0]
+            real_end = start_end[1]
+
+            datas = []
+            current_pointer = real_start
+            while current_pointer < real_end:
+                if (look_forward := (current_pointer + dt.timedelta(days=29))) > real_end:
+                    look_forward = real_end
+
+                datas.append(
+                    _fetch_data_finnhub(
+                        symbol, 
+                        interval, 
+                        current_pointer, 
+                        look_forward
+                    )
+                )
+                current_pointer += dt.timedelta(days=29)
+                time.sleep(0.4)  # finnhub rate limit
+
+            return_data[label] = pd.concat(datas)
 
     return return_data
