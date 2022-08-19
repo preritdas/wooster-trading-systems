@@ -134,13 +134,13 @@ def latest():
 
 @app.command()
 def launch(
-    view: str = typer.Argument(
-        ...,
-        help = "Specify whether launching the stats or a plot."
-    ),
     index: int = typer.Argument(
         ..., 
         help="Numeric index of the queried strategy."
+    ),
+    view: str = typer.Argument(
+        ...,
+        help = "Specify whether launching the stats or a plot."
     ),
     label: str = typer.Option(
         default = "train",
