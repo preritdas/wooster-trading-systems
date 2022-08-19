@@ -83,7 +83,7 @@ def _fetch_data_finnhub(
     interval: str, 
     start: dt.datetime, 
     end: dt.datetime
-):
+) -> pd.DataFrame:
     """
     Download data from Finnhub. Does not work with period, must take start
     and end as datetime type, where end is at least one day prior. 
