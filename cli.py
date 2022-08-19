@@ -63,6 +63,11 @@ def process(
     a different optimizer with the [blue]--optimizer[/] flag. You can optimize
     pretty much any numeric metric as outputted in the results.
     """
+    # Ensure given index exists
+    if not utils.system_exists(index):
+        utils.console.print(f"[red]{utils.idx_to_name(index)}[/] doesn't exist.")
+        return
+
     if time: start = perf_counter()
 
     system_name = utils.idx_to_name(index)
