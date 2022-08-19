@@ -2,8 +2,6 @@
 Data downloads, etc.
 """
 # External imports
-from sys import displayhook
-import yfinance as yf  # data
 import pandas as pd  # type hints
 import num2words as numwords  # idx to words
 
@@ -14,7 +12,6 @@ from rich.text import Text
 
 # Local imports
 import os  # file paths
-import datetime as dt
 import config
 
 
@@ -28,45 +25,7 @@ def create_recorded_console() -> Console:
     return Console(record=True)
 
 
-# ---- Data ----
-
-def _fetch_data(
-    symbol: str, 
-    interval: str, 
-    start: dt.datetime,
-    end: dt.datetime
-) -> pd.DataFrame:
-    """
-    Download data from yfinance. Does not work with period, must take start
-    and end as datetime type, where end is at least one day prior. 
-    This is because if you run the system while the market is open, plotting breaks.
-    """
-    return yf.download(
-        tickers = symbol,
-        interval = interval,
-        start = start,
-        end = end,
-        progress = False,
-        show_errors = True
-    )
-
-
-def data(
-    symbol: str, 
-    interval: str,
-    walkforward: dict[str, tuple[dt.datetime]]
-) -> dict[str, pd.DataFrame]:
-    """
-    `walkforward` must be a dict containing walkforward labels, ex. train, up, down...
-    The values with each of these must be a tuple with two, Datetime objects, the first
-    being the start date and the end being the end date.
-    """
-    return_data = {}
-    for label, start_end in walkforward.items():
-        return_data[label] = _fetch_data(symbol, interval, start_end[0], start_end[1])
-
-    return return_data
-
+# ---- Labeling ---- 
 
 def full_label_name(label: str) -> str:
     """
