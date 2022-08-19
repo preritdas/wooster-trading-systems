@@ -16,13 +16,13 @@ class Params:
     date-ranges, etc.
     """
     symbol = "AAPL"
-    timeframe = "1m"
+    timeframe = "D"
 
     walkforward = {
-        "train": (dt.datetime(2022, 8, 10), dt.datetime(2022, 8, 20)),
-        "up": (dt.datetime(2022, 8, 1), dt.datetime(2022, 8, 9)),
-        "down": (dt.datetime(2022, 7, 21), dt.datetime(2022, 7, 30)),
-        "chop": (dt.datetime(2022, 7, 11), dt.datetime(2022, 7, 20))
+        "train": (dt.datetime(2017, 5, 1), dt.datetime(2020, 2, 4)),
+        "up": (dt.datetime(2013, 5, 26), dt.datetime(2015, 7, 21)),
+        "down": (dt.datetime(2020, 2, 6), dt.datetime(2020, 3, 26)),
+        "chop": (dt.datetime(2021, 11, 23), dt.datetime(2022, 5, 11))
     }
 
     optimizers = {
