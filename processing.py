@@ -75,9 +75,14 @@ def _process_system(
         )
         params = stats._strategy._params
 
-    results = {"train": stats}  # use precomputed train backtest results
+   # Use precomputed train backtest results and save plot
+    results = {"train": stats}
+    _plotpath = utils.plot_path(index, "train")
+    backtest.plot(filename=_plotpath, open_browser=False, resample=False)
+
+    # Backtest the other labeled conditions
     for label in data:
-        if label == "train": continue  # don't backtest train data twice
+        if label == "train": continue  # pre-computed train data handled above
 
         _walkforward_bt = bt.Backtest(
             data[label], 
