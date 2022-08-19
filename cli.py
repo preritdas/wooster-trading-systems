@@ -84,11 +84,18 @@ def process(
 
     if launch:
         with utils.console.status("Launching interactive plot in your browser."):
-            webbrowser.open(result[1])
-            pyperclip.copy(result[1])
+            # Open stats and all interactive charts
+            webbrowser.open(utils.stats_path(index), new=1)
+            webbrowser.open(utils.plot_path(index, "train"), new=0)
+            webbrowser.open(utils.plot_path(index, "up"), new=0)
+            webbrowser.open(utils.plot_path(index, "down"), new=0)
+            webbrowser.open(utils.plot_path(index, "chop"), new=0)
+
+            pyperclip.copy(utils.stats_path(index))
             utils.console.print(
                 "\nLaunched in your browser. If you'd like to use a different "
-                "browser, paste the contents of your clipboard into your preferred browser."
+                "browser, paste the contents of your clipboard into your "
+                "preferred browser."
             )
     
     if time: utils.console.print(f"That took {perf_counter() - start:.2f} seconds.")
@@ -152,7 +159,8 @@ def launch(
             utils.console.print(
                 "There are currently no results stored for "
                 f"[red]{utils.idx_to_name(index)}[/]. "
-                "If the strategy exists, first process it with the [blue]process[/] command. "
+                "If the strategy exists, first process it with the "
+                "[blue]process[/] command. "
                 "Note that you can launch the interactive plot directly from the "
                 "process command with the [blue]--launch[/] flag."
             )
@@ -162,7 +170,8 @@ def launch(
             utils.console.print(
                 "There are currently no results stored for "
                 f"[red]{utils.idx_to_name(index)}[/]. "
-                "If the strategy exists, first process it with the [blue]process[/] command. "
+                "If the strategy exists, first process it with the "
+                "[blue]process[/] command. "
                 "Note that you can launch the interactive plot directly from the "
                 "process command with the [blue]--launch[/] flag."
             )
