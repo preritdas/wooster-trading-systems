@@ -17,7 +17,6 @@ class Params:
     """
     symbol = "AAPL"
     timeframe = "5m"
-    period = "60d"
 
     walkforward = {
         "train": (dt.datetime(2022, 6, 24), dt.datetime(2022, 8, 17)),

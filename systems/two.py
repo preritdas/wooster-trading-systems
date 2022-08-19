@@ -14,8 +14,7 @@ class Params:
     Param template for Wooster Two.
     """
     symbol = "AAPL"
-    timeframe = "2m"
-    period = "60d"
+    timeframe = "1m"
     start = dt.datetime.today() - dt.timedelta(days=55)
     end = dt.datetime.today() - dt.timedelta(days=1)
 
