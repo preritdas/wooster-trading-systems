@@ -22,7 +22,7 @@ def create_recorded_console() -> Console:
     Creates a new console object with recording enabled, 
     so it can then be exported as HTML etc.
     """
-    return Console(record=True)
+    return Console(record=True, width=120, height=25)
 
 
 # ---- Labeling ---- 
