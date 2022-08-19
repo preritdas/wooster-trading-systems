@@ -15,6 +15,7 @@ import time  # handle invalid argument OSError 22
 # Project modules
 import systems
 import utils
+import data
 
 
 # Multiprocessing start method for backtesting
@@ -127,7 +128,7 @@ def process_system_idx(
         strategy = system[2],
         name = system[0],
         index = index,
-        data = utils.data(
+        data = data.data(
             symbol = system[1].Params.symbol,
             interval = system[1].Params.timeframe,
             walkforward = system[1].Params.walkforward
