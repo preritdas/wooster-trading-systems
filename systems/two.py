@@ -15,8 +15,10 @@ class Params:
     """
     symbol = "AAPL"
     timeframe = "1m"
-    start = dt.datetime.today() - dt.timedelta(days=55)
-    end = dt.datetime.today() - dt.timedelta(days=1)
+
+    walkforward = {
+        "train": (dt.datetime(2022, 7, 15), dt.datetime(2022, 8, 18))
+    }
 
     optimizers: dict = {
         "rsi_period": range(3, 30, 1),
