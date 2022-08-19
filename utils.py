@@ -14,6 +14,9 @@ from rich.text import Text
 import os  # file paths
 import config
 
+# Project modules
+import systems
+
 
 # ---- Console tools ----
 
@@ -81,6 +84,18 @@ def stats_path(idx: int = None, flag_nonexistent: bool = False) -> bool | str:
         if not os.path.exists(path): return False
     
     return path
+
+
+def system_exists(index: int) -> bool:
+    """
+    Check if a system by index. 
+    """
+    try:
+        index = int(index)
+    except ValueError as e:
+        raise ValueError("Index must be an integer.")
+
+    return index in systems.systems
 
 
 # ---- Language ----
