@@ -4,7 +4,6 @@ Process systems.
 # External imports
 import backtesting as bt
 import pandas as pd
-import mypytoolkit as kit
 
 # Local imports
 import os
@@ -79,6 +78,7 @@ def _process_system(
     results = {"train": stats}
     _plotpath = utils.plot_path(index, "train")
     backtest.plot(filename=_plotpath, open_browser=False, resample=False)
+    utils.correct_html_title(name, _plotpath)
 
     # Backtest the other labeled conditions
     for label in data:
@@ -101,12 +101,7 @@ def _process_system(
 
         # Reset the page title so it's not the filename
         time.sleep(1)  # Prevent OS error 22
-        kit.append_by_query(
-            query = "<title>",
-            content = f"\t\t<title>{name}</title>",
-            file = fr"{_plotpath}",
-            replace = True
-        )
+        utils.correct_html_title(name, _plotpath)
 
     return results
 

@@ -4,6 +4,7 @@ Data downloads, etc.
 # External imports
 import pandas as pd  # type hints
 import num2words as numwords  # idx to words
+import mypytoolkit as kit  # html title correciton
 
 # Rich
 from rich.console import Console; console = Console()
@@ -96,6 +97,19 @@ def system_exists(index: int) -> bool:
         raise ValueError("Index must be an integer.")
 
     return index in systems.systems
+
+
+def correct_html_title(name: str, filepath: str) -> None:
+    """
+    Opens the HTML file and replaces the <title> field 
+    with the provided name.
+    """
+    kit.append_by_query(
+        query = "<title>",
+        content = f"\t\t<title>{name}</title>",
+        file = fr"{filepath}",
+        replace = True
+    )
 
 
 # ---- Language ----
