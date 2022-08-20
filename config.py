@@ -36,3 +36,10 @@ class Results:
     secondary_metrics_style = results_config["secondary_metrics_style"]
     highlight_preferred = results_config["highlight_preferred"].split(", ")
     highlight_preferred_style = results_config["highlight_preferred_style"]
+
+
+class Datetime:
+    """
+    Standardized formats, etc.
+    """
+    date_time_format = "%Y-%m-%d--%H-%M-%S"
