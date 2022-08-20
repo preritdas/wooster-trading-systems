@@ -14,6 +14,7 @@ import processing
 import utils
 import config
 import texts
+import data  # cache
 
 
 app = typer.Typer(
@@ -188,3 +189,47 @@ def launch(
         "Launched in your browser. If you'd like to use a different "
         "browser, paste the contents of your clipboard into your preferred browser."
     )
+
+
+@app.command()
+def cache(
+    action: str = typer.Argument(
+        ...,
+        help = "Either 'init' or 'delete'."
+    ),
+    symbol: str = typer.Argument(
+        ...,
+        help = "Symbol to interface with."
+    ),
+    interval: str = typer.Option(
+        "1m",
+        help = "Interval to store the data in. 1m by default."
+    ),
+    lookbackyears: int = typer.Option(
+        10,
+        help = "Number of years to aggregate historical data."
+    )
+):
+    """
+    Maintain a local store of cache market data, accessible by processors, to 
+    drastically speed up the 'data aggregation' phase of processing.
+    """
+    # Check for valid argument
+    if action.lower() not in {"init", "delete"}:
+        utils.console.print(f"Invaild action, [red]{action}[/].")
+
+    # Initialize cache
+    if action.lower() == "init":
+        with utils.console.status(
+            f"Initializing {interval} cache data for {symbol.upper()}."
+        ):
+            data.init_cache(symbol, interval, lookbackyears)
+
+        utils.console.print(
+            f"{lookbackyears} years of {interval} data has been "
+            f"successfully cached for {symbol.upper()}."
+        )
+
+    # Remove cache
+    if action.lower() == "delete":
+        utils.console.print("This feature doesn't work yet.")
