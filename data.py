@@ -245,7 +245,7 @@ def _fetch_cache() -> pd.DataFrame:
     Columns: Symbol, Interval, Start, End, Path.
     """
     paths = os.listdir(os.path.join(current_dir, "data-cache"))
-    if not paths: utils.console.log("Found cache data."); return pd.DataFrame()
+    if not paths: return pd.DataFrame()
 
     cache_files = [os.path.splitext(path)[0] for path in paths]
     cache_files = [cache.split("===") for cache in cache_files]
@@ -276,6 +276,7 @@ def load_cache(symbol: str, interval: str, start: dt.datetime, end: dt.datetime)
     of whether or not there is usable cache data inside.
     """
     cache_db = _fetch_cache()
+    if cache_db.empty: return False
 
     # Query
     symbol_res = cache_db[cache_db.Symbol == symbol] 
@@ -301,6 +302,8 @@ def delete_cache(symbol: str, interval: str) -> bool:
     """
     symbol = symbol.upper()
     cache_db = _fetch_cache()
+
+    if cache_db.empty: return False
 
     symbol_res = cache_db[cache_db.Symbol == symbol]
     interval_res = symbol_res[symbol_res.Interval == interval]
