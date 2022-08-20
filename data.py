@@ -239,12 +239,10 @@ def init_cache(symbol: str, interval: str, lookback_yrs: int, force: bool) -> bo
     return len(data)
 
 
-def load_cache(symbol: str, interval: str, start: dt.datetime, end: dt.datetime) -> pd.DataFrame:
+def _fetch_cache() -> pd.DataFrame:
     """
-    Attempts to load data from cache. If usable cache was found, a DataFrame 
-    is returned. Otherwise, an empty DataFrame is returned. That way, when you call
-    .empty on the result of this function, a bool is returned, representative
-    of whether or not there is usable cache data inside.
+    Read cache directory and return a DataFrame of available cache files.
+    Columns: Symbol, Interval, Start, End, Path.
     """
     paths = os.listdir(os.path.join(current_dir, "data-cache"))
     if not paths: utils.console.log("Found cache data."); return pd.DataFrame()
@@ -257,7 +255,7 @@ def load_cache(symbol: str, interval: str, start: dt.datetime, end: dt.datetime)
     starts = [cache[2] for cache in cache_files]
     ends = [cache[3] for cache in cache_files]
 
-    cache_db = pd.DataFrame(
+    return pd.DataFrame(
         {
             "Symbol": symbols,
             "Interval": intervals,
@@ -268,6 +266,16 @@ def load_cache(symbol: str, interval: str, start: dt.datetime, end: dt.datetime)
             "Path": paths,
         }
     )
+
+
+def load_cache(symbol: str, interval: str, start: dt.datetime, end: dt.datetime) -> pd.DataFrame:
+    """
+    Attempts to load data from cache. If usable cache was found, a DataFrame 
+    is returned. Otherwise, an empty DataFrame is returned. That way, when you call
+    .empty on the result of this function, a bool is returned, representative
+    of whether or not there is usable cache data inside.
+    """
+    cache_db = _fetch_cache()
 
     # Query
     symbol_res = cache_db[cache_db.Symbol == symbol] 
@@ -283,3 +291,24 @@ def load_cache(symbol: str, interval: str, start: dt.datetime, end: dt.datetime)
     cache_df.set_index("Date", inplace=True)
 
     return cache_df[start:end]
+
+
+def delete_cache(symbol: str, interval: str) -> bool:
+    """
+    Delete cache files if they exist. Only available filtering is by symbol
+    and interval, not by start and end dates. Returns True if the cache was found
+    and deleted, False if the cache was not found.
+    """
+    symbol = symbol.upper()
+    cache_db = _fetch_cache()
+
+    symbol_res = cache_db[cache_db.Symbol == symbol]
+    interval_res = symbol_res[symbol_res.Interval == interval]
+    if interval_res.empty:
+        interval_res = symbol_res[symbol_res.Interval == finnhub_tf(interval)]
+    if interval_res.empty: return False
+
+    for idx in range(len(interval_res)):
+        os.remove(os.path.join(current_dir, "data-cache", interval_res["Path"][idx]))
+
+    return True
