@@ -151,6 +151,14 @@ def _incremental_aggregation(
     """
     Incremement through Finnhub data (if intraday) due to data access limitations.
     """
+    # Convert interval format
+    old_interval = interval
+    interval = finnhub_tf(old_interval)
+
+    # Try to get data from cache
+    _cache_res = load_cache(symbol, interval, start, end)
+    if not _cache_res.empty: return _cache_res
+
     # If not getting intraday data, Finnhub iteration unnecessary
     if interval in {"D", "W"}:
         return _fetch_data_finnhub(
@@ -199,6 +207,8 @@ def data(
         }
 
 
+# ---- Cache ----
+
 def init_cache(symbol: str, interval: str, lookback_yrs: int, force: bool) -> bool | int:
     """
     Initialize data cache. Returns the number of bars collected, 
@@ -237,6 +247,8 @@ def load_cache(symbol: str, interval: str, start: dt.datetime, end: dt.datetime)
     of whether or not there is usable cache data inside.
     """
     paths = os.listdir(os.path.join(current_dir, "data-cache"))
+    if not paths: utils.console.log("Found cache data."); return pd.DataFrame()
+
     cache_files = [os.path.splitext(path)[0] for path in paths]
     cache_files = [cache.split("===") for cache in cache_files]
     
