@@ -186,7 +186,7 @@ def data(
     walkforward: dict[str, tuple[dt.datetime]]
 ) -> dict[str, pd.DataFrame]:
     """
-    Get data from Finnhub.
+    Collect properly split walkforward data.
     """
     with utils.console.status("Aggregating market data from Finnhub..."):
         return {
@@ -199,9 +199,10 @@ def data(
         }
 
 
-def init_cache(symbol: str, interval: str, lookback_yrs):
+def init_cache(symbol: str, interval: str, lookback_yrs: int, force: bool) -> bool | int:
     """
-    Initialize data cache.
+    Initialize data cache. Returns the number of bars collected, 
+    for no practical purpose.
     """
     interval = finnhub_tf(interval)
 
@@ -209,13 +210,19 @@ def init_cache(symbol: str, interval: str, lookback_yrs):
     lookback = today - dt.timedelta(weeks=52*lookback_yrs)
 
     def dt_format(date: dt.datetime) -> str:
-        return date.strftime(config.Datetime.date_time_format)
+        return date.strftime(config.Datetime.date_format)
+
+    cache_path = os.path.join(
+        current_dir, 
+        "data-cache", 
+        f"{symbol.upper()}===={dt_format(lookback)}==={dt_format(today)}.csv"
+    )
+
+    # Specify through CLI if cached data should be re-written
+    if os.path.exists(cache_path) and not force:
+        return False
 
     data = _incremental_aggregation(symbol, interval, lookback, today)
-    data.to_csv(
-        os.path.join(
-            current_dir, 
-            "data-cache", 
-            f"{symbol.upper()}===={dt_format(lookback)}==={dt_format(today)}.csv"
-        )
-    )
+    data.to_csv(cache_path)
+
+    return len(data)

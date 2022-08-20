@@ -208,6 +208,10 @@ def cache(
     lookbackyears: int = typer.Option(
         10,
         help = "Number of years to aggregate historical data."
+    ),
+    force: bool = typer.Option(
+        default = False,
+        help = "If a warning is returned that your cache exists, rewrite new cache."
     )
 ):
     """
@@ -221,14 +225,25 @@ def cache(
     # Initialize cache
     if action.lower() == "init":
         with utils.console.status(
-            f"Initializing {interval} cache data for {symbol.upper()}."
+            f"Initializing {lookbackyears} years of {interval} "
+            f"cache data for {symbol.upper()}."
         ):
-            data.init_cache(symbol, interval, lookbackyears)
+            cache_res = data.init_cache(symbol, interval, lookbackyears, force)
 
-        utils.console.print(
-            f"{lookbackyears} years of {interval} data has been "
-            f"successfully cached for {symbol.upper()}."
-        )
+        if cache_res:
+            utils.console.print(
+                f"{lookbackyears} years of {interval} data has been "
+                f"successfully cached for {symbol.upper()}. "
+                f"That's {cache_res:,} bars!"
+            )
+            return
+        else:
+            utils.console.print(
+                "You seem to already have that cache data. If you'd like to "
+                "forcefully rewrite that data, re-run this command with "
+                "the [blue]--force[/] flag."
+            )
+
 
     # Remove cache
     if action.lower() == "delete":
