@@ -276,7 +276,7 @@ def load_cache(symbol: str, interval: str, start: dt.datetime, end: dt.datetime)
     of whether or not there is usable cache data inside.
     """
     cache_db = _fetch_cache()
-    if cache_db.empty: return False
+    if cache_db.empty: return pd.DataFrame()
 
     # Query
     symbol_res = cache_db[cache_db.Symbol == symbol] 
