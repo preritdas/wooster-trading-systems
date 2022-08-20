@@ -27,8 +27,8 @@ def dt_to_unix(dt_date: dt.datetime) -> int:
     Convert Datetime object to UNIX, traditionally designed for Finnhub's
     market candles architecture.
     """
-    if not isinstance(dt_date, dt.datetime):
-        raise ValueError("Must provide a datetime object.")
+    if not isinstance(dt_date, dt.datetime) and not isinstance(dt_date, dt.date):
+        raise ValueError("Must provide a date or datetime object.")
     
     return int(time.mktime(dt_date.timetuple()))
 
@@ -206,7 +206,7 @@ def init_cache(symbol: str, interval: str, lookback_yrs: int, force: bool) -> bo
     """
     interval = finnhub_tf(interval)
 
-    today = dt.datetime.today()
+    today = dt.date.today()
     lookback = today - dt.timedelta(weeks=52*lookback_yrs)
 
     def dt_format(date: dt.datetime) -> str:
@@ -215,7 +215,8 @@ def init_cache(symbol: str, interval: str, lookback_yrs: int, force: bool) -> bo
     cache_path = os.path.join(
         current_dir, 
         "data-cache", 
-        f"{symbol.upper()}===={dt_format(lookback)}==={dt_format(today)}.csv"
+        f"{symbol.upper()}==={interval.lower()}===" \
+            f"{dt_format(lookback)}==={dt_format(today)}.csv"
     )
 
     # Specify through CLI if cached data should be re-written
@@ -226,3 +227,47 @@ def init_cache(symbol: str, interval: str, lookback_yrs: int, force: bool) -> bo
     data.to_csv(cache_path)
 
     return len(data)
+
+
+def load_cache(symbol: str, interval: str, start: dt.datetime, end: dt.datetime) -> pd.DataFrame:
+    """
+    Attempts to load data from cache. If usable cache was found, a DataFrame 
+    is returned. Otherwise, an empty DataFrame is returned. That way, when you call
+    .empty on the result of this function, a bool is returned, representative
+    of whether or not there is usable cache data inside.
+    """
+    paths = os.listdir(os.path.join(current_dir, "data-cache"))
+    cache_files = [os.path.splitext(path)[0] for path in paths]
+    cache_files = [cache.split("===") for cache in cache_files]
+    
+    symbols = [cache[0] for cache in cache_files]
+    intervals = [cache[1] for cache in cache_files]
+    starts = [cache[2] for cache in cache_files]
+    ends = [cache[3] for cache in cache_files]
+
+    cache_db = pd.DataFrame(
+        {
+            "Symbol": symbols,
+            "Interval": intervals,
+            # "Start": pd.to_datetime(starts, format=config.Datetime.date_format),
+            # "End": pd.to_datetime(ends, format=config.Datetime.date_format)
+            "Start": [dt.datetime.strptime(str_time, config.Datetime.date_format) for str_time in starts],
+            "End": [dt.datetime.strptime(str_time, config.Datetime.date_format) for str_time in ends],
+            "Path": paths,
+        }
+    )
+
+    # Query
+    symbol_res = cache_db[cache_db.Symbol == symbol] 
+    interval_res = symbol_res[symbol_res.Interval == interval] 
+    start_res = interval_res[interval_res.Start < pd.to_datetime(start, format=config.Datetime.date_format)]
+    end_res = start_res[start_res.End > pd.to_datetime(end, format=config.Datetime.date_format)]
+    if end_res.empty: return pd.DataFrame()  # empty DF so df.empty returns False
+
+    # Gather data
+    path = os.path.join(current_dir, "data-cache", end_res["Path"][0])
+    cache_df = pd.read_csv(path)
+    cache_df["Date"] = pd.to_datetime(cache_df["Date"])
+    cache_df.set_index("Date", inplace=True)
+
+    return cache_df[start:end]
