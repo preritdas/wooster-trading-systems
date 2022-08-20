@@ -225,15 +225,15 @@ def cache(
     # Initialize cache
     if action.lower() == "init":
         with utils.console.status(
-            f"Initializing {lookbackyears} years of {interval} "
-            f"cache data for {symbol.upper()}."
+            f"Initializing {lookbackyears} years of [green]{interval}[/] "
+            f"cache data for [green]{symbol.upper()}[/]."
         ):
             cache_res = data.init_cache(symbol, interval, lookbackyears, force)
 
         if cache_res:
             utils.console.print(
-                f"{lookbackyears} years of {interval} data has been "
-                f"successfully cached for {symbol.upper()}. "
+                f"{lookbackyears} years of [green]{interval}[/] data has been "
+                f"successfully cached for [green]{symbol.upper()}[/]. "
                 f"That's {cache_res:,} bars!"
             )
             return
@@ -247,4 +247,14 @@ def cache(
 
     # Remove cache
     if action.lower() == "delete":
-        utils.console.print("This feature doesn't work yet.")
+        success = data.delete_cache(symbol, interval)
+        if success:
+            utils.console.print(
+                f"Successfully removed cached [green]{interval}[/] "
+                f"data on [green]{symbol.upper()}[/]."
+            )
+        else:
+            utils.console.print(
+                f"You don't seem to have any cached [green]{interval}[/] "
+                f"data on [green]{symbol.upper()}[/]."
+            )
