@@ -11,6 +11,7 @@ _keys.py
 
 
 # Cache files
+data-cache/
 __pycache__/
 .DS_Store
 .firebase/
