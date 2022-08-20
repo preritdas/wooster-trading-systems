@@ -1,5 +1,7 @@
 """
-Wooster Two.
+Wooster One with trade exits based on RSI. Extermely simple strategies, such that 
+any bottleneck is infrastructural rather than strategy related. Real, promising
+strategies come later.
 """
 # External imports
 import backtesting as bt
@@ -35,7 +37,8 @@ class WoosterTwo(bt.Strategy):
     Godspeed, Wooster Two.
 
     Same as Wooster One but sell the position if RSI crosses 50, from
-    either direction.
+    either direction. Simple strategy, see docstring at the top of this
+    module.
     """
     rsi_period = 14
     buy_rsi_entry = 20
@@ -45,13 +48,14 @@ class WoosterTwo(bt.Strategy):
 
     def init(self):
         """
-        Indicators etc.
+        Initialize RSI for later use.
         """
         self.rsi = self.I(ta.RSI, self.data.Close, timeperiod=self.rsi_period)
 
     def next(self):
         """
-        Trading logic.
+        Trading logic - Wooster One, but cloes the position when RSI hits its
+        targets (defined as optimizable class variable parameters).
         """
         # Position management
         if self.position.is_long:  # check for buy target
