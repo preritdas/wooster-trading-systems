@@ -12,6 +12,7 @@ import configparser
 import os
 
 import utils  # console data status
+import config  # datetime formats
 
 
 # ---- Tools and keys ----
@@ -78,16 +79,10 @@ finnhub_client = finnhub.Client(keys["Finnhub"]["api_key"])
 
 finnhub_available_timeframes = {"1", "5", "15", "30", "60", "D", "W", "M"}
 
-def _fetch_data_finnhub(
-    symbol: str, 
-    interval: str, 
-    start: dt.datetime, 
-    end: dt.datetime
-) -> pd.DataFrame:
+
+def finnhub_tf(tf: str) -> str:
     """
-    Download data from Finnhub. Does not work with period, must take start
-    and end as datetime type, where end is at least one day prior. 
-    This is because if you run the system while the market is open, plotting breaks.
+    Raises ValueError if conversion was not possible.
     """
     conversions = {
         "1m": "1",
@@ -99,15 +94,31 @@ def _fetch_data_finnhub(
         "1w": "W"
     }
 
-    if not interval in finnhub_available_timeframes:
-        if interval in conversions: interval = conversions[interval]
-        if not interval in finnhub_available_timeframes:
+    if not tf in finnhub_available_timeframes:
+        if tf in conversions: tf = conversions[tf]
+        if not tf in finnhub_available_timeframes:
             raise ValueError(
-                f"{interval} not supported by Finnhub, or in the wrong format."
+                f"{tf} not supported by Finnhub, or in the wrong format."
             )
 
+    return tf
+
+
+def _fetch_data_finnhub(
+    symbol: str, 
+    interval: str, 
+    start: dt.datetime, 
+    end: dt.datetime
+) -> pd.DataFrame:
+    """
+    Download data from Finnhub. Does not work with period, must take start
+    and end as datetime type, where end is at least one day prior. 
+    This is because if you run the system while the market is open, plotting breaks.
+    """
+    interval = finnhub_tf(interval)
+
     data = finnhub_client.stock_candles(
-        symbol,
+        symbol.upper(),
         interval,
         dt_to_unix(start),
         dt_to_unix(end)
@@ -131,43 +142,80 @@ def _fetch_data_finnhub(
     return data_df
 
 
-def data(symbol: str, interval: str, walkforward: str) -> dict[str, pd.DataFrame]:
+def _incremental_aggregation(
+    symbol: str, 
+    interval: str, 
+    start: dt.datetime, 
+    end: dt.datetime
+) -> pd.DataFrame:
+    """
+    Incremement through Finnhub data (if intraday) due to data access limitations.
+    """
+    # If not getting intraday data, Finnhub iteration unnecessary
+    if interval in {"D", "W"}:
+        return _fetch_data_finnhub(
+            symbol,
+            interval,
+            start,
+            end
+        )
+
+    datas = []
+    current_pointer = start
+    while current_pointer < end:
+        if (look_forward := (current_pointer + dt.timedelta(days=29))) > end:
+            look_forward = end
+
+        datas.append(
+            _fetch_data_finnhub(
+                symbol, 
+                interval, 
+                current_pointer, 
+                look_forward
+            )
+        )
+        current_pointer += dt.timedelta(days=29)
+        time.sleep(0.4)  # finnhub rate limit
+
+    return pd.concat(datas)
+
+
+def data(
+    symbol: str, 
+    interval: str, 
+    walkforward: dict[str, tuple[dt.datetime]]
+) -> dict[str, pd.DataFrame]:
     """
     Get data from Finnhub.
     """
     with utils.console.status("Aggregating market data from Finnhub..."):
-        return_data = {}
-        for label, start_end in walkforward.items():
-            # If not getting intraday data, Finnhub iteration unnecessary
-            if interval in {"D", "W"}:
-                return_data[label] = _fetch_data_finnhub(
-                    symbol,
-                    interval,
-                    start_end[0],
-                    start_end[1]
-                )
-                continue
+        return {
+            label: _incremental_aggregation(
+                symbol, 
+                interval, 
+                start_end[0], 
+                start_end[1]
+            ) for label, start_end in walkforward.items()
+        }
 
-            real_start = start_end[0]
-            real_end = start_end[1]
 
-            datas = []
-            current_pointer = real_start
-            while current_pointer < real_end:
-                if (look_forward := (current_pointer + dt.timedelta(days=29))) > real_end:
-                    look_forward = real_end
+def init_cache(symbol: str, interval: str, lookback_yrs):
+    """
+    Initialize data cache.
+    """
+    interval = finnhub_tf(interval)
 
-                datas.append(
-                    _fetch_data_finnhub(
-                        symbol, 
-                        interval, 
-                        current_pointer, 
-                        look_forward
-                    )
-                )
-                current_pointer += dt.timedelta(days=29)
-                time.sleep(0.4)  # finnhub rate limit
+    today = dt.datetime.today()
+    lookback = today - dt.timedelta(weeks=52*lookback_yrs)
 
-            return_data[label] = pd.concat(datas)
+    def dt_format(date: dt.datetime) -> str:
+        return date.strftime(config.Datetime.date_time_format)
 
-    return return_data
+    data = _incremental_aggregation(symbol, interval, lookback, today)
+    data.to_csv(
+        os.path.join(
+            current_dir, 
+            "data-cache", 
+            f"{symbol.upper()}===={dt_format(lookback)}==={dt_format(today)}.csv"
+        )
+    )
