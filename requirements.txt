@@ -1,12 +1,19 @@
+# My backtesting.py fork for progress bars and eventual GPU support
 git+https://github.com/preritdas/backtesting.py.git@progress-bar  # progress bar PR
-scikit-optimize==0.9.0
-ta-lib==0.4.24
+
+# Data collection
 yfinance==0.1.74
 finnhub-python==2.4.14
+
+# Analysis and optimization
+scikit-optimize==0.9.0
+ta-lib==0.4.24
 pandas==1.4.3
+
+# CLI and tools
 typer==0.6.1
-pyperclip==1.8.2
 rich==12.5.1
 num2words==0.5.11
-mypytoolkit==1.5.0
 nexmo==2.5.2
+mypytoolkit==1.5.0
+pyperclip==1.8.2
