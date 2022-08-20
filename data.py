@@ -80,7 +80,7 @@ finnhub_client = finnhub.Client(keys["Finnhub"]["api_key"])
 finnhub_available_timeframes = {"1", "5", "15", "30", "60", "D", "W", "M"}
 
 
-def finnhub_tf(tf: str) -> str:
+def finnhub_tf(tf: str, backwards: bool = False) -> str:
     """
     Raises ValueError if conversion was not possible.
     """
@@ -93,6 +93,11 @@ def finnhub_tf(tf: str) -> str:
         "1d": "D",
         "1w": "W"
     }
+
+    if backwards:
+        backwards_conversion = {val: key for key, val in conversions.items()}
+        if not tf in backwards_conversion: return tf
+        return backwards_conversion[tf]
 
     if not tf in finnhub_available_timeframes:
         if tf in conversions: tf = conversions[tf]
@@ -315,3 +320,22 @@ def delete_cache(symbol: str, interval: str) -> bool:
         os.remove(os.path.join(current_dir, "data-cache", interval_res["Path"][idx]))
 
     return True
+
+
+def list_cache() -> list[str]:
+    """
+    Returns a list of colored, Rich-formatted, strings, structured 
+    in the following fashion. 1m AAPL data from 2021-08-17 to 2022-08-16.
+    """
+    cache_db = _fetch_cache()
+
+    result_strs: list[str] = []
+    for idx in range(len(cache_db)):
+        result_strs.append(
+            f"[green]{finnhub_tf(cache_db['Interval'][idx], backwards=True)}[/] "
+            f"data on [green]{cache_db['Symbol'][idx].upper()}[/] "
+            f"from {dt.datetime.strftime(cache_db['Start'][idx], config.Datetime.date_format)} "
+            f"to {dt.datetime.strftime(cache_db['End'][idx], config.Datetime.date_format)}."
+        )
+
+    return result_strs

@@ -195,11 +195,11 @@ def launch(
 def cache(
     action: str = typer.Argument(
         ...,
-        help = "Either 'init' or 'delete'."
+        help = "Either 'init', 'delete', or 'list'/'ls'. "
     ),
     symbol: str = typer.Argument(
-        ...,
-        help = "Symbol to interface with."
+        None,
+        help = "Symbol to interface with. Unnecessary when using 'list'/'ls'."
     ),
     interval: str = typer.Option(
         "1m",
@@ -210,7 +210,7 @@ def cache(
         help = "Number of years to aggregate historical data."
     ),
     force: bool = typer.Option(
-        default = False,
+        False,
         help = "If a warning is returned that your cache exists, rewrite new cache."
     )
 ):
@@ -219,11 +219,18 @@ def cache(
     drastically speed up the 'data aggregation' phase of processing.
     """
     # Check for valid argument
-    if action.lower() not in {"init", "delete"}:
+    if action.lower() not in {"init", "delete", "list", "ls"}:
         utils.console.print(f"Invaild action, [red]{action}[/].")
+        return
+
+    def verify_symbol(symbol: str) -> None:
+        if symbol is None: 
+            utils.console.print("You must provide a valid symbol.")
+            quit()
 
     # Initialize cache
     if action.lower() == "init":
+        verify_symbol(symbol)
         with utils.console.status(
             f"Initializing {lookbackyears} years of [green]{interval}[/] "
             f"cache data for [green]{symbol.upper()}[/]."
@@ -243,18 +250,34 @@ def cache(
                 "forcefully rewrite that data, re-run this command with "
                 "the [blue]--force[/] flag."
             )
+            return
 
 
     # Remove cache
     if action.lower() == "delete":
+        verify_symbol(symbol)
         success = data.delete_cache(symbol, interval)
         if success:
             utils.console.print(
                 f"Successfully removed cached [green]{interval}[/] "
                 f"data on [green]{symbol.upper()}[/]."
             )
+            return
         else:
             utils.console.print(
                 f"You don't seem to have any cached [green]{interval}[/] "
                 f"data on [green]{symbol.upper()}[/]."
             )
+            return
+
+    # List cache
+    if action.lower() in {"list", "ls"}:
+        if not (cache_res := data.list_cache()):
+            utils.console.print(f"You don't seem to have any cached data.")
+            return
+
+        utils.console.print("You have the following cached data available.")
+        utils.console.line()
+        for cache_str in cache_res: utils.console.print(cache_str)
+        utils.console.line()
+        return
