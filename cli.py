@@ -61,7 +61,7 @@ def process(
     Process a strategy by index, and optimize it based on the selected optimizer.
 
     The default optimizer is set in config.ini, currently SQN. Specify 
-    a different optimizer with the [blue]--optimizer[/] flag. You can optimize
+    a different optimizer with the --optimizer flag. You can optimize
     pretty much any numeric metric as outputted in the results.
     """
     # Ensure given index exists
