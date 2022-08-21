@@ -162,7 +162,7 @@ def _incremental_aggregation(
 
     # Try to get data from cache
     _cache_res = load_cache(symbol, interval, start, end)
-    if not _cache_res.empty: return _cache_res
+    if not _cache_res.empty: utils.console.log("Using cached data."); return _cache_res
 
     # If not getting intraday data, Finnhub iteration unnecessary
     if interval in {"D", "W"}:
