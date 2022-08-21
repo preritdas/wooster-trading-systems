@@ -83,6 +83,7 @@ def _process_system(
     ):
         backtest.plot(filename=_plotpath, open_browser=False, resample=False)
         utils.correct_html_title(f"{name.title()} Training Results", _plotpath)
+        utils.insert_html_favicon(_plotpath)
 
     # Backtest the other labeled conditions
     for pos, label in enumerate(data):
@@ -110,6 +111,7 @@ def _process_system(
 
             # Reset the page title so it's not the filename
             utils.correct_html_title(f"{name.title()} {label.title()} Results", _plotpath)
+            utils.insert_html_favicon(_plotpath)
 
     return results
 
