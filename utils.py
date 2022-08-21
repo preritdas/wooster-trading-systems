@@ -254,13 +254,10 @@ def display_results(
         html_console.print(table, justify="center")
         html_console.line()
 
-    html_console.save_html(stats_path(idx))
+    html_console.save_html(filepath := stats_path(idx))
     correct_html_title(
         name = f"{idx_to_name(idx)} Performance Metrics",
-        filepath = stats_path(idx),
+        filepath = filepath,
         insert = True
     )
-
-
-if __name__ == '__main__':
-    insert_html_favicon("results/plots/Wooster One Chop.html")
+    insert_html_favicon(filepath)
