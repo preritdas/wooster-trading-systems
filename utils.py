@@ -80,7 +80,7 @@ def stats_path(idx: int = None, flag_nonexistent: bool = False) -> bool | str:
     If it doesn't exist, returns False.
     """
     name = idx_to_name(idx)
-    path = os.path.join(current_dir, f"results/stats/{name}.html")
+    path = os.path.join(current_dir, "results", "stats", f"{name}.html")
 
     if flag_nonexistent:
         if not os.path.exists(path): return False
@@ -100,22 +100,48 @@ def system_exists(index: int) -> bool:
     return index in systems.systems
 
 
-def correct_html_title(name: str, filepath: str) -> None:
+def correct_html_title(name: str, filepath: str, insert: bool = False) -> None:
     """
     Opens the HTML file and replaces the <title> field 
     with the provided name. Recurses if OSError is raised,
     sleeping 0.1 seconds until it successfully fixes the file.
+
+    If insert is true, inserts a new title tag after the <meta> tag,
+    assuming there is no title tag in the document yet.
+    """
+    try:
+        if insert:
+            kit.append_by_query(
+                query = "<meta",  # no close brace
+                content = f"\t\t<title>{name}</title>", 
+                file = fr"{filepath}",
+                replace = False
+            )
+        else: 
+            kit.append_by_query(
+                query = "<title>",
+                content = f"\t\t<title>{name}</title>",
+                file = fr"{filepath}",
+                replace = True
+            )
+    except OSError:
+        time.sleep(0.1)
+        correct_html_title(name, filepath, insert)
+
+
+def insert_html_favicon(filepath: str) -> None:
+    """
+    Inserts favicon.
     """
     try:
         kit.append_by_query(
-            query = "<title>",
-            content = f"\t\t<title>{name}</title>",
-            file = fr"{filepath}",
-            replace = True
+            query = "<meta",
+            content = '\t\t<link rel="icon" href="favicon.PNG">',
+            file = fr"{filepath}"
         )
     except OSError:
         time.sleep(0.1)
-        correct_html_title(name, filepath)
+        insert_html_favicon(filepath)
 
 
 # ---- Language ----
@@ -229,3 +255,12 @@ def display_results(
         html_console.line()
 
     html_console.save_html(stats_path(idx))
+    correct_html_title(
+        name = f"{idx_to_name(idx)} Performance Metrics",
+        filepath = stats_path(idx),
+        insert = True
+    )
+
+
+if __name__ == '__main__':
+    insert_html_favicon("results/plots/Wooster One Chop.html")
