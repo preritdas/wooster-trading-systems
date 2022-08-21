@@ -182,6 +182,11 @@ def launch(
                 "process command with the [blue]--launch[/] flag."
             )
             return
+    else:
+        utils.console.print(
+            f"Unrecognized view, '{view}'. Choose either 'stats' or 'plot'."
+        )
+        return
 
     webbrowser.open(path)
     pyperclip.copy(path)
