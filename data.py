@@ -227,9 +227,12 @@ def init_cache(symbol: str, interval: str, lookback_yrs: int, force: bool) -> bo
     def dt_format(date: dt.datetime) -> str:
         return date.strftime(config.Datetime.date_format)
 
+    # Create cache folder if nonexistent
+    if not os.path.exists(cache_dir := os.path.join(current_dir, "data-cache")):
+        os.mkdir(cache_dir)
+
     cache_path = os.path.join(
-        current_dir, 
-        "data-cache", 
+        cache_dir,
         f"{symbol.upper()}==={interval.lower()}===" \
             f"{dt_format(lookback)}==={dt_format(today)}.csv"
     )
