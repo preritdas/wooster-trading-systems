@@ -15,5 +15,5 @@ typer==0.6.1
 rich==12.5.1
 num2words==0.5.11
 nexmo==2.5.2
-mypytoolkit==1.5.0
+mypytoolkit==1.5.1
 pyperclip==1.8.2
