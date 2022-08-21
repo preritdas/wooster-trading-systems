@@ -160,9 +160,16 @@ def _incremental_aggregation(
     old_interval = interval
     interval = finnhub_tf(old_interval)
 
+    start_str = dt.datetime.strftime(start, format=config.Datetime.date_format)
+    end_str = dt.datetime.strftime(end, format=config.Datetime.date_format)
+
     # Try to get data from cache
     _cache_res = load_cache(symbol, interval, start, end)
-    if not _cache_res.empty: utils.console.log("Using cached data."); return _cache_res
+    if not _cache_res.empty: 
+        utils.console.log(
+            f"Utilizing cached {symbol.upper()} data from {start_str} to {end_str}."
+        )
+        return _cache_res
 
     # If not getting intraday data, Finnhub iteration unnecessary
     if interval in {"D", "W"}:
