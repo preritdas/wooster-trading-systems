@@ -1,5 +1,5 @@
 """
-Market data operations. To activate a provider, rename its main data function 
+Market data operations. To activate a provider, rename its main data function
 to `data` as opposed to `data_yf` for yfinance, etc.
 """
 import yfinance as yf
@@ -201,7 +201,7 @@ def data(
     """
     Collect properly split walkforward data.
     """
-    with utils.console.status("Aggregating market data from Finnhub..."):
+    with utils.console.status("Aggregating market data..."):
         return {
             label: _incremental_aggregation(
                 symbol, 
@@ -283,11 +283,15 @@ def load_cache(symbol: str, interval: str, start: dt.datetime, end: dt.datetime)
     cache_db = _fetch_cache()
     if cache_db.empty: return pd.DataFrame()
 
+    date_format = config.Datetime.date_format
+
     # Query
     symbol_res = cache_db[cache_db.Symbol == symbol] 
     interval_res = symbol_res[symbol_res.Interval == interval] 
-    start_res = interval_res[interval_res.Start < pd.to_datetime(start, format=config.Datetime.date_format)]
-    end_res = start_res[start_res.End > pd.to_datetime(end, format=config.Datetime.date_format)]
+    start_res = interval_res[
+        interval_res.Start < pd.to_datetime(start, format=date_format)
+    ]
+    end_res = start_res[start_res.End > pd.to_datetime(end, format=date_format)]
     if end_res.empty: return pd.DataFrame()  # empty DF so df.empty returns False
 
     # Gather data
@@ -329,13 +333,15 @@ def list_cache() -> list[str]:
     """
     cache_db = _fetch_cache()
 
+    date_format = config.Datetime.date_format
+
     result_strs: list[str] = []
     for idx in range(len(cache_db)):
         result_strs.append(
             f"[green]{finnhub_tf(cache_db['Interval'][idx], backwards=True)}[/] "
             f"data on [green]{cache_db['Symbol'][idx].upper()}[/] "
-            f"from {dt.datetime.strftime(cache_db['Start'][idx], config.Datetime.date_format)} "
-            f"to {dt.datetime.strftime(cache_db['End'][idx], config.Datetime.date_format)}."
+            f"from {dt.datetime.strftime(cache_db['Start'][idx], date_format)} "
+            f"to {dt.datetime.strftime(cache_db['End'][idx], date_format)}."
         )
 
     return result_strs
