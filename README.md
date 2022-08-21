@@ -1,5 +1,7 @@
 # Wooster Systems
 
+[![asciicast](https://asciinema.org/a/WZoORNecs2HiOfXnY7nquwtMo.svg)](https://asciinema.org/a/WZoORNecs2HiOfXnY7nquwtMo)
+
 ## Main features
 
 - Predesigned proprietary Wooster trading strategies, most of which are ML-powered. Continually modifying and iterating on them.
