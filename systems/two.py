@@ -19,7 +19,10 @@ class Params:
     timeframe = "1m"
 
     walkforward = {
-        "train": (dt.datetime(2022, 7, 15), dt.datetime(2022, 8, 18))
+        "train": (dt.date(2014, 7, 1), dt.date(2015, 8, 31)),
+        "up": (dt.date(2021, 7, 1), dt.date(2022, 1, 1)),
+        "down": (dt.date(2018, 9, 1), dt.date(2019, 2, 1)),
+        "chop": (dt.date(2020, 9, 1), dt.date(2021, 2, 20))
     }
 
     optimizers: dict = {
