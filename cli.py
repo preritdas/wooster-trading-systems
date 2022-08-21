@@ -2,7 +2,6 @@
 Create the CLI.
 """
 # External imports
-import webbrowser
 import typer
 import pyperclip
 
@@ -91,11 +90,11 @@ def process(
     if launch:
         with utils.console.status("Launching interactive plot in your browser."):
             # Open stats and all interactive charts
-            webbrowser.open(utils.stats_path(index), new=1)
-            webbrowser.open(utils.plot_path(index, "train"), new=0)
-            webbrowser.open(utils.plot_path(index, "up"), new=0)
-            webbrowser.open(utils.plot_path(index, "down"), new=0)
-            webbrowser.open(utils.plot_path(index, "chop"), new=0)
+            typer.launch(utils.stats_path(index))
+            typer.launch(utils.plot_path(index, "train"))
+            typer.launch(utils.plot_path(index, "up"))
+            typer.launch(utils.plot_path(index, "down"))
+            typer.launch(utils.plot_path(index, "chop"))
 
             pyperclip.copy(utils.stats_path(index))
             utils.console.print(
@@ -188,7 +187,7 @@ def launch(
         )
         return
 
-    webbrowser.open(path)
+    typer.launch(path)
     pyperclip.copy(path)
     utils.console.print(
         "Launched in your browser. If you'd like to use a different "
