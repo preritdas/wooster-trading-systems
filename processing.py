@@ -52,6 +52,7 @@ def _process_system(
     to the interactive plot.
     """
     assert isinstance(data, dict)
+    assert "train" in data.keys(), "You must always provide training data."
     assert all([label in {"train", "up", "down", "chop"} for label in data.keys()])
     assert all(isinstance(value, pd.DataFrame) for value in data.values())
 
@@ -77,11 +78,14 @@ def _process_system(
    # Use precomputed train backtest results and save plot
     results = {"train": stats}
     _plotpath = utils.plot_path(index, "train")
-    backtest.plot(filename=_plotpath, open_browser=False, resample=False)
-    utils.correct_html_title(name, _plotpath)
+    with utils.console.status(
+        f"Plotting and exporting training results to HTML..."
+    ):
+        backtest.plot(filename=_plotpath, open_browser=False, resample=False)
+        utils.correct_html_title(f"{name.title()} Training Results", _plotpath)
 
     # Backtest the other labeled conditions
-    for label in data:
+    for pos, label in enumerate(data):
         if label == "train": continue  # pre-computed train data handled above
 
         _walkforward_bt = bt.Backtest(
@@ -91,17 +95,21 @@ def _process_system(
         )
         results[label] = _walkforward_bt.run(
             show_progress = True,
-            progress_message = f"Testing {'optimized' if optimize else ''} strategy on {label} data...",
+            progress_message = f"Testing {'optimized' if optimize else ''} " \
+                f"strategy on {label} data...",
+            newline = pos == 1,  # insert newline if first test after train
             **params
         )
         
         # Save results
-        _plotpath = utils.plot_path(index, label)
-        _walkforward_bt.plot(filename=_plotpath, open_browser=False, resample=False)
+        with utils.console.status(
+            f"Plotting and exporting {label.lower()} results to HTML..."
+        ):
+            _plotpath = utils.plot_path(index, label)
+            _walkforward_bt.plot(filename=_plotpath, open_browser=False, resample=False)
 
-        # Reset the page title so it's not the filename
-        time.sleep(1)  # Prevent OS error 22
-        utils.correct_html_title(name, _plotpath)
+            # Reset the page title so it's not the filename
+            utils.correct_html_title(f"{name.title()} {label.title()} Results", _plotpath)
 
     return results
 
