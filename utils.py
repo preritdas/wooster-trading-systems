@@ -14,6 +14,7 @@ from rich.text import Text
 # Local imports
 import os  # file paths
 import config
+import time  # prevent os error 22
 
 # Project modules
 import systems
@@ -102,14 +103,19 @@ def system_exists(index: int) -> bool:
 def correct_html_title(name: str, filepath: str) -> None:
     """
     Opens the HTML file and replaces the <title> field 
-    with the provided name.
+    with the provided name. Recurses if OSError is raised,
+    sleeping 0.1 seconds until it successfully fixes the file.
     """
-    kit.append_by_query(
-        query = "<title>",
-        content = f"\t\t<title>{name}</title>",
-        file = fr"{filepath}",
-        replace = True
-    )
+    try:
+        kit.append_by_query(
+            query = "<title>",
+            content = f"\t\t<title>{name}</title>",
+            file = fr"{filepath}",
+            replace = True
+        )
+    except OSError:
+        time.sleep(0.1)
+        correct_html_title(name, filepath)
 
 
 # ---- Language ----
