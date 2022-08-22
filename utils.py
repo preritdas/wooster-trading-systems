@@ -84,10 +84,8 @@ def plot_path(idx: int, label: str, flag_nonexistent: bool = False) -> bool | st
     if not label in {"train", "up", "down", "chop"}:
         raise ValueError(f"Invalid plot label value, {label}.")
     
-    label = label.title()
-
-    name = idx_to_name(idx)
-    path = os.path.join(current_dir, f"results/plots/{name} {label}.html")
+    name = idx_to_name(idx, lower=True)
+    path = os.path.join(current_dir, "results", "plots", f"{name} {label}.html")
 
     if flag_nonexistent:
         if not os.path.exists(path): return False
@@ -100,7 +98,7 @@ def stats_path(idx: int = None, flag_nonexistent: bool = False) -> bool | str:
     Searches for the result path of the given indexed strategy.
     If it doesn't exist, returns False.
     """
-    name = idx_to_name(idx)
+    name = idx_to_name(idx, lower=True)
     path = os.path.join(current_dir, "results", "stats", f"{name}.html")
 
     if flag_nonexistent:
@@ -167,17 +165,28 @@ def insert_html_favicon(filepath: str) -> None:
 
 # ---- Language ----
 
-def idx_to_name(idx: int, prefix: str = "Wooster ", title: bool = True) -> str:
+def idx_to_name(
+    idx: int,
+    prefix: str = "Wooster ",
+    title: bool = True,
+    lower: bool = False
+) -> str:
     """
     Ex. turns `2` into "Wooster Two", and 23 into "Wooster TwentyTwo".
+
+    `lower` supercedes title.
     """
     num = str(numwords.num2words(idx))
     words = [word.title() if title else word for word in num.split("-")]
+ 
+    # Connect the words
+    full_num = "".join(words)  
 
-    full_num = ""
-    for word in words: full_num += word
+    # Deal with spaces and "and" if > 100
+    full_num = "".join([word for word in full_num.split(" ") if word.lower() != "and"])
 
-    return prefix + full_num
+    _res = prefix + full_num
+    return _res.lower() if lower else _res
 
 
 # ---- Renders ----
