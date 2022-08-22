@@ -53,6 +53,27 @@ current_dir = os.path.dirname(
 )
 
 
+def create_new_system() -> bool:
+    """
+    CURRENTLY NOT FUNCTIONAL AND NOT USED.
+
+    Create .py system file for the next system. Returns True if successful,
+    False if the file already exists, meaning the new system hasn't yet been
+    indexed in the systems.systems dictionary.
+    """
+    idx = max(systems.systems) + 1
+    module_name = idx_to_name(idx, predix="", title=False)
+    module_path = os.path.join(current_dir, "systems", f"{module_name}.py")
+    
+    # Ensure it doesn't yet exist
+    if os.path.exists(module_path):
+        return False
+
+    # Make the file
+    with open(module_path, "w", encoding="utf-8") as module:
+        module.write("put template contents here.")
+
+
 def plot_path(idx: int, label: str, flag_nonexistent: bool = False) -> bool | str:
     """
     Searches for the result path of the given indexed strategy.
@@ -146,12 +167,12 @@ def insert_html_favicon(filepath: str) -> None:
 
 # ---- Language ----
 
-def idx_to_name(idx: int, prefix: str = "Wooster ") -> str:
+def idx_to_name(idx: int, prefix: str = "Wooster ", title: bool = True) -> str:
     """
     Ex. turns `2` into "Wooster Two", and 23 into "Wooster TwentyTwo".
     """
     num = str(numwords.num2words(idx))
-    words = [word.title() for word in num.split("-")]
+    words = [word.title() if title else word for word in num.split("-")]
 
     full_num = ""
     for word in words: full_num += word
