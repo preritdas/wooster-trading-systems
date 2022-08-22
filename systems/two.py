@@ -13,7 +13,9 @@ import datetime as dt
 
 class Params:
     """
-    Param template for Wooster Two.
+    Strategy meta-configurations. These are not indicator settings, or 
+    any such optimizable parameters; rather, symbols, timeframes, 
+    date-ranges, etc.
     """
     symbol = "AAPL"
     timeframe = "1m"
