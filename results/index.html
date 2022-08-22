@@ -32,7 +32,6 @@ function statsPage() {
   var id = document.getElementById("systemID").value;
   id = id.toLowerCase()
     .split(' ')
-    .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
     .join(' ')
     .trim();
   window.open(`https://wooster.preritdas.com/stats/${id}.html`);
@@ -42,7 +41,6 @@ function plotPage(label) {
   var id = document.getElementById("systemID").value;
   id = id.toLowerCase()
     .split(' ')
-    .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
     .join(' ')
     .trim();
   window.open(`https://wooster.preritdas.com/plots/${id} ${label}.html`);
