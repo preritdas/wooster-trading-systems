@@ -1,0 +1,7 @@
+{
+    "rsi_period": 14.0,
+    "buy_rsi_entry": 17.0,
+    "buy_rsi_target": 87.0,
+    "sell_rsi_entry": 75.0,
+    "sell_rsi_target": 10.0
+}
