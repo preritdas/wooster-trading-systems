@@ -196,6 +196,43 @@ def launch(
 
 
 @app.command()
+def optimizers(
+    index: int = typer.Argument(
+        ...,
+        help = "System index, ex. 2 for Wooster Two."
+    )
+):
+    """
+    See a system's optimized parameters (if the system has been optimized). If 
+    the system exists but no optimizers are shown, run the process command first. 
+    """
+    params = utils.read_params(system_idx=index)
+    if not params:
+        utils.console.print(
+            "There are no stored optimized parameters for "
+            f"[red]{utils.idx_to_name(index)}[/]. "
+        ) 
+
+        if index <= max(processing.systems.systems):
+            utils.console.print(
+                f"After running the [blue]latest[/] command, it appears that "
+                f"[red]{utils.idx_to_name(index)}[/] [italic]has[/] been built "
+                "and recorded. You must first [blue]process[/] it before you can view "
+                "its optimized parameters with the [blue]optimizers[/] command."
+            )
+        else:
+            utils.console.print(
+                f"After running the [blue]latest[/] command, it appears that "
+                f"[red]{utils.idx_to_name(index)}[/] has [italic]not[/] yet been built "
+                "or recorded."
+            )
+
+        return
+
+    utils.console.print_json(data=params)
+
+
+@app.command()
 def cache(
     action: str = typer.Argument(
         ...,
