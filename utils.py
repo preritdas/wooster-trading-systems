@@ -184,6 +184,32 @@ def store_params(system_name: str, params: dict) -> None:
     with open(param_path, "w") as param_file: 
         param_file.write(json.dumps(params, indent=4))
 
+    
+def read_params(system_name: str = None, system_idx: int = None) -> dict[str, float]:
+    """
+    Reads stored parameters. Provide either `system_name` or `system_idx`. If both
+    are provided for some reason, idx takes precendence. At least one must be provided.
+    If the queried parameters json file does not exist, returns an empty dictionary.
+    """
+    if not system_name and not system_idx:
+        raise ValueError("You must provide either a system name or index.")
+
+    if system_name: system_name = system_name.lower()
+    elif system_idx: system_name = idx_to_name(system_idx, lower=True)
+
+    param_path = os.path.join(
+        current_dir,
+        "results",
+        "optimizers",
+        f"{system_name}.json"
+    )
+
+    # Ensure file exists
+    if not os.path.exists(param_path): return {}
+
+    with open(param_path, 'r') as param_file:
+        return json.load(param_file)
+
 
 # ---- Language ----
 
