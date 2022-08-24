@@ -9,7 +9,6 @@ import pandas as pd
 import os
 import sys  # check operating system
 import multiprocessing  # change start method if macOS
-import time  # handle invalid argument OSError 22
 
 # Project modules
 import systems
@@ -73,7 +72,10 @@ def _process_system(
             maximize = optimizer,
             **systems.systems[index][1].Params.optimizers
         )
-        params = stats._strategy._params
+
+        # Store optimized params locally and as CSV
+        params: dict = stats._strategy._params
+        utils.store_params(name, params)
 
    # Use precomputed train backtest results and save plot
     results = {"train": stats}
