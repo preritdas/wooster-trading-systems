@@ -15,6 +15,7 @@ from rich.text import Text
 import os  # file paths
 import config
 import time  # prevent os error 22
+import json  # store params as json
 
 # Project modules
 import systems
@@ -161,6 +162,27 @@ def insert_html_favicon(filepath: str) -> None:
     except OSError:
         time.sleep(0.1)
         insert_html_favicon(filepath)
+
+
+def store_params(system_name: str, params: dict) -> None:
+    """
+    Takes dictionary parameters (usually optimized) and stores them in the
+    results/optimizers subdirectory, with a system name file name in JSON format.
+    """
+    system_name = system_name.lower()
+    param_path = os.path.join(
+        current_dir, 
+        "results", 
+        "optimizers", 
+        f"{system_name}.json"
+    )
+
+    # Convert all data types to floats (np unrecognizable)
+    params = {param: float(value) for param, value in params.items()}
+
+    # Write the file
+    with open(param_path, "w") as param_file: 
+        param_file.write(json.dumps(params, indent=4))
 
 
 # ---- Language ----
