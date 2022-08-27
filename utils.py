@@ -21,6 +21,11 @@ import json  # store params as json
 import systems
 
 
+# ---- Constants ----
+
+LABELS = {"train", "up", "down", "chop"}
+
+
 # ---- Console tools ----
 
 def create_recorded_console() -> Console:
@@ -39,7 +44,7 @@ def full_label_name(label: str) -> str:
     "up" becomes "Out-of-Sample Uptrend", etc.
     """
     assert isinstance(label, str)
-    assert (label := label.lower()) in {"train", "up", "down", "chop"}
+    assert (label := label.lower()) in LABELS
 
     if label == "train": return "In-Sample Training Results"
     elif label == "up": return "Out-of-Sample Uptrend Results"
@@ -82,7 +87,7 @@ def plot_path(idx: int, label: str, flag_nonexistent: bool = False) -> bool | st
 
     Label is the plot type, either "train", "up", "down", or "chop". 
     """
-    if not label in {"train", "up", "down", "chop"}:
+    if not label in LABELS:
         raise ValueError(f"Invalid plot label value, {label}.")
     
     name = idx_to_name(idx, lower=True)
@@ -106,6 +111,19 @@ def stats_path(idx: int = None, flag_nonexistent: bool = False) -> bool | str:
         if not os.path.exists(path): return False
     
     return path
+
+
+def results_path(idx: int, label: str) -> str:
+    """
+    Gets a results path.
+    """
+    assert isinstance(label, str)
+
+    label = label.lower()
+    assert label in LABELS
+
+    name = idx_to_name(idx, lower=True)
+    return os.path.join(current_dir, "results", "raw", f"{name} {label}.csv")
 
 
 def system_exists(index: int) -> bool:
@@ -237,7 +255,45 @@ def idx_to_name(
     return _res.lower() if lower else _res
 
 
-# ---- Renders ----
+# ---- Results ----
+
+def store_results(idx: int, results: dict[str, pd.Series]) -> None:
+    """
+    Takes in fully computed dict results with labels and stores them as individual
+    CSV files.
+    """
+    for label, result in results.items():
+        path = results_path(idx, label)
+
+        # Remove private, complex items like trades df and equity curve
+        for metric, value in result.copy().iteritems():
+            if metric[0] == "_": result.drop(metric, inplace=True)
+            if isinstance(value, float): result[metric] = round(value, 3)
+
+        result.to_csv(path)
+
+
+def load_results(idx: int) -> dict[str, pd.Series]:
+    """
+    Loads previously stored results into format readable by display results.
+    """
+    results_dir = os.path.join(current_dir, "results", "raw")
+    files = os.listdir(results_dir)
+    print(files)
+
+    results = {}
+    for label in LABELS:
+        expected_file = results_path(idx, label)
+        print(expected_file)
+        
+        if os.path.basename(expected_file) not in files: 
+            continue
+
+        # Read with squeeze to allow returning a series with one column
+        results[label] = pd.read_csv(expected_file, squeeze=True, index_col=0) 
+
+    return results
+
 
 def _render_results(results: pd.Series, idx: int = None, name: str = "") -> Table:
     """
@@ -332,7 +388,9 @@ def display_results(
         html_console.print(table, justify="center")
         html_console.line()
 
-    html_console.save_html(filepath := stats_path(idx))
+    filepath = stats_path(idx)
+
+    if record: html_console.save_html(filepath)
     correct_html_title(
         name = f"{idx_to_name(idx)} Performance Metrics",
         filepath = filepath,
