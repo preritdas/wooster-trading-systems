@@ -113,8 +113,8 @@ def _fetch_data_finnhub(
     symbol: str, 
     interval: str, 
     start: dt.datetime, 
-    end: dt.datetime
-) -> pd.DataFrame:
+    end: dt.datetime 
+) -> pd.DataFrame: 
     """
     Download data from Finnhub. Does not work with period, must take start
     and end as datetime type, where end is at least one day prior. 
@@ -147,11 +147,22 @@ def _fetch_data_finnhub(
     return data_df
 
 
+def _filter_eod(data: pd.DataFrame, timezone: str = "utc") -> pd.DataFrame:
+    """
+    Removes any data not between standard market hours, 9:30am to 4pm EST.
+    """
+    if timezone.lower() != "utc":
+        raise ValueError("Only UTC supported currently.")
+
+    return data.between_time(dt.time(13, 30), dt.time(20))
+
+
 def _incremental_aggregation(
     symbol: str, 
     interval: str, 
     start: dt.datetime, 
-    end: dt.datetime
+    end: dt.datetime,
+    filter_eod: bool
 ) -> pd.DataFrame:
     """
     Incremement through Finnhub data (if intraday) due to data access limitations.
@@ -169,16 +180,13 @@ def _incremental_aggregation(
         utils.console.log(
             f"Utilizing cached {symbol.upper()} data from {start_str} to {end_str}."
         )
-        return _cache_res
+        return _cache_res if not filter_eod else _filter_eod(_cache_res)
 
     # If not getting intraday data, Finnhub iteration unnecessary
     if interval in {"D", "W"}:
-        return _fetch_data_finnhub(
-            symbol,
-            interval,
-            start,
-            end
-        )
+        finnhub_res = _fetch_data_finnhub(symbol, interval, start, end)
+        return finnhub_res if not filter_eod else _filter_eod(finnhub_res)
+
 
     datas = []
     current_pointer = start
@@ -186,14 +194,16 @@ def _incremental_aggregation(
         if (look_forward := (current_pointer + dt.timedelta(days=29))) > end:
             look_forward = end
 
-        datas.append(
-            _fetch_data_finnhub(
-                symbol, 
-                interval, 
-                current_pointer, 
-                look_forward
-            )
+        finnhub_res = _fetch_data_finnhub(
+            symbol, 
+            interval, 
+            current_pointer, 
+            look_forward
         )
+        
+        # Optional EOD filtering
+        finnhub_res = finnhub_res if not filter_eod else _filter_eod(finnhub_res)
+
         current_pointer += dt.timedelta(days=29)
         time.sleep(0.4)  # finnhub rate limit
 
@@ -203,7 +213,8 @@ def _incremental_aggregation(
 def data(
     symbol: str, 
     interval: str, 
-    walkforward: dict[str, tuple[dt.datetime]]
+    walkforward: dict[str, tuple[dt.datetime]],
+    filter_eod: bool = False
 ) -> dict[str, pd.DataFrame]:
     """
     Collect properly split walkforward data.
@@ -214,7 +225,8 @@ def data(
                 symbol, 
                 interval, 
                 start_end[0], 
-                start_end[1]
+                start_end[1],
+                filter_eod = filter_eod
             ) for label, start_end in walkforward.items()
         }
 
