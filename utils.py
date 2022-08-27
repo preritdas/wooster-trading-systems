@@ -279,18 +279,16 @@ def load_results(idx: int) -> dict[str, pd.Series]:
     """
     results_dir = os.path.join(current_dir, "results", "raw")
     files = os.listdir(results_dir)
-    print(files)
 
     results = {}
     for label in LABELS:
         expected_file = results_path(idx, label)
-        print(expected_file)
         
         if os.path.basename(expected_file) not in files: 
             continue
 
         # Read with squeeze to allow returning a series with one column
-        results[label] = pd.read_csv(expected_file, squeeze=True, index_col=0) 
+        results[label] = pd.read_csv(expected_file, index_col=0).squeeze("columns")
 
     return results
 
@@ -388,12 +386,11 @@ def display_results(
         html_console.print(table, justify="center")
         html_console.line()
 
-    filepath = stats_path(idx)
-
-    if record: html_console.save_html(filepath)
-    correct_html_title(
-        name = f"{idx_to_name(idx)} Performance Metrics",
-        filepath = filepath,
-        insert = True
-    )
-    insert_html_favicon(filepath)
+    if record: 
+        html_console.save_html(filepath := stats_path(idx))
+        correct_html_title(
+            name = f"{idx_to_name(idx)} Performance Metrics",
+            filepath = filepath,
+            insert = True
+        )
+        insert_html_favicon(filepath)
