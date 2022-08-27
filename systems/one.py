@@ -17,6 +17,7 @@ class Params:
     """
     symbol = "AAPL"
     timeframe = "1m"
+    filter_eod = True
 
     walkforward = {
         "train": (dt.date(2014, 7, 1), dt.date(2015, 8, 31)),
