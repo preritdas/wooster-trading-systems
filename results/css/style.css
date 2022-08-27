@@ -1,0 +1,261 @@
+/*
+  Day One 2
+
+  A theme to mimic the [Day One 2](http://dayoneapp.com/) default theme.
+
+  Developed by Michael Diolosa <michael.diolosa@gmail.com>
+
+  Visit https://github.com/mbrio/day-one-ulysses-iii-theme for source code
+
+  This font relies on a Google free font Lato:
+  https://www.google.com/fonts/specimen/Lato
+
+  This is the link I used to download the exact fonts I needed:
+  https://www.google.com/fonts/download?kit=NdjKCQMCiQM2g3qf94rrwQ
+
+*/
+
+
+body {
+  font-size: 12pt;
+  color:#444;
+  background:#FFF;
+  font-family: "Lato-Regular", "AvenirNext-Regular", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 4%;
+  line-height: 1.6em;
+}
+
+h1 {
+  font-family: "Lato-Bold", "Lato-Regular", "AvenirNext-DemiBold", "AvenirNext-Regular", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-size: 2.35em;
+  font-weight: normal;
+  line-height: 1.5em;
+}
+
+h1 strong, h1 dfn {font-family: "Lato-Black", "Lato-Regular", "AvenirNext-DemiBold", "AvenirNext-Regular", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;}
+h1 em, h1 dfn {font-family: "Lato-BoldItalic", "Lato-Regular", "AvenirNext-DemiBoldItalic", "AvenirNext-Regular", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;}
+
+h2 {
+  font-family: "Lato-Black", "Lato-Regular", "AvenirNext-Bold", "AvenirNext-Regular", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-size: 1.22em;
+  font-weight: normal;
+  line-height: 1.6em;
+}
+
+h2 strong, h2 dfn {font-family: "Lato-Bold", "Lato-Regular", "AvenirNext-DemiBold", "AvenirNext-Regular", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;}
+h2 em, h2 dfn {font-family: "Lato-BlackItalic", "Lato-Regular", "AvenirNext-BoldItalic", "AvenirNext-Regular", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;}
+
+h3 {
+  font-family: "Lato-Bold", "Lato-Regular", "AvenirNext-DemiBold", "AvenirNext-Regular", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  color: #e84f89;
+  font-size: 1.13em;
+  line-height: 1.4em;
+}
+
+h3 strong, h3 dfn {color: #e84f89; font-family: "Lato-Black", "Lato-Regular", "AvenirNext-DemiBold", "AvenirNext-Regular", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;}
+h3 em, h3 dfn {font-family: "Lato-BoldItalic", "Lato-Regular", "AvenirNext-DemiBoldItalic", "AvenirNext-Regular", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;}
+
+h4 {
+  font-family: "Lato-Bold", "Lato-Regular", "AvenirNext-DemiBold", "AvenirNext-Regular", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  color: #4cc1fc;
+  font-size: 1em;
+  line-height: 1.4em;
+}
+
+h4 strong, h4 dfn {color: #4cc1fc;font-family: "Lato-Black", "Lato-Regular", "AvenirNext-DemiBold", "AvenirNext-Regular", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;}
+h4 em, h4 dfn {font-family: "Lato-BoldItalic", "Lato-Regular", "AvenirNext-DemiBoldItalic", "AvenirNext-Regular", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;}
+
+h5 {
+  font-family: "Lato-Bold", "Lato-Regular", "AvenirNext-DemiBold", "AvenirNext-Regular", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;
+  color: #aaaaaa;
+  font-weight: normal;
+  font-size: .83em;
+  line-height: 1.4em;
+  padding-bottom: 4px;
+  border-bottom: solid 1px #f0f0f0;
+}
+
+h5 strong, h5 dfn {color: #aaaaaa;font-family: "Lato-Black", "Lato-Regular", "AvenirNext-DemiBold", "AvenirNext-Regular", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;}
+h5 em, h5 dfn {font-family: "Lato-BoldItalic", "Lato-Regular", "AvenirNext-DemiBoldItalic", "AvenirNext-Regular", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;}
+
+h6 {
+  font-family: "AvenirNext-Regular", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  color: #aaaaaa;
+  font-size: .83em;
+  line-height: 1.4em;
+  padding-bottom: 4px;
+  border-bottom: solid 1px #f0f0f0;
+}
+
+h6 strong, h6 dfn {color: #aaaaaa;}
+
+img {width: 100%; border-radius: 5px; display: block; margin: 0;}
+
+dl,ol,ul,p,blockquote,pre {
+    margin-top: 12px;
+    margin-bottom: 18px;
+}
+
+a:focus, a:hover {color:#EA4C89;text-decoration:none;}
+a {color:#47B1C7;text-decoration:none;}
+blockquote {
+    margin-left: 0;
+    margin-right: 0;
+    border-left: solid 4px #f0f0f0;
+    color: #aaaaaa;
+    font-size: 1.13em;
+    line-height: 1.4em;
+    font-family: "Lato-LightItalic", "Lato-Regular", "AvenirNext-UltraLightItalic", "AvenirNext-Regular", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;
+    padding-left: 10px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    quotes: none;
+}
+blockquote strong, blockquote dfn {color: #aaaaaa;font-family: "Lato-BoldItalic", "Lato-Regular", "AvenirNext-DemiBoldItalic", "AvenirNext-Regular", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;}
+blockquote em, blockquote dfn {font-family: "Lato-Light", "AvenirNext-UltraLight", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;}
+strong, dfn {
+  font-family: "Lato-Bold", "Lato-Regular", "AvenirNext-DemiBold", "AvenirNext-Regular", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-weight:normal; color: #252525;}
+em, dfn {
+  font-family: "Lato-Italic", "Lato-Regular", "AvenirNext-Italic", "AvenirNext-Regular", -apple-system, "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-style:normal;}
+
+del {color:#666;}
+pre {margin:1em 0;white-space:pre;}
+pre, code, tt {font:1em 'Bitstream Vera Sans Mono', Courier New, monospace;}
+
+/*code {font-size:90%;}*/
+/*pre {text-align:left; overflow-x: scroll; color: #257fa0; background: #f6f6f6; padding: 10pt 15pt; border-radius: 3px; border: solid 1px #e2e2e2;}*/
+
+pre {
+    background-color: #f8f8f8;
+    border: #E8E8E8 1px solid;
+    color: #444;
+    display: block;
+    margin: 12px 0;
+    overflow: auto;
+    padding: 6px 10px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    cursor: text;
+    max-width: 100%;
+    overflow: auto;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+code {
+    font-size: .95em;
+    color: #4cc1fc;
+}
+
+p > code, li > code {
+    color: #4cc1fc;
+    border: 1px solid #E8E8E8;
+    font-size: .95em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+ol,ul {
+    margin: .8em 0;
+    padding-left: .4em;
+}
+
+ol li {
+    margin-left: 1em;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+ul li {
+    margin-left: 1em;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+ol ol,ol ul,ul ol,ul ul {
+    margin: .3em 0;
+}
+
+figure {margin: 1em 0;}
+figcaption {font-size: 0.75em;padding:0.5em 2em;margin-bottom: 2em;}
+figure img {margin-bottom: 0px;}
+
+hr {
+    border: 0;
+    border-top: 1px solid #eaeaea;
+    display: block;
+    height: 1px;
+    margin: 1em 0;
+    padding: 0;
+}
+
+h1 + hr {margin-top: 2em;}
+
+ol p, ul p {margin-bottom: 0px;}
+li {margin-bottom: 0.75em;margin-top: 0.75em;}
+
+ol#footnotes {
+    font-size: 0.9em;
+    padding-top: 1em;
+    margin-top: 1em;
+    margin-left: 0;
+    border-top: 1px solid #eaeaea;
+    counter-reset: footer-counter;
+    list-style: none;
+}
+
+ol#footnotes li {
+    margin-bottom: 10px;
+    margin-left: 16px;
+    font-weight: 400;
+    list-style: none;
+}
+
+ol#footnotes li:before {
+    content: counter(footer-counter) ". ";
+    counter-increment: footer-counter;
+    font-weight: 800;
+    font-size: .9em;
+}
+
+@keyframes highfade {
+    0% {
+        background-color: none;
+    }
+    20% {
+        background-color: yellow;
+    }
+    100% {
+        background-color: none;
+    }
+}
+
+@-webkit-keyframes highfade {
+    0% {
+        background-color: none;
+    }
+    20% {
+        background-color: yellow;
+    }
+    100% {
+        background-color: none;
+    }
+}
+
+a:target, ol#footnotes li:target, sup a:target  {
+    animation-name: highfade;
+    animation-duration: 2s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in-out;
+    -webkit-animation-name: highfade;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: ease-in-out;
+}
