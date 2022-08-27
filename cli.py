@@ -104,13 +104,6 @@ def process(
 
     # Text alert
     if textalert:
-        if not texts.keys_given():
-            utils.console.print(
-                "You must provide yoru Nexmo credentials in keys.ini "
-                "if you'd like to use the textalert feature."
-            )
-            return
-
         texts.text_me(
             f"{system_name} has finished backtesting"
             f"{' and optimizing.' if optimize else '.'}"
