@@ -143,7 +143,8 @@ def process_system_idx(
         data = data.data(
             symbol = system[1].Params.symbol,
             interval = system[1].Params.timeframe,
-            walkforward = system[1].Params.walkforward
+            walkforward = system[1].Params.walkforward,
+            filter_eod = system[1].Params.filter_eod
         ),
         optimize = optimize,
         optimizer = optimizer,
