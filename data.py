@@ -260,7 +260,7 @@ def init_cache(symbol: str, interval: str, lookback_yrs: int, force: bool) -> bo
     if os.path.exists(cache_path) and not force:
         return False
 
-    data = _incremental_aggregation(symbol, interval, lookback, today)
+    data = _incremental_aggregation(symbol, interval, lookback, today, filter_eod=False)
     data.to_csv(cache_path)
 
     return len(data)
@@ -275,7 +275,7 @@ def _fetch_cache() -> pd.DataFrame:
         return pd.DataFrame()
 
     if not (paths := os.listdir(cache_path)):
-        return pd.DataFrame
+        return pd.DataFrame()
 
     cache_files = [os.path.splitext(path)[0] for path in paths]
     cache_files = [cache.split("===") for cache in cache_files]
