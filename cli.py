@@ -194,6 +194,8 @@ def results(
 ):
     """
     Display an already-computed system's results. Does not re-process the system.
+    Results are displayed in the console, just as when processing a system. Use the
+    launch command to view results in the browser.
     """
     with utils.console.status(
         f"Loading stored results for {utils.idx_to_name(index)}..."
