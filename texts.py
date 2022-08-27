@@ -1,6 +1,14 @@
+"""
+Send text alerts. Implemented in CLI process command to optionally alert the completion
+of a processing/optimization operation. Keys do not have to be provided. If they
+are not, the text_me function simply does nothing, without returning any errors,
+thereby preventing a program crash.
+"""
 import nexmo
+
 import configparser
 import os
+import warnings
 
 
 current_dir = os.path.dirname(
@@ -12,7 +20,7 @@ keys = configparser.RawConfigParser()
 keys.read(os.path.join(current_dir, "keys.ini"))
 
 
-def keys_given() -> bool:
+def _keys_given() -> bool:
     """
     Determines whether or not all keys have been given for Nexmo.
     """
@@ -32,15 +40,22 @@ def keys_given() -> bool:
     return True
 
 
-if keys_given():
+def text_me(message: str) -> None:
+    # Silently return if no keys given to prevent crash
+    if not _keys_given(): 
+        warnings.warn(
+            "texts.text_me was called but no Nexmo keys were given in keys.ini."
+        )
+        return
+
+    # Assuming keys are given
     client = nexmo.Client(keys["Nexmo"]["api_key"], keys["Nexmo"]["api_secret"])
     sms = nexmo.Sms(client)
 
-    def text_me(message: str) -> None:
-        sms.send_message(
-            {
-                "from": keys["Nexmo"]["sender"],
-                "to": keys["Nexmo"]["receiver"],
-                "text": str(message)
-            }
-        )
+    sms.send_message(
+        {
+            "from": keys["Nexmo"]["sender"],
+            "to": keys["Nexmo"]["receiver"],
+            "text": str(message)
+        }
+    )
