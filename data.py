@@ -200,9 +200,10 @@ def _incremental_aggregation(
             current_pointer, 
             look_forward
         )
-        
+
         # Optional EOD filtering
         finnhub_res = finnhub_res if not filter_eod else _filter_eod(finnhub_res)
+        datas.append(finnhub_res)
 
         current_pointer += dt.timedelta(days=29)
         time.sleep(0.4)  # finnhub rate limit
@@ -320,7 +321,7 @@ def load_cache(symbol: str, interval: str, start: dt.datetime, end: dt.datetime)
     if end_res.empty: return pd.DataFrame()  # empty DF so df.empty returns False
 
     # Gather data
-    path = os.path.join(current_dir, "data-cache", end_res["Path"][0])
+    path = os.path.join(current_dir, "data-cache", list(end_res["Path"])[0])
     cache_df = pd.read_csv(path)
     cache_df["Date"] = pd.to_datetime(cache_df["Date"])
     cache_df.set_index("Date", inplace=True)
@@ -346,7 +347,7 @@ def delete_cache(symbol: str, interval: str) -> bool:
     if interval_res.empty: return False
 
     for idx in range(len(interval_res)):
-        os.remove(os.path.join(current_dir, "data-cache", interval_res["Path"][idx]))
+        os.remove(os.path.join(current_dir, "data-cache", list(interval_res["Path"])[idx]))
 
     return True
 
