@@ -91,10 +91,7 @@ def process(
         with utils.console.status("Launching interactive plot in your browser."):
             # Open stats and all interactive charts
             typer.launch(utils.stats_path(index))
-            typer.launch(utils.plot_path(index, "train"))
-            typer.launch(utils.plot_path(index, "up"))
-            typer.launch(utils.plot_path(index, "down"))
-            typer.launch(utils.plot_path(index, "chop"))
+            for label in utils.LABELS: typer.launch(utils.plot_path(index, label))
 
             pyperclip.copy(utils.stats_path(index))
             utils.console.print(
