@@ -17,12 +17,13 @@ class Params:
     """
     symbol = "AAPL"
     timeframe = "1m"
+    filter_eod = True
 
     walkforward: dict[str, tuple[dt.date, dt.date]] = {
         "train": (dt.date(2014, 7, 1), dt.date(2014, 8, 31)),
         "up": (dt.date(2021, 7, 1), dt.date(2021, 9, 1)),
         "down": (dt.date(2018, 9, 1), dt.date(2018, 11, 1)),
-        "chop": (dt.date(2020, 9, 1), dt.date(2021, 12, 20))
+        "chop": (dt.date(2020, 9, 1), dt.date(2020, 12, 20))
     }
 
     optimizers: dict = {
@@ -43,9 +44,6 @@ class WoosterThree(bt.Strategy):
         self.cdl_engulfing = self.I(ta.CDLENGULFING, self.data.Open, self.data.High, self.data.Low, self.data.Close)
 
     def next(self):
-        # Close position if a new trade is to be taken
-        if self.cdl_engulfing[-1] != 0: self.position.close()
-
         if self.cdl_engulfing[-1] == 100:
             self.buy(
                 limit = self.data.Close[-1] * (1 + self.profit_percent/100),
