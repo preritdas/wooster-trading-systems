@@ -23,6 +23,7 @@
 - Defaults configuration through [config.ini](config.ini) - modify preferred metrics, highlighted metrics, default optimizer, etc.
 - Status handling across modules and submodules, because processing (aggregating up to 10 years of intraday non-cached data, backtesting, optimizing, re-backtesting on out-of-sample market conditions) can often take just a little while. Rich status icons and progress bars keep track of where the program is (and how far along) at almost all times. This includes estimated remaining time! For example, when optimizing many parameters on heavy data, you'll see a progress bar with an estimated time to optimization completion.
 - Stored optimized parameter - whenever a strategy is optimized (via the `wooster process` command), the found optimal parameter combination is serialized as JSON and stored in the `results/optimizers` subdirectory. The `wooster optimizers` command allows a user to view the optimal parameter combination for a given strategy by index. Example directly below.
+- Stored computed results - redisplay backtest and optimization results for a system without having to reprocess it.
 
 ```bash
 # Stored optimal parameters example
