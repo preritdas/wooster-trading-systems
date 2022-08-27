@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+		<link rel="icon" href="favicon.PNG">
+		<title>Wooster Three Performance Metrics</title>
+<style>
+.r1 {color: #00ff00; text-decoration-color: #00ff00}
+.r2 {font-style: italic}
+.r3 {color: #7f7f7f; text-decoration-color: #7f7f7f}
+.r4 {font-weight: bold}
+.r5 {color: #7f7f7f; text-decoration-color: #7f7f7f; font-weight: bold}
+.r6 {text-decoration: underline}
+body {
+    color: #000000;
+    background-color: #ffffff;
+}
+</style>
+</head>
+<html>
+<body>
+    <code>
+        <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+<span class="r1">────────────────────────────────────────────── </span>In-Sample Training Results<span class="r1"> ──────────────────────────────────────────────</span>
+
+         <span class="r2">           Preferred Performance Metrics           </span><span class="r3">          Secondary Performance Metrics           </span>          
+         <span class="r3">┏━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓┏━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━┓</span>          
+         <span class="r3">┃</span><span class="r4"> Metric                 </span><span class="r3">┃</span><span class="r4"> Value                  </span><span class="r3">┃┃</span><span class="r4"> </span><span class="r5">Metric                </span><span class="r4"> </span><span class="r3">┃</span><span class="r4"> </span><span class="r5">Value                </span><span class="r4"> </span><span class="r3">┃</span>          
+         <span class="r3">┡━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩┡━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━┩</span>          
+         <span class="r3">│</span> Buy &amp; Hold Return [%]  <span class="r3">│</span> 9.82                   <span class="r3">││</span> <span class="r3">Duration              </span> <span class="r3">│</span> <span class="r3">59 days 15:53:00     </span> <span class="r3">│</span>          
+         <span class="r3">│</span> Return (Ann.) [%]      <span class="r3">│</span> 2.642715865805292e+19  <span class="r3">││</span> <span class="r3">Equity Final [$]      </span> <span class="r3">│</span> <span class="r3">106651601.321        </span> <span class="r3">│</span>          
+         <span class="r3">│</span> Volatility (Ann.) [%]  <span class="r3">│</span> 2.0543742865639035e+19 <span class="r3">││</span> <span class="r3">Equity Peak [$]       </span> <span class="r3">│</span> <span class="r3">106651601.321        </span> <span class="r3">│</span>          
+         <span class="r3">│</span> <span class="r6">SQN                   </span> <span class="r3">│</span> <span class="r6">16.807                </span> <span class="r3">││</span> <span class="r3">Return [%]            </span> <span class="r3">│</span> <span class="r3">106551.601           </span> <span class="r3">│</span>          
+         <span class="r3">│</span> <span class="r6">Sharpe Ratio          </span> <span class="r3">│</span> <span class="r6">1.286                 </span> <span class="r3">││</span> <span class="r3">Calmar Ratio          </span> <span class="r3">│</span> <span class="r3">1.812537972646146e+20</span> <span class="r3">│</span>          
+         <span class="r3">│</span> <span class="r6">Sortino Ratio         </span> <span class="r3">│</span> <span class="r6">inf                   </span> <span class="r3">││</span> <span class="r3">Avg. Drawdown [%]     </span> <span class="r3">│</span> <span class="r3">-0.013               </span> <span class="r3">│</span>          
+         <span class="r3">│</span> Max. Drawdown [%]      <span class="r3">│</span> -0.146                 <span class="r3">││</span> <span class="r3">Avg. Drawdown Duration</span> <span class="r3">│</span> <span class="r3">0 days 02:35:00      </span> <span class="r3">│</span>          
+         <span class="r3">│</span> Max. Drawdown Duration <span class="r3">│</span> 3 days 17:17:00        <span class="r3">││</span> <span class="r3"># Trades              </span> <span class="r3">│</span> <span class="r3">708                  </span> <span class="r3">│</span>          
+         <span class="r3">│</span> Win Rate [%]           <span class="r3">│</span> 100.0                  <span class="r3">││</span> <span class="r3">Best Trade [%]        </span> <span class="r3">│</span> <span class="r3">1.561                </span> <span class="r3">│</span>          
+         <span class="r3">│</span> Start                  <span class="r3">│</span> 2014-07-01 08:06:00    <span class="r3">││</span> <span class="r3">Worst Trade [%]       </span> <span class="r3">│</span> <span class="r3">0.466                </span> <span class="r3">│</span>          
+         <span class="r3">│</span> End                    <span class="r3">│</span> 2014-08-29 23:59:00    <span class="r3">││</span> <span class="r3">Avg. Trade [%]        </span> <span class="r3">│</span> <span class="r3">0.99                 </span> <span class="r3">│</span>          
+         <span class="r3">│</span> Exposure Time [%]      <span class="r3">│</span> 4.934                  <span class="r3">││</span> <span class="r3">Max. Trade Duration   </span> <span class="r3">│</span> <span class="r3">0 days 00:21:00      </span> <span class="r3">│</span>          
+         <span class="r3">└────────────────────────┴────────────────────────┘│</span> <span class="r3">Avg. Trade Duration   </span> <span class="r3">│</span> <span class="r3">0 days 00:02:00      </span> <span class="r3">│</span>          
+                                                            <span class="r3">│</span> <span class="r3">Profit Factor         </span> <span class="r3">│</span> <span class="r3">nan                  </span> <span class="r3">│</span>          
+                                                            <span class="r3">│</span> <span class="r3">Expectancy [%]        </span> <span class="r3">│</span> <span class="r3">0.99                 </span> <span class="r3">│</span>          
+                                                            <span class="r3">└────────────────────────┴───────────────────────┘</span>          
+
+
+<span class="r1">──────────────────────────────────────────── </span>Out-of-Sample Uptrend Results<span class="r1"> ─────────────────────────────────────────────</span>
+
+         <span class="r2">           Preferred Performance Metrics           </span><span class="r3">          Secondary Performance Metrics           </span>          
+         <span class="r3">┏━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓┏━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━┓</span>          
+         <span class="r3">┃</span><span class="r4"> Metric                 </span><span class="r3">┃</span><span class="r4"> Value                  </span><span class="r3">┃┃</span><span class="r4"> </span><span class="r5">Metric                </span><span class="r4"> </span><span class="r3">┃</span><span class="r4"> </span><span class="r5">Value                </span><span class="r4"> </span><span class="r3">┃</span>          
+         <span class="r3">┡━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩┡━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━┩</span>          
+         <span class="r3">│</span> Buy &amp; Hold Return [%]  <span class="r3">│</span> 10.657                 <span class="r3">││</span> <span class="r3">Duration              </span> <span class="r3">│</span> <span class="r3">61 days 15:59:00     </span> <span class="r3">│</span>          
+         <span class="r3">│</span> Return (Ann.) [%]      <span class="r3">│</span> 1.7529795895175575e+35 <span class="r3">││</span> <span class="r3">Equity Final [$]      </span> <span class="r3">│</span> <span class="r3">60956012974.133      </span> <span class="r3">│</span>          
+         <span class="r3">│</span> Volatility (Ann.) [%]  <span class="r3">│</span> 2.5508919633571085e+35 <span class="r3">││</span> <span class="r3">Equity Peak [$]       </span> <span class="r3">│</span> <span class="r3">60959948484.163      </span> <span class="r3">│</span>          
+         <span class="r3">│</span> <span class="r6">SQN                   </span> <span class="r3">│</span> <span class="r6">15.373                </span> <span class="r3">││</span> <span class="r3">Return [%]            </span> <span class="r3">│</span> <span class="r3">60955912.974         </span> <span class="r3">│</span>          
+         <span class="r3">│</span> <span class="r6">Sharpe Ratio          </span> <span class="r3">│</span> <span class="r6">0.687                 </span> <span class="r3">││</span> <span class="r3">Calmar Ratio          </span> <span class="r3">│</span> <span class="r3">1.493704197408855e+36</span> <span class="r3">│</span>          
+         <span class="r3">│</span> <span class="r6">Sortino Ratio         </span> <span class="r3">│</span> <span class="r6">inf                   </span> <span class="r3">││</span> <span class="r3">Avg. Drawdown [%]     </span> <span class="r3">│</span> <span class="r3">-0.011               </span> <span class="r3">│</span>          
+         <span class="r3">│</span> Max. Drawdown [%]      <span class="r3">│</span> -0.117                 <span class="r3">││</span> <span class="r3">Avg. Drawdown Duration</span> <span class="r3">│</span> <span class="r3">0 days 00:37:00      </span> <span class="r3">│</span>          
+         <span class="r3">│</span> Max. Drawdown Duration <span class="r3">│</span> 0 days 14:39:00        <span class="r3">││</span> <span class="r3"># Trades              </span> <span class="r3">│</span> <span class="r3">1344                 </span> <span class="r3">│</span>          
+         <span class="r3">│</span> Win Rate [%]           <span class="r3">│</span> 100.0                  <span class="r3">││</span> <span class="r3">Best Trade [%]        </span> <span class="r3">│</span> <span class="r3">1.28                 </span> <span class="r3">│</span>          
+         <span class="r3">│</span> Start                  <span class="r3">│</span> 2021-07-01 08:00:00    <span class="r3">││</span> <span class="r3">Worst Trade [%]       </span> <span class="r3">│</span> <span class="r3">0.526                </span> <span class="r3">│</span>          
+         <span class="r3">│</span> End                    <span class="r3">│</span> 2021-08-31 23:59:00    <span class="r3">││</span> <span class="r3">Avg. Trade [%]        </span> <span class="r3">│</span> <span class="r3">0.996                </span> <span class="r3">│</span>          
+         <span class="r3">│</span> Exposure Time [%]      <span class="r3">│</span> 8.133                  <span class="r3">││</span> <span class="r3">Max. Trade Duration   </span> <span class="r3">│</span> <span class="r3">0 days 00:17:00      </span> <span class="r3">│</span>          
+         <span class="r3">└────────────────────────┴────────────────────────┘│</span> <span class="r3">Avg. Trade Duration   </span> <span class="r3">│</span> <span class="r3">0 days 00:02:00      </span> <span class="r3">│</span>          
+                                                            <span class="r3">│</span> <span class="r3">Profit Factor         </span> <span class="r3">│</span> <span class="r3">nan                  </span> <span class="r3">│</span>          
+                                                            <span class="r3">│</span> <span class="r3">Expectancy [%]        </span> <span class="r3">│</span> <span class="r3">0.996                </span> <span class="r3">│</span>          
+                                                            <span class="r3">└────────────────────────┴───────────────────────┘</span>          
+
+
+<span class="r1">─────────────────────────────────────────── </span>Out-of-Sample Downtrend Results<span class="r1"> ────────────────────────────────────────────</span>
+
+         <span class="r2">           Preferred Performance Metrics           </span><span class="r3">          Secondary Performance Metrics           </span>          
+         <span class="r3">┏━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓┏━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━┓</span>          
+         <span class="r3">┃</span><span class="r4"> Metric                 </span><span class="r3">┃</span><span class="r4"> Value                  </span><span class="r3">┃┃</span><span class="r4"> </span><span class="r5">Metric                </span><span class="r4"> </span><span class="r3">┃</span><span class="r4"> </span><span class="r5">Value                </span><span class="r4"> </span><span class="r3">┃</span>          
+         <span class="r3">┡━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩┡━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━┩</span>          
+         <span class="r3">│</span> Buy &amp; Hold Return [%]  <span class="r3">│</span> -3.978                 <span class="r3">││</span> <span class="r3">Duration              </span> <span class="r3">│</span> <span class="r3">57 days 15:59:00     </span> <span class="r3">│</span>          
+         <span class="r3">│</span> Return (Ann.) [%]      <span class="r3">│</span> 6.954794967652344e+36  <span class="r3">││</span> <span class="r3">Equity Final [$]      </span> <span class="r3">│</span> <span class="r3">87015317147.708      </span> <span class="r3">│</span>          
+         <span class="r3">│</span> Volatility (Ann.) [%]  <span class="r3">│</span> 1.4408806882957958e+37 <span class="r3">││</span> <span class="r3">Equity Peak [$]       </span> <span class="r3">│</span> <span class="r3">87015317147.708      </span> <span class="r3">│</span>          
+         <span class="r3">│</span> <span class="r6">SQN                   </span> <span class="r3">│</span> <span class="r6">15.387                </span> <span class="r3">││</span> <span class="r3">Return [%]            </span> <span class="r3">│</span> <span class="r3">87015217.148         </span> <span class="r3">│</span>          
+         <span class="r3">│</span> <span class="r6">Sharpe Ratio          </span> <span class="r3">│</span> <span class="r6">0.483                 </span> <span class="r3">││</span> <span class="r3">Calmar Ratio          </span> <span class="r3">│</span> <span class="r3">8.032245928643198e+36</span> <span class="r3">│</span>          
+         <span class="r3">│</span> <span class="r6">Sortino Ratio         </span> <span class="r3">│</span> <span class="r6">inf                   </span> <span class="r3">││</span> <span class="r3">Avg. Drawdown [%]     </span> <span class="r3">│</span> <span class="r3">-0.014               </span> <span class="r3">│</span>          
+         <span class="r3">│</span> Max. Drawdown [%]      <span class="r3">│</span> -0.866                 <span class="r3">││</span> <span class="r3">Avg. Drawdown Duration</span> <span class="r3">│</span> <span class="r3">0 days 01:13:00      </span> <span class="r3">│</span>          
+         <span class="r3">│</span> Max. Drawdown Duration <span class="r3">│</span> 2 days 16:09:00        <span class="r3">││</span> <span class="r3"># Trades              </span> <span class="r3">│</span> <span class="r3">1384                 </span> <span class="r3">│</span>          
+         <span class="r3">│</span> Win Rate [%]           <span class="r3">│</span> 100.0                  <span class="r3">││</span> <span class="r3">Best Trade [%]        </span> <span class="r3">│</span> <span class="r3">1.484                </span> <span class="r3">│</span>          
+         <span class="r3">│</span> Start                  <span class="r3">│</span> 2018-09-04 08:00:00    <span class="r3">││</span> <span class="r3">Worst Trade [%]       </span> <span class="r3">│</span> <span class="r3">0.116                </span> <span class="r3">│</span>          
+         <span class="r3">│</span> End                    <span class="r3">│</span> 2018-10-31 23:59:00    <span class="r3">││</span> <span class="r3">Avg. Trade [%]        </span> <span class="r3">│</span> <span class="r3">0.993                </span> <span class="r3">│</span>          
+         <span class="r3">│</span> Exposure Time [%]      <span class="r3">│</span> 9.863                  <span class="r3">││</span> <span class="r3">Max. Trade Duration   </span> <span class="r3">│</span> <span class="r3">0 days 08:02:00      </span> <span class="r3">│</span>          
+         <span class="r3">└────────────────────────┴────────────────────────┘│</span> <span class="r3">Avg. Trade Duration   </span> <span class="r3">│</span> <span class="r3">0 days 00:02:00      </span> <span class="r3">│</span>          
+                                                            <span class="r3">│</span> <span class="r3">Profit Factor         </span> <span class="r3">│</span> <span class="r3">nan                  </span> <span class="r3">│</span>          
+                                                            <span class="r3">│</span> <span class="r3">Expectancy [%]        </span> <span class="r3">│</span> <span class="r3">0.993                </span> <span class="r3">│</span>          
+                                                            <span class="r3">└────────────────────────┴───────────────────────┘</span>          
+
+
+<span class="r1">────────────────────────────────────────────── </span>Out-of-Sample Chop Results<span class="r1"> ──────────────────────────────────────────────</span>
+
+         <span class="r2">           Preferred Performance Metrics           </span><span class="r3">           Secondary Performance Metrics           </span>         
+         <span class="r3">┏━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓┏━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓</span>         
+         <span class="r3">┃</span><span class="r4"> Metric                 </span><span class="r3">┃</span><span class="r4"> Value                  </span><span class="r3">┃┃</span><span class="r4"> </span><span class="r5">Metric                </span><span class="r4"> </span><span class="r3">┃</span><span class="r4"> </span><span class="r5">Value                 </span><span class="r4"> </span><span class="r3">┃</span>         
+         <span class="r3">┡━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩┡━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩</span>         
+         <span class="r3">│</span> Buy &amp; Hold Return [%]  <span class="r3">│</span> 30.22                  <span class="r3">││</span> <span class="r3">Duration              </span> <span class="r3">│</span> <span class="r3">472 days 16:59:00     </span> <span class="r3">│</span>         
+         <span class="r3">│</span> Return (Ann.) [%]      <span class="r3">│</span> 1.3708851459153896e+36 <span class="r3">││</span> <span class="r3">Equity Final [$]      </span> <span class="r3">│</span> <span class="r3">7.982927393424245e+52 </span> <span class="r3">│</span>         
+         <span class="r3">│</span> Volatility (Ann.) [%]  <span class="r3">│</span> 6.768252544104265e+36  <span class="r3">││</span> <span class="r3">Equity Peak [$]       </span> <span class="r3">│</span> <span class="r3">7.982927393424245e+52 </span> <span class="r3">│</span>         
+         <span class="r3">│</span> <span class="r6">SQN                   </span> <span class="r3">│</span> <span class="r6">14.096                </span> <span class="r3">││</span> <span class="r3">Return [%]            </span> <span class="r3">│</span> <span class="r3">7.982927393424244e+49 </span> <span class="r3">│</span>         
+         <span class="r3">│</span> <span class="r6">Sharpe Ratio          </span> <span class="r3">│</span> <span class="r6">0.203                 </span> <span class="r3">││</span> <span class="r3">Calmar Ratio          </span> <span class="r3">│</span> <span class="r3">1.6406755025143044e+36</span> <span class="r3">│</span>         
+         <span class="r3">│</span> <span class="r6">Sortino Ratio         </span> <span class="r3">│</span> <span class="r6">inf                   </span> <span class="r3">││</span> <span class="r3">Avg. Drawdown [%]     </span> <span class="r3">│</span> <span class="r3">-0.015                </span> <span class="r3">│</span>         
+         <span class="r3">│</span> Max. Drawdown [%]      <span class="r3">│</span> -0.836                 <span class="r3">││</span> <span class="r3">Avg. Drawdown Duration</span> <span class="r3">│</span> <span class="r3">0 days 01:01:00       </span> <span class="r3">│</span>         
+         <span class="r3">│</span> Max. Drawdown Duration <span class="r3">│</span> 3 days 14:22:00        <span class="r3">││</span> <span class="r3"># Trades              </span> <span class="r3">│</span> <span class="r3">11108                 </span> <span class="r3">│</span>         
+         <span class="r3">│</span> Win Rate [%]           <span class="r3">│</span> 99.991                 <span class="r3">││</span> <span class="r3">Best Trade [%]        </span> <span class="r3">│</span> <span class="r3">3.106                 </span> <span class="r3">│</span>         
+         <span class="r3">│</span> Start                  <span class="r3">│</span> 2020-09-01 08:00:00    <span class="r3">││</span> <span class="r3">Worst Trade [%]       </span> <span class="r3">│</span> <span class="r3">-0.02                 </span> <span class="r3">│</span>         
+         <span class="r3">│</span> End                    <span class="r3">│</span> 2021-12-18 00:59:00    <span class="r3">││</span> <span class="r3">Avg. Trade [%]        </span> <span class="r3">│</span> <span class="r3">0.998                 </span> <span class="r3">│</span>         
+         <span class="r3">│</span> Exposure Time [%]      <span class="r3">│</span> 8.223                  <span class="r3">││</span> <span class="r3">Max. Trade Duration   </span> <span class="r3">│</span> <span class="r3">2 days 08:01:00       </span> <span class="r3">│</span>         
+         <span class="r3">└────────────────────────┴────────────────────────┘│</span> <span class="r3">Avg. Trade Duration   </span> <span class="r3">│</span> <span class="r3">0 days 00:02:00       </span> <span class="r3">│</span>         
+                                                            <span class="r3">│</span> <span class="r3">Profit Factor         </span> <span class="r3">│</span> <span class="r3">562691.241            </span> <span class="r3">│</span>         
+                                                            <span class="r3">│</span> <span class="r3">Expectancy [%]        </span> <span class="r3">│</span> <span class="r3">0.998                 </span> <span class="r3">│</span>         
+                                                            <span class="r3">└────────────────────────┴────────────────────────┘</span>         
+
+</pre>
+    </code>
+</body>
+</html>
