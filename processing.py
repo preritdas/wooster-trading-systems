@@ -52,7 +52,7 @@ def _process_system(
     """
     assert isinstance(data, dict)
     assert "train" in data.keys(), "You must always provide training data."
-    assert all([label in {"train", "up", "down", "chop"} for label in data.keys()])
+    assert all([label in utils.LABELS for label in data.keys()])
     assert all(isinstance(value, pd.DataFrame) for value in data.values())
 
     backtest = bt.Backtest(
@@ -115,6 +115,7 @@ def _process_system(
             utils.correct_html_title(f"{name.title()} {label.title()} Results", _plotpath)
             utils.insert_html_favicon(_plotpath)
 
+    utils.store_results(index, results)
     return results
 
 
