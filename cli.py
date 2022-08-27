@@ -91,10 +91,7 @@ def process(
         with utils.console.status("Launching interactive plot in your browser."):
             # Open stats and all interactive charts
             typer.launch(utils.stats_path(index))
-            typer.launch(utils.plot_path(index, "train"))
-            typer.launch(utils.plot_path(index, "up"))
-            typer.launch(utils.plot_path(index, "down"))
-            typer.launch(utils.plot_path(index, "chop"))
+            for label in utils.LABELS: typer.launch(utils.plot_path(index, label))
 
             pyperclip.copy(utils.stats_path(index))
             utils.console.print(
@@ -193,6 +190,33 @@ def launch(
         "Launched in your browser. If you'd like to use a different "
         "browser, paste the contents of your clipboard into your preferred browser."
     )
+
+
+@app.command()
+def results(
+    index: int = typer.Argument(
+        ...,
+        help = "Index of the system you want to view stored results for."
+    )
+):
+    """
+    Display an already-computed system's results. Does not re-process the system.
+    """
+    with utils.console.status(
+        f"Loading stored results for {utils.idx_to_name(index)}..."
+    ):
+        stored_results = utils.load_results(index)
+
+    if not stored_results:
+        utils.console.print(
+            f"It seems results have not yet been stored for {utils.idx_to_name(index)}. "
+            "Once you have processed it with the [blue]process[/] command, you will "
+            "be able to view stored results with the [blue]results[/] command."
+        )
+        return
+
+    utils.console.log(f"Displaying stored results for {utils.idx_to_name(index)}.")
+    utils.display_results(stored_results, index, record=False)
 
 
 @app.command()
