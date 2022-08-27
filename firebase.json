@@ -5,7 +5,8 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**",
-      "**/optimizers/**"
+      "**/optimizers/**",
+      "**/oldindex.html"
     ],
     "headers": [
       {
