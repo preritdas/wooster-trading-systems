@@ -14,6 +14,7 @@
 - [Wooster website](https://wooster.preritdas.com) written in HTML and JavaScript with smart lookup - query strategy statistics or specific performance plots from the homepage.
 - Data cache - initialize, view, and manage a local cache data repository to speed up data aggregation in the processing phase. When tuning and reprocessing a strategy, the walkforward data windows are often the same, so it doesn't make sense to (a) use up a data rate limit or (b) wait for the same data to download _again_ (especially when loading many years of intraday data for testing and optimization). An example (more sample CLI commands below): `wooster cache init aapl --interval 1m --lookbackyears 10` to store 10 years of minute bar data on AAPL, automatically used whenever any program feature tries to access 1m AAPL data within the last 10 years. 
   - With cached data, you can develop, train, optimize, backtest, and export systems _entirely_ offline.
+- Parameter enforcement - The processing pipeline is independent of individual systems. Yet, it calls cataloged systems' `Params` class to gather all its information, from symbols to walk-forward windows to strategy optimizations. Thus, if a system's `Params` class fails to include a necessary attribute, or incorrectly structures a necessary attribute, the entire processing pipeline will likely fail. See PR #2.
 
 ### Smaller features
 
@@ -23,7 +24,7 @@
 - Defaults configuration through [config.ini](config.ini) - modify preferred metrics, highlighted metrics, default optimizer, etc.
 - Status handling across modules and submodules, because processing (aggregating up to 10 years of intraday non-cached data, backtesting, optimizing, re-backtesting on out-of-sample market conditions) can often take just a little while. Rich status icons and progress bars keep track of where the program is (and how far along) at almost all times. This includes estimated remaining time! For example, when optimizing many parameters on heavy data, you'll see a progress bar with an estimated time to optimization completion.
 - Stored optimized parameter - whenever a strategy is optimized (via the `wooster process` command), the found optimal parameter combination is serialized as JSON and stored in the `results/optimizers` subdirectory. The `wooster optimizers` command allows a user to view the optimal parameter combination for a given strategy by index. Example directly below.
-- Stored computed results - redisplay backtest and optimization results for a system without having to reprocess it.
+- Stored computed results - redisplay backtest and optimization results for a system without having to reprocess it. See PR #1.
 
 ```bash
 # Stored optimal parameters example
