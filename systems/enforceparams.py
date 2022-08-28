@@ -26,7 +26,7 @@ params_structure = {
 }
 
 
-def _check_system(params_class, idx: int) -> None:
+def check_system(params_class, idx: int) -> None:
     """
     Checks the class. If an error is found, a fatal exception or assertion error 
     is thrown.
