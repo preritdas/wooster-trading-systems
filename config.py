@@ -44,3 +44,13 @@ class Datetime:
     """
     date_format = "%Y-%m-%d"
     date_time_format = "%Y-%m-%d--%H-%M-%S"
+
+
+class Systems:
+    """
+    Parameter enforcement, etc.
+    """
+    systems_config = config["Systems"]
+
+    parameter_enforcement = True if \
+        systems_config["parameter_enforcement"].lower() == "true" else False
