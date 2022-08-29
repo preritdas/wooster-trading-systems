@@ -68,7 +68,7 @@ def create_new_system() -> bool:
     indexed in the systems.systems dictionary.
     """
     idx = max(systems.systems) + 1
-    module_name = idx_to_name(idx, predix="", title=False)
+    module_name = idx_to_name(idx, prefix="", title=False)
     module_path = os.path.join(current_dir, "systems", f"{module_name}.py")
     
     # Ensure it doesn't yet exist
@@ -99,7 +99,7 @@ def plot_path(idx: int, label: str, flag_nonexistent: bool = False) -> bool | st
     return path
 
 
-def stats_path(idx: int = None, flag_nonexistent: bool = False) -> bool | str:
+def stats_path(idx: int, flag_nonexistent: bool = False) -> bool | str:
     """
     Searches for the result path of the given indexed strategy.
     If it doesn't exist, returns False.
