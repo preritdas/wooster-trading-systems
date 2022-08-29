@@ -6,7 +6,7 @@ import typer
 import pyperclip
 
 # Local imports
-from time import perf_counter # optionally time commands
+from time import perf_counter  # optionally time commands
 
 # Project modules
 import processing
@@ -312,7 +312,6 @@ def cache(
             )
             return
 
-
     # Remove cache
     if action.lower() == "delete":
         verify_symbol(symbol)
@@ -333,7 +332,7 @@ def cache(
     # List cache
     if action.lower() in {"list", "ls"}:
         if not (cache_res := data.list_cache()):
-            utils.console.print(f"You don't seem to have any cached data.")
+            utils.console.print("You don't seem to have any cached data.")
             return
 
         utils.console.print("You have the following cached data available.")

@@ -81,7 +81,7 @@ def _process_system(
     results = {"train": stats}
     _plotpath = utils.plot_path(index, "train")
     with utils.console.status(
-        f"Plotting and exporting training results to HTML..."
+        "Plotting and exporting training results to HTML..."
     ):
         backtest.plot(filename=_plotpath, open_browser=False, resample=False)
         utils.correct_html_title(f"{name.title()} Training Results", _plotpath)

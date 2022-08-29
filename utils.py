@@ -70,7 +70,7 @@ def create_new_system() -> bool:
     idx = max(systems.systems) + 1
     module_name = idx_to_name(idx, prefix="", title=False)
     module_path = os.path.join(current_dir, "systems", f"{module_name}.py")
-    
+
     # Ensure it doesn't yet exist
     if os.path.exists(module_path):
         return False
@@ -87,7 +87,7 @@ def plot_path(idx: int, label: str, flag_nonexistent: bool = False) -> bool | st
 
     Label is the plot type, either "train", "up", "down", or "chop". 
     """
-    if not label in LABELS:
+    if label not in LABELS:
         raise ValueError(f"Invalid plot label value, {label}.")
     
     name = idx_to_name(idx, lower=True)
@@ -132,7 +132,7 @@ def system_exists(index: int) -> bool:
     """
     try:
         index = int(index)
-    except ValueError as e:
+    except ValueError:
         raise ValueError("Index must be an integer.")
 
     return index in systems.systems
@@ -327,7 +327,7 @@ def _render_results(results: pd.Series, idx: int = None, name: str = "") -> Tabl
 
     secondary_table = Table(
         title = Text(
-            f"Secondary Performance Metrics", 
+            "Secondary Performance Metrics", 
             style=config.Results.secondary_metrics_style
         ), 
         style = config.Results.secondary_metrics_style

@@ -99,7 +99,7 @@ def finnhub_tf(tf: str, backwards: bool = False) -> str:
         if not tf in backwards_conversion: return tf
         return backwards_conversion[tf]
 
-    if not tf in finnhub_available_timeframes:
+    if tf not in finnhub_available_timeframes:
         if tf in conversions: tf = conversions[tf]
         if not tf in finnhub_available_timeframes:
             raise ValueError(
