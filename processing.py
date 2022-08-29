@@ -62,7 +62,7 @@ def _process_system(
     )
     
     stats = backtest.run(show_progress=progress)
-    params = stats._strategy._params
+    params: dict = stats._strategy._params
 
     if optimize:
         stats = backtest.optimize(
@@ -74,7 +74,7 @@ def _process_system(
         )
 
         # Store optimized params locally and as CSV
-        params: dict = stats._strategy._params
+        params = stats._strategy._params
         utils.store_params(name, params)
 
    # Use precomputed train backtest results and save plot
