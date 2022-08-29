@@ -1,3 +1,7 @@
+![pytest](https://github.com/preritdas/wooster-trading-systems/actions/workflows/pytest.yml/badge.svg)
+![firebase](https://github.com/preritdas/wooster-trading-systems/actions/workflows/firebase-hosting-merge.yml/badge.svg)
+
+
 # Wooster Systems
 
 [![asciicast](https://asciinema.org/a/WZoORNecs2HiOfXnY7nquwtMo.svg)](https://asciinema.org/a/WZoORNecs2HiOfXnY7nquwtMo)
