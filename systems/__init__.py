@@ -12,5 +12,8 @@ systems = {
 
 # Enforce parameters (module enforceparams handles config dictating no checks)
 
-for idx, tup in systems.items(): 
-    enforceparams.check_system(tup[1].Params, idx)
+def check_all_systems():
+    for idx, tup in systems.items(): 
+        enforceparams.check_system(tup[1].Params, idx)
+
+check_all_systems()
