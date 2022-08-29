@@ -7,6 +7,6 @@ def test_finnhub_aggregation():
         "AAPL",
         "1m",
         dt.date(2019, 1, 5),
-        dt.date(2021, 1, 1),
+        dt.date(2020, 1, 1),
         filter_eod = True
     )
