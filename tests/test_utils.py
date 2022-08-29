@@ -34,16 +34,16 @@ def test_full_label_name():
 
 def test_plot_path():
     """
-    Wooster One is locked away, so check that the plot path for Wooster One
+    Wooster Two is locked away, so check that the plot path for Wooster One
     results in a file that already exists.
     """
     for label in utils.LABELS:
-        assert os.path.exists(utils.plot_path(1, label))
+        assert os.path.exists(utils.plot_path(2, label))
 
 
 def test_stats_path():
     """
-    Wooster One is locked away, so check that the plot path for Wooster One
+    Wooster Two is locked away, so check that the plot path for Wooster One
     results in a file that already exists.
     """
-    assert os.path.exists(utils.stats_path(1))
+    assert os.path.exists(utils.stats_path(2))
