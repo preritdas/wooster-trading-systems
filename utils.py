@@ -80,7 +80,7 @@ def create_new_system() -> bool:
         module.write("put template contents here.")
 
 
-def plot_path(idx: int, label: str, flag_nonexistent: bool = False) -> bool | str:
+def plot_path(idx: int, label: str, flag_nonexistent: bool = False) -> str:
     """
     Searches for the result path of the given indexed strategy.
     If it doesn't exist, returns False.
@@ -94,12 +94,12 @@ def plot_path(idx: int, label: str, flag_nonexistent: bool = False) -> bool | st
     path = os.path.join(current_dir, "results", "plots", f"{name} {label}.html")
 
     if flag_nonexistent:
-        if not os.path.exists(path): return False
+        if not os.path.exists(path): return ""
     
     return path
 
 
-def stats_path(idx: int, flag_nonexistent: bool = False) -> bool | str:
+def stats_path(idx: int, flag_nonexistent: bool = False) -> str:
     """
     Searches for the result path of the given indexed strategy.
     If it doesn't exist, returns False.
@@ -108,7 +108,7 @@ def stats_path(idx: int, flag_nonexistent: bool = False) -> bool | str:
     path = os.path.join(current_dir, "results", "stats", f"{name}.html")
 
     if flag_nonexistent:
-        if not os.path.exists(path): return False
+        if not os.path.exists(path): return ""
     
     return path
 
