@@ -16,6 +16,21 @@ jobs:
         with:
           python-version: "3.10"
 
+      - name: Install TA-Lib
+        run: |
+          sudo apt update && sudo apt upgrade -y
+          sudo apt install curl -y
+          sudo apt-get install python3.10-dev -y
+          curl http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz --output ta-lib-0.4.0-src.tar.gz
+          tar -xvf ta-lib-0.4.0-src.tar.gz
+          cd ta-lib
+          ./configure --prefix=/usr
+          make
+          sudo make install
+          sudo apt update && sudo apt upgrade -y
+          pip install ta-lib
+          python -c "import talib"
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip setuptools wheel
