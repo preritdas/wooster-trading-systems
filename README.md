@@ -47,6 +47,12 @@ On top of the pip requirements, must have TA-Lib core (kind of a pain but use ho
 
 As this read-me has no real info on commands and features yet, here are some example commands from regular usage.
 
+
+## Pytest
+
+Run pytest with `python -m pytest` instead of `pytest` because I'd prefer not to `pip install -e .` my whole app. Currently creating a CI test pipeline via GitHub actions that'll implement this automatically on push.
+
+
 ```bash
 wooster latest 
 
