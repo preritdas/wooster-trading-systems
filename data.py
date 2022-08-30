@@ -2,6 +2,7 @@
 Market data operations. To activate a provider, rename its main data function
 to `data` as opposed to `data_yf` for yfinance, etc.
 """
+import math
 import yfinance as yf
 import finnhub
 import pandas as pd
@@ -76,6 +77,7 @@ def data_yf(
 # ---- Finnhub ----
 
 finnhub_client = finnhub.Client(keys["Finnhub"]["api_key"])
+RATE_LIMIT = int(keys["Finnhub"]["rate_limit"])
 
 finnhub_available_timeframes = {"1", "5", "15", "30", "60", "D", "W", "M"}
 
@@ -187,6 +189,9 @@ def _incremental_aggregation(
         finnhub_res = _fetch_data_finnhub(symbol, interval, start, end)
         return finnhub_res if not filter_eod else _filter_eod(finnhub_res)
 
+    # Rate limit check
+    expected_calls = math.ceil((end - start).days / 29)
+    limit_breaking = expected_calls > RATE_LIMIT
 
     datas = []
     current_pointer = start
@@ -206,7 +211,7 @@ def _incremental_aggregation(
         datas.append(finnhub_res)
 
         current_pointer += dt.timedelta(days=29)
-        time.sleep(0.4)  # finnhub rate limit
+        if limit_breaking: time.sleep(0.4)  # finnhub rate limit
 
     return pd.concat(datas)
 
