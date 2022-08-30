@@ -7,13 +7,17 @@ import pandas as pd  # type checking
 
 
 def test_finnhub_aggregation():
-    data._incremental_aggregation(
+    data_res = data._incremental_aggregation(
         "AAPL",
         "1m",
         dt.date(2019, 1, 5),
         dt.date(2020, 1, 1),
         filter_eod = True
     )
+
+    assert isinstance(data_res, pd.DataFrame)
+    assert not data_res.empty
+    # add filter eod check
 
 
 def test_data_cache():
