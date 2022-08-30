@@ -49,7 +49,7 @@ jobs:
           pip install pytest
 
       - name: Inject keys
-        uses: knicknic/os-specific-run@v.1.0.3
+        uses: knicknic/os-specific-run@v1.0.3
         with:
           linux: |
             echo -en '[Finnhub]\napi_key = ${{ secrets.FINNHUB_API_KEY }}' >> keys.ini
