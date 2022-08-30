@@ -56,6 +56,6 @@ jobs:
           macos: |
             echo -en '[Finnhub]\napi_key = ${{ secrets.FINNHUB_API_KEY }}' >> keys.ini
 
-      - name: Test with pytest
+      - name: Run tests with pytest
         run: |
           python -m pytest
