@@ -272,6 +272,10 @@ def cache(
     force: bool = typer.Option(
         False,
         help = "If a warning is returned that your cache exists, rewrite new cache."
+    ),
+    time: bool = typer.Option(
+        False,
+        help = "Display the amount of time the operation took."
     )
 ):
     """
@@ -288,6 +292,8 @@ def cache(
             utils.console.print("You must provide a valid symbol.")
             quit()
 
+    if time: start = perf_counter()
+
     # Initialize cache
     if action.lower() == "init":
         verify_symbol(symbol)
@@ -303,6 +309,7 @@ def cache(
                 f"successfully cached for [green]{symbol.upper()}[/]. "
                 f"That's {cache_res:,} bars!"
             )
+            utils.console.log(f"That took {perf_counter() - start:,.2f} seconds.")
             return
         else:
             utils.console.print(
