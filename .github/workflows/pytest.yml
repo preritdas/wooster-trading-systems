@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
+        os: ["ubuntu-latest", "macos-latest"]
 
     runs-on: ${{ matrix.os }}
 
@@ -22,22 +22,25 @@ jobs:
           python-version: "3.10"
 
       - name: Install TA-Lib
-        run: |
-          sudo apt update && sudo apt upgrade -y
-          sudo apt install wget -y
-          sudo add-apt-repository ppa:deadsnakes/ppa
-          sudo apt-get install build-essential -y
-          sudo apt install python3.10-dev -y
-          sudo apt-get install python3-dev -y
-          wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz
-          tar -xzf ta-lib-0.4.0-src.tar.gz
-          cd ta-lib
-          ./configure --prefix=/usr
-          make
-          sudo make install
-          sudo apt update && sudo apt upgrade -y
-          pip install ta-lib
-          python -c "import talib"
+        uses: knicknic/os-specific-run@v1.0.3
+        with:
+          linux: |
+            sudo apt update && sudo apt upgrade -y
+            sudo apt install wget -y
+            sudo add-apt-repository ppa:deadsnakes/ppa
+            sudo apt-get install build-essential -y
+            sudo apt install python3.10-dev -y
+            sudo apt-get install python3-dev -y
+            wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz
+            tar -xzf ta-lib-0.4.0-src.tar.gz
+            cd ta-lib
+            ./configure --prefix=/usr
+            make
+            sudo make install
+            sudo apt update && sudo apt upgrade -y
+          macos: |
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+            brew install ta-lib
 
       - name: Install dependencies
         run: |
@@ -46,8 +49,12 @@ jobs:
           pip install pytest
 
       - name: Inject keys
-        run: |
-          echo -en '[Finnhub]\napi_key = ${{ secrets.FINNHUB_API_KEY }}' >> keys.ini
+        uses: knicknic/os-specific-run@v.1.0.3
+        with:
+          linux: |
+            echo -en '[Finnhub]\napi_key = ${{ secrets.FINNHUB_API_KEY }}' >> keys.ini
+          macos: |
+            echo -en '[Finnhub]\napi_key = ${{ secrets.FINNHUB_API_KEY }}' >> keys.ini
 
       - name: Test with pytest
         run: |
