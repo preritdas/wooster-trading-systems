@@ -82,6 +82,23 @@ RATE_LIMIT = int(keys["Finnhub"]["rate_limit"])
 finnhub_available_timeframes = {"1", "5", "15", "30", "60", "D", "W", "M"}
 
 
+def handle_rate_limit(function):
+    """
+    Decorator. Try the underlying function, and if a Finnhub rate limit error 
+    is caught, sleep for a second and keep trying the endpoint until 
+    a valid result is obtained.
+    """
+    def wrapper(*args, **kwargs):
+        try:
+            return function(*args, **kwargs)
+        except finnhub.FinnhubAPIException as e:
+            if "API limit reached" in str(e):
+                time.sleep(1)
+                return wrapper(*args, **kwargs)
+
+    return wrapper
+                
+
 def finnhub_tf(tf: str, backwards: bool = False) -> str:
     """
     Raises ValueError if conversion was not possible.
@@ -111,6 +128,7 @@ def finnhub_tf(tf: str, backwards: bool = False) -> str:
     return tf
 
 
+@handle_rate_limit
 def _fetch_data_finnhub(
     symbol: str, 
     interval: str, 
