@@ -312,8 +312,10 @@ def load_cache(symbol: str, interval: str, start: dt.datetime, end: dt.datetime)
     date_format = config.Datetime.date_format
 
     # Query
-    symbol_res = cache_db[cache_db.Symbol == symbol] 
-    interval_res = symbol_res[symbol_res.Interval == interval] 
+    symbol_res = cache_db[cache_db.Symbol == symbol]
+    interval_res = symbol_res[symbol_res.Interval == interval]
+    if interval_res.empty:  # attempt with converted timeframe
+        interval_res = symbol_res[symbol_res.Interval == finnhub_tf(interval)]
     start_res = interval_res[
         interval_res.Start < pd.to_datetime(start, format=date_format)
     ]
