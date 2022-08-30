@@ -211,7 +211,7 @@ def _incremental_aggregation(
         datas.append(finnhub_res)
 
         current_pointer += dt.timedelta(days=29)
-        if limit_breaking: time.sleep(0.4)  # finnhub rate limit
+        time.sleep(0.4)  # finnhub rate limit
 
     return pd.concat(datas)
 
