@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ["ubuntu-latest", "macos-latest"]
+        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
 
     runs-on: ${{ matrix.os }}
 
@@ -41,6 +41,8 @@ jobs:
           macos: |
             /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
             brew install ta-lib
+          windows: |
+            pip install dependencies/TA_Lib-0.4.24-cp310-cp310-win_amd64.whl
 
       - name: Install dependencies
         run: |
@@ -52,9 +54,11 @@ jobs:
         uses: knicknic/os-specific-run@v1.0.3
         with:
           linux: |
-            echo -en '[Finnhub]\napi_key = ${{ secrets.FINNHUB_API_KEY }}' >> keys.ini
+            echo -en '${{ secrets.KEYS_INI }}' >> keys.ini
           macos: |
-            echo -en '[Finnhub]\napi_key = ${{ secrets.FINNHUB_API_KEY }}' >> keys.ini
+            echo -en '${{ secrets.KEYS_INI }}' >> keys.ini
+          windows: |
+            New-Item "keys.ini" -ItemType File -Value "${{ secrets.KEYS_INI }}"
 
       - name: Run tests with pytest
         run: |
