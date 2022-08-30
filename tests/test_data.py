@@ -7,7 +7,7 @@ import pandas as pd  # type checking
 
 
 def test_finnhub_aggregation():
-    data_res = data._incremental_aggregation(
+    data_res: pd.DataFrame = data._incremental_aggregation(
         "AAPL",
         "1m",
         dt.date(2019, 1, 5),
@@ -17,7 +17,20 @@ def test_finnhub_aggregation():
 
     assert isinstance(data_res, pd.DataFrame)
     assert not data_res.empty
-    # add filter eod check
+    assert all(
+        [
+            True for col in {"Open", "High", "Low", "Close"} if \
+                col in list(data_res.columns)
+        ]
+    )
+    assert len(data_res) > 5  # if weird non-data json returned by Finnhub
+
+    # Filter EOD check
+    for idx, _ in data_res.iterrows():
+        assert dt.time(13, 30) <= \
+            dt.time(idx.hour, idx.minute, idx.second) <= \
+            dt.time(20)
+
 
 
 def test_data_cache():
