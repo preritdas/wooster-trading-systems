@@ -18,7 +18,7 @@ def test_finnhub_aggregation():
 
 def test_data_cache():
     # Test init
-    n_bars = data.init_cache("MSFT", "1m", 1)
+    n_bars = data.init_cache("MSFT", "1m", 1, force=False)
     assert isinstance(n_bars, int)
 
     # Test fetch
