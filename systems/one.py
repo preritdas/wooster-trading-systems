@@ -20,14 +20,14 @@ class Params:
     filter_eod = True
 
     walkforward = {
-        "train": (dt.date(2014, 7, 1), dt.date(2015, 8, 31)),
-        "up": (dt.date(2021, 7, 1), dt.date(2022, 1, 1)),
-        "down": (dt.date(2018, 9, 1), dt.date(2019, 2, 1)),
-        "chop": (dt.date(2020, 9, 1), dt.date(2021, 2, 20))
+        "train": (dt.date(2014, 7, 1), dt.date(2015, 8, 1)),
+        "up": (dt.date(2021, 7, 1), dt.date(2022, 8, 1)),
+        "down": (dt.date(2018, 9, 1), dt.date(2018, 10, 1)),
+        "chop": (dt.date(2020, 9, 1), dt.date(2020, 10, 20))
     }
 
     optimizers = {
-        "rsi_period": range(2, 30),
+        "rsi_period": range(4, 20),
         "constraint": lambda params: params.rsi_period > 2  # handled by above
     }
 
