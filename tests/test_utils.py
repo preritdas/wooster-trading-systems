@@ -47,3 +47,17 @@ def test_stats_path():
     results in a file that already exists.
     """
     assert os.path.exists(utils.stats_path(2))
+
+
+def test_read_results():
+    """
+    CLI results command.
+    """
+    assert utils.load_results(1)
+
+
+def test_read_optimizers():
+    """
+    CLI optimizers command.
+    """
+    assert utils.read_params(system_idx=1)
