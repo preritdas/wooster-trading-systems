@@ -115,7 +115,8 @@ def _fetch_data_finnhub(
     symbol: str, 
     interval: str, 
     start: dt.datetime, 
-    end: dt.datetime 
+    end: dt.datetime,
+    from_aggregation: bool = False 
 ) -> pd.DataFrame: 
     """
     Download data from Finnhub. Does not work with period, must take start
@@ -130,6 +131,9 @@ def _fetch_data_finnhub(
         dt_to_unix(start),
         dt_to_unix(end)
     )
+
+    if from_aggregation and data == {'s': 'no_data'}:
+        return pd.DataFrame()
 
     data_df = pd.DataFrame(data)
     data_df['Date'] = pd.to_datetime(data_df['t'], unit="s")
@@ -156,6 +160,7 @@ def _filter_eod(data: pd.DataFrame, timezone: str = "utc") -> pd.DataFrame:
     if timezone.lower() != "utc":
         raise ValueError("Only UTC supported currently.")
 
+    if data.empty: return data  # if empty from an incremental agg window
     return data.between_time(dt.time(13, 30), dt.time(20))
 
 
@@ -203,7 +208,8 @@ def _incremental_aggregation(
             symbol, 
             interval, 
             current_pointer, 
-            look_forward
+            look_forward,
+            from_aggregation=True
         )
 
         # Optional EOD filtering
@@ -211,7 +217,7 @@ def _incremental_aggregation(
         datas.append(finnhub_res)
 
         current_pointer += dt.timedelta(days=29)
-        time.sleep(0.4)  # finnhub rate limit
+        # time.sleep(0.4)  # finnhub rate limit
 
     return pd.concat(datas)
 
