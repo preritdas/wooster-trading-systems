@@ -212,10 +212,6 @@ def _incremental_aggregation(
         finnhub_res = _fetch_data_finnhub(symbol, interval, start, end)
         return finnhub_res if not filter_eod else _filter_eod(finnhub_res)
 
-    # Rate limit check
-    expected_calls = math.ceil((end - start).days / 29)
-    limit_breaking = expected_calls > RATE_LIMIT
-
     datas = []
     current_pointer = start
     while current_pointer < end:
@@ -235,7 +231,6 @@ def _incremental_aggregation(
         datas.append(finnhub_res)
 
         current_pointer += dt.timedelta(days=29)
-        # time.sleep(0.4)  # finnhub rate limit
 
     return pd.concat(datas)
 
