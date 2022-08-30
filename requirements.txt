@@ -6,7 +6,8 @@ yfinance==0.1.74
 finnhub-python==2.4.14
 
 # Analysis and optimization
-scikit-optimize==0.9.0
+# scikit-optimize==0.9.0
+git+https://github.com/preritdas/scikit-optimize.git@np-deprecation  # np.int deprecation fix PR
 ta-lib==0.4.24
 pandas==1.4.3
 
