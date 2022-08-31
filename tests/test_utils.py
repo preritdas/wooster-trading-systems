@@ -53,7 +53,8 @@ def test_read_results():
     """
     CLI results command.
     """
-    assert utils.load_results(1)
+    assert (res := utils.load_results(1))
+    utils.display_results(res, 1, False)
 
 
 def test_read_optimizers():
