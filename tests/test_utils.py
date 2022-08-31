@@ -61,3 +61,7 @@ def test_read_optimizers():
     CLI optimizers command.
     """
     assert utils.read_params(system_idx=1)
+
+
+def test_system_existence():
+    assert utils.system_exists(1)
