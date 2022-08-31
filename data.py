@@ -2,7 +2,6 @@
 Market data operations. To activate a provider, rename its main data function
 to `data` as opposed to `data_yf` for yfinance, etc.
 """
-import math
 import yfinance as yf
 import finnhub
 import pandas as pd
@@ -322,7 +321,7 @@ def cache_walkforward_data(
 
     for start, end in walkforward.values():
         start = start - dt.timedelta(days=1)
-        end = end - dt.timedelta(days=1)
+        end = end + dt.timedelta(days=1)
         _store_cache(
             symbol, 
             finnhub_tf(interval), 
