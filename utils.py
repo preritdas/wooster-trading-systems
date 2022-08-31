@@ -59,6 +59,20 @@ current_dir = os.path.dirname(
 )
 
 
+def handle_os_error(function):
+    """
+    Decorator to handle OS Error 22.
+    """
+    def wrapper(*args, **kwargs):
+        try:
+            function(*args, **kwargs)
+        except OSError:
+            time.sleep(0.1)
+            wrapper(*args, **kwargs)
+
+    return wrapper
+
+
 def create_new_system() -> bool:
     """
     CURRENTLY NOT FUNCTIONAL AND NOT USED.
@@ -138,6 +152,7 @@ def system_exists(index: int) -> bool:
     return index in systems.systems
 
 
+@handle_os_error
 def correct_html_title(name: str, filepath: str, insert: bool = False) -> None:
     """
     Opens the HTML file and replaces the <title> field 
@@ -147,39 +162,32 @@ def correct_html_title(name: str, filepath: str, insert: bool = False) -> None:
     If insert is true, inserts a new title tag after the <meta> tag,
     assuming there is no title tag in the document yet.
     """
-    try:
-        if insert:
-            kit.append_by_query(
-                query = "<meta",  # no close brace
-                content = f"\t\t<title>{name}</title>", 
-                file = fr"{filepath}",
-                replace = False
-            )
-        else: 
-            kit.append_by_query(
-                query = "<title>",
-                content = f"\t\t<title>{name}</title>",
-                file = fr"{filepath}",
-                replace = True
-            )
-    except OSError:
-        time.sleep(0.1)
-        correct_html_title(name, filepath, insert)
+    if insert:
+        kit.append_by_query(
+            query = "<meta",  # no close brace
+            content = f"\t\t<title>{name}</title>", 
+            file = fr"{filepath}",
+            replace = False
+        )
+    else: 
+        kit.append_by_query(
+            query = "<title>",
+            content = f"\t\t<title>{name}</title>",
+            file = fr"{filepath}",
+            replace = True
+        )
 
 
+@handle_os_error
 def insert_html_favicon(filepath: str) -> None:
     """
     Inserts favicon.
     """
-    try:
-        kit.append_by_query(
-            query = "<meta",
-            content = '\t\t<link rel="icon" href="favicon.PNG">',
-            file = fr"{filepath}"
-        )
-    except OSError:
-        time.sleep(0.1)
-        insert_html_favicon(filepath)
+    kit.append_by_query(
+        query = "<meta",
+        content = '\t\t<link rel="icon" href="favicon.PNG">',
+        file = fr"{filepath}"
+    )
 
 
 def store_params(system_name: str, params: dict) -> None:
