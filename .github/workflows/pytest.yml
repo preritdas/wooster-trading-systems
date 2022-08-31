@@ -75,7 +75,7 @@ jobs:
             git config --global user.name "github-actions[bot]"
             git config --global user.email "github-actions[bot]@users.noreply.github.com"
             git add tests/badge.svg
-            git commit -m "Coverage badge updated after tests."
+            git commit --author="Prerit Das <preritdas@gmail.com>" -m "Coverage badge updated after tests."
             git push
           macos: |
             python -m pytest
