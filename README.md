@@ -1,4 +1,5 @@
 ![pytest](https://github.com/preritdas/wooster-trading-systems/actions/workflows/pytest.yml/badge.svg)
+![coverage-badge](tests/badge.svg)
 ![firebase](https://github.com/preritdas/wooster-trading-systems/actions/workflows/firebase-hosting-merge.yml/badge.svg)
 
 
