@@ -5,12 +5,13 @@ on: [push, pull_request]
 jobs:
   test:
 
-    strategy:
-      fail-fast: false
-      matrix:
-        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
+    # strategy:
+    #   fail-fast: false
+    #   matrix:
+    #     os: ["ubuntu-latest", "macos-latest", "windows-latest"]
 
-    runs-on: ${{ matrix.os }}
+    # runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
       - name: Check out repository code
@@ -37,7 +38,6 @@ jobs:
             ./configure --prefix=/usr
             make
             sudo make install
-            sudo apt update && sudo apt upgrade -y
           macos: |
             /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
             brew install ta-lib
