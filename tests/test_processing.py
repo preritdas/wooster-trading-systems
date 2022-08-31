@@ -35,15 +35,3 @@ def test_process_skopt():
     )
 
     assert result
-
-
-def test_process_no_progress():
-    result = processing.process_system_idx(
-        1, 
-        optimize = True, 
-        optimizer = "SQN",
-        method = "grid",
-        progress = False
-    )
-
-    assert result
