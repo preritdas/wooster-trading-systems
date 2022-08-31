@@ -48,7 +48,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip setuptools wheel
           pip install -r requirements.txt
-          pip install pytest
 
       - name: Inject keys
         uses: knicknic/os-specific-run@v1.0.3
@@ -59,6 +58,11 @@ jobs:
             echo -en '${{ secrets.KEYS_INI }}' >> keys.ini
           windows: |
             New-Item "keys.ini" -ItemType File -Value "${{ secrets.KEYS_INI }}"
+
+      - name: Initialize test dependencies
+        run: |
+          pip install -U pytest
+          python main.py cache init aapl
 
       - name: Run tests with pytest
         run: |
