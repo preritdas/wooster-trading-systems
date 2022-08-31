@@ -309,7 +309,8 @@ def cache(
                 f"successfully cached for [green]{symbol.upper()}[/]. "
                 f"That's {cache_res:,} bars!"
             )
-            utils.console.log(f"That took {perf_counter() - start:,.2f} seconds.")
+            if time: 
+                utils.console.log(f"That took {perf_counter() - start:,.2f} seconds.")
             return
         else:
             utils.console.print(
