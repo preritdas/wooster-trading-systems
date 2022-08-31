@@ -8,7 +8,7 @@ import pandas as pd  # type checking
 
 def test_finnhub_aggregation():
     data_res: pd.DataFrame = data._incremental_aggregation(
-        "AAPL",
+        "NFLX",
         "1m",
         dt.date(2019, 1, 5),
         dt.date(2020, 1, 1),
@@ -47,3 +47,9 @@ def test_data_cache():
     end = dt.date.today() - dt.timedelta(days=2)
     data_loaded = data.load_cache("MSFT", "1m", start, end)
     assert not data_loaded.empty
+
+    # Test listing
+    assert data.list_cache()
+
+    # Test deletion
+    assert data.delete_cache("MSFT", "1m")
