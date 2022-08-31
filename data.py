@@ -258,16 +258,18 @@ def data(
 
 # ---- Cache ----
 
-def init_cache(symbol: str, interval: str, lookback_yrs: int, force: bool) -> bool | int:
-    """
-    Initialize data cache. Returns the number of bars collected, 
-    for no practical purpose.
-    """
-    interval = finnhub_tf(interval)
 
-    today = dt.date.today()
-    lookback = today - dt.timedelta(weeks=52*lookback_yrs)
-
+def _store_cache(
+    symbol: str, 
+    interval: str, 
+    start: dt.date, 
+    end: dt.date, 
+    filter_eod: bool, 
+    force: bool
+) -> bool | int:
+    """
+    Internal storer of cache data. 
+    """
     def dt_format(date: dt.datetime) -> str:
         return date.strftime(config.Datetime.date_format)
 
@@ -278,17 +280,57 @@ def init_cache(symbol: str, interval: str, lookback_yrs: int, force: bool) -> bo
     cache_path = os.path.join(
         cache_dir,
         f"{symbol.upper()}==={interval.lower()}===" \
-            f"{dt_format(lookback)}==={dt_format(today)}.csv"
+            f"{dt_format(start)}==={dt_format(end)}.csv"
     )
 
     # Specify through CLI if cached data should be re-written
     if os.path.exists(cache_path) and not force:
         return False
 
-    data = _incremental_aggregation(symbol, interval, lookback, today, filter_eod=False)
+    data = _incremental_aggregation(symbol, interval, start, end, filter_eod=filter_eod)
     data.to_csv(cache_path)
 
     return len(data)
+
+
+def init_cache(symbol: str, interval: str, lookback_yrs: int, force: bool) -> bool | int:
+    """
+    Initialize data cache. Returns the number of bars collected, 
+    for no practical purpose.
+    """
+    interval = finnhub_tf(interval)
+
+    today = dt.date.today()
+    lookback = today - dt.timedelta(weeks=int(52*lookback_yrs))
+
+    # Len returned by _store_cache
+    return(_store_cache(symbol, interval, lookback, today, filter_eod=False, force=force))
+
+
+def cache_walkforward_data(
+    walkforward: dict[str, tuple[dt.date, dt.date]], 
+    symbol: str, 
+    interval: str,
+    filter_eod: bool,
+    force: bool
+) -> None:
+    """
+    Creates a data cache containing all the walkforward data necessary to be used
+    by the processing pipeline, without having to initialize the full data window.
+    """
+    assert isinstance(walkforward, dict)
+
+    for start, end in walkforward.values():
+        start = start - dt.timedelta(days=1)
+        end = end - dt.timedelta(days=1)
+        _store_cache(
+            symbol, 
+            finnhub_tf(interval), 
+            start, 
+            end, 
+            filter_eod=filter_eod, 
+            force=force
+        )
 
 
 def _fetch_cache() -> pd.DataFrame:
@@ -323,7 +365,7 @@ def _fetch_cache() -> pd.DataFrame:
     )
 
 
-def load_cache(symbol: str, interval: str, start: dt.datetime, end: dt.datetime) -> pd.DataFrame:
+def load_cache(symbol: str, interval: str, start: dt.date, end: dt.date) -> pd.DataFrame:
     """
     Attempts to load data from cache. If usable cache was found, a DataFrame 
     is returned. Otherwise, an empty DataFrame is returned. That way, when you call
