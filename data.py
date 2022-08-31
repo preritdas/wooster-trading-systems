@@ -76,7 +76,6 @@ def data_yf(
 # ---- Finnhub ----
 
 finnhub_client = finnhub.Client(keys["Finnhub"]["api_key"])
-RATE_LIMIT = int(keys["Finnhub"]["rate_limit"])
 
 finnhub_available_timeframes = {"1", "5", "15", "30", "60", "D", "W", "M"}
 
