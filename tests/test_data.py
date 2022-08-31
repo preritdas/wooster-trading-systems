@@ -10,8 +10,8 @@ def test_finnhub_aggregation():
     data_res: pd.DataFrame = data._incremental_aggregation(
         "NFLX",
         "1m",
-        dt.date(2019, 1, 5),
-        dt.date(2020, 1, 1),
+        dt.date(2019, 1, 29),
+        dt.date(2019, 4, 2),
         filter_eod = True
     )
 
@@ -35,7 +35,7 @@ def test_finnhub_aggregation():
 
 def test_data_cache():
     # Test init
-    n_bars = data.init_cache("MSFT", "1m", 1, force=False)
+    n_bars = data.init_cache("MSFT", "1m", 0.2, force=False)
     assert isinstance(n_bars, int)
 
     # Test fetch
