@@ -67,6 +67,7 @@ jobs:
 
       - name: Update tests coverage badge (only Ubuntu)
         if: always()  # update badge even if the tests failed
+        continue-on-error: true
         uses: knicknic/os-specific-run@v1.0.3
         with: 
           linux: |
