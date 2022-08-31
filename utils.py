@@ -73,27 +73,6 @@ def handle_os_error(function):
     return wrapper
 
 
-def create_new_system() -> bool:
-    """
-    CURRENTLY NOT FUNCTIONAL AND NOT USED.
-
-    Create .py system file for the next system. Returns True if successful,
-    False if the file already exists, meaning the new system hasn't yet been
-    indexed in the systems.systems dictionary.
-    """
-    idx = max(systems.systems) + 1
-    module_name = idx_to_name(idx, prefix="", title=False)
-    module_path = os.path.join(current_dir, "systems", f"{module_name}.py")
-
-    # Ensure it doesn't yet exist
-    if os.path.exists(module_path):
-        return False
-
-    # Make the file
-    with open(module_path, "w", encoding="utf-8") as module:
-        module.write("put template contents here.")
-
-
 def plot_path(idx: int, label: str, flag_nonexistent: bool = False) -> str:
     """
     Searches for the result path of the given indexed strategy.
