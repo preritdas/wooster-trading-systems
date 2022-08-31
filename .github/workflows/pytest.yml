@@ -62,22 +62,17 @@ jobs:
       - name: Initialize test dependencies
         run: pip install -U pytest-cov coverage-badge
 
-      - name: Initialize AAPL data cache before tests
-        run: python main.py cache init aapl
+      - name: Run tests with pytest
+        run: python -m pytest --cov
 
-      - name: Run tests and update badge via Ubuntu
-        # Only commit the badge from Linux
+      - name: Update tests coverage badge (only Ubuntu)
+        if: always()  # update badge even if the tests failed
         uses: knicknic/os-specific-run@v1.0.3
         with: 
           linux: |
-            python -m pytest --cov
             coverage-badge -o tests/badge.svg
             git config --global user.name "github-actions[bot]"
             git config --global user.email "github-actions[bot]@users.noreply.github.com"
             git add tests/badge.svg
             git commit --author="Prerit Das <preritdas@gmail.com>" -m "Coverage badge updated after tests."
             git push
-          macos: |
-            python -m pytest
-          windows: |
-            python -m pytest
