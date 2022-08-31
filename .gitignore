@@ -8,6 +8,7 @@ win-venv/
 # Private files
 keys.ini
 _keys.py
+.coverage
 
 
 # Cache files
