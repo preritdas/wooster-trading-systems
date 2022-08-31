@@ -5,13 +5,12 @@ on: [push, pull_request]
 jobs:
   test:
 
-    # strategy:
-    #   fail-fast: false
-    #   matrix:
-    #     os: ["ubuntu-latest", "macos-latest", "windows-latest"]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
 
-    # runs-on: ${{ matrix.os }}
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Check out repository code
@@ -61,17 +60,20 @@ jobs:
             New-Item "keys.ini" -ItemType File -Value "${{ secrets.KEYS_INI }}"
 
       - name: Initialize test dependencies
-        run: |
-          pip install -U pytest-cov coverage-badge
-          python main.py cache init aapl
+        run: pip install -U pytest-cov coverage-badge
 
-      - name: Run tests with pytest
+      - name: Initialize AAPL data cache before tests
+        run: python main.py cache init aapl
+
+      - name: Run tests and update badge via Ubuntu
         # Only commit the badge from Linux
         uses: knicknic/os-specific-run@v1.0.3
         with: 
           linux: |
             python -m pytest --cov
             coverage-badge -o tests/badge.svg
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
             git add tests/badge.svg
             git commit -m "Coverage badge updated after tests."
             git push
