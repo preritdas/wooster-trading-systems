@@ -40,6 +40,11 @@ def _keys_given() -> bool:
     return True
 
 
+def _sms_object() -> nexmo.Sms:
+    client = nexmo.Client(keys["Nexmo"]["api_key"], keys["Nexmo"]["api_secret"])
+    return nexmo.Sms(client)
+
+
 def text_me(message: str) -> None:
     # Silently return if no keys given to prevent crash
     if not _keys_given(): 
@@ -49,8 +54,7 @@ def text_me(message: str) -> None:
         return
 
     # Assuming keys are given
-    client = nexmo.Client(keys["Nexmo"]["api_key"], keys["Nexmo"]["api_secret"])
-    sms = nexmo.Sms(client)
+    sms = _sms_object()
 
     sms.send_message(
         {
