@@ -4,13 +4,7 @@ import systems
 
 
 # Initialize AAPL cache data to speed up tests
-data.cache_walkforward_data(
-    walkforward = systems.systems[1][1].Params.walkforward,
-    symbol = systems.systems[1][1].Params.symbol,
-    interval = systems.systems[1][1].Params.timeframe,
-    filter_eod = systems.systems[1][1].Params.filter_eod,  
-    force = False
-)
+data.cache_all_walkforwards()
 
 
 def test_process_grid():
@@ -35,3 +29,8 @@ def test_process_skopt():
     )
 
     assert result
+
+
+def test_all_backtests():
+    for system_idx in systems.systems:
+        processing.process_system_idx(index=system_idx, optimize=False)
