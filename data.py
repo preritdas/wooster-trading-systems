@@ -13,6 +13,7 @@ import os
 
 import utils  # console data status
 import config  # datetime formats
+import systems
 
 
 # ---- Tools and keys ----
@@ -305,7 +306,7 @@ def init_cache(symbol: str, interval: str, lookback_yrs: int, force: bool) -> bo
     return(_store_cache(symbol, interval, lookback, today, filter_eod=False, force=force))
 
 
-def cache_walkforward_data(
+def cache_walkforward(
     walkforward: dict[str, tuple[dt.date, dt.date]], 
     symbol: str, 
     interval: str,
@@ -328,6 +329,21 @@ def cache_walkforward_data(
             end, 
             filter_eod=filter_eod, 
             force=force
+        )
+
+
+def cache_all_walkforwards() -> None:
+    """
+    Caches walkforward data for all documented systems.
+    """
+    for tup in systems.systems.values():
+        params = tup[1].Params
+        cache_walkforward(
+            walkforward = params.walkforward,
+            symbol = params.symbol,
+            interval = params.timeframe,
+            filter_eod = params.filter_eod,
+            force = False
         )
 
 
