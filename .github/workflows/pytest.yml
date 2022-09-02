@@ -66,7 +66,7 @@ jobs:
         run: python -m pytest --cov
 
       - name: Update tests coverage badge (only Ubuntu)
-        if: ${{ ( success() || failure() ) && matrix.os == 'ubuntu-latest' and matrix.python == '3.10' }}
+        if: ${{ ( success() || failure() ) && matrix.os == 'ubuntu-latest' && matrix.python == '3.10' }}
         continue-on-error: true
         uses: knicknic/os-specific-run@v1.0.3
         with: 
