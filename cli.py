@@ -4,9 +4,11 @@ Create the CLI.
 # External imports
 import typer
 import pyperclip
+from rich.syntax import Syntax
 
 # Local imports
 from time import perf_counter  # optionally time commands
+import os
 
 # Project modules
 import processing
@@ -14,6 +16,9 @@ import utils
 import config
 import texts
 import data  # cache
+
+
+current_dir = os.path.dirname(os.path.realpath(__file__))
 
 
 app = typer.Typer(
@@ -348,3 +353,24 @@ def cache(
         for cache_str in cache_res: utils.console.print(cache_str)
         utils.console.line()
         return
+
+
+# ---- Meta ----
+
+@app.command()
+def coveragereport():
+    """
+    Launch a browser with the latest unit test coverage report.
+    """
+    if not os.path.exists(homepage := os.path.join(current_dir, "htmlcov", "index.html")):
+        utils.console.print("No coverage report is available.", style="red")
+        utils.console.print("To generate a coverage report, run the unit tests with the following command.")
+        utils.console.print(
+            Syntax(
+                "python -m pytest --cov --cov-report html",
+                "console"
+            )
+        )
+        return
+
+    typer.launch(homepage)
