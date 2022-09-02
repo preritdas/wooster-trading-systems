@@ -320,8 +320,6 @@ def cache_walkforward(
     assert isinstance(walkforward, dict)
 
     for start, end in walkforward.values():
-        start = start - dt.timedelta(days=1)
-        end = end + dt.timedelta(days=1)
         _store_cache(
             symbol, 
             finnhub_tf(interval), 
@@ -397,9 +395,9 @@ def load_cache(symbol: str, interval: str, start: dt.date, end: dt.date) -> pd.D
     if interval_res.empty:  # attempt with converted timeframe
         interval_res = symbol_res[symbol_res.Interval == finnhub_tf(interval)]
     start_res = interval_res[
-        interval_res.Start < pd.to_datetime(start, format=date_format)
+        interval_res.Start <= pd.to_datetime(start, format=date_format)
     ]
-    end_res = start_res[start_res.End > pd.to_datetime(end, format=date_format)]
+    end_res = start_res[start_res.End >= pd.to_datetime(end, format=date_format)]
     if end_res.empty: return pd.DataFrame()  # empty DF so df.empty returns False
 
     # Gather data
