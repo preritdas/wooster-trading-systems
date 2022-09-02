@@ -40,9 +40,9 @@ def _keys_given() -> bool:
     return True
 
 
-def _sms_object() -> nexmo.Sms:
+def _auth_nexmo() -> tuple[nexmo.Client, nexmo.Sms]:
     client = nexmo.Client(keys["Nexmo"]["api_key"], keys["Nexmo"]["api_secret"])
-    return nexmo.Sms(client)
+    return client, nexmo.Sms(client)
 
 
 def text_me(message: str) -> None:
@@ -54,7 +54,7 @@ def text_me(message: str) -> None:
         return
 
     # Assuming keys are given
-    sms = _sms_object()
+    client, sms = _auth_nexmo()
 
     sms.send_message(
         {
