@@ -14,7 +14,7 @@ def test_keys():
         
 
 def test_handle_no_keys(mocker):
-    mocker.patch('keys.Nexmo.nexmo_keys', None)
+    mocker.patch("keys.Nexmo.nexmo_keys", None)
     import texts
 
     assert not texts._keys_given()
