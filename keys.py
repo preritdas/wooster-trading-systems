@@ -23,7 +23,7 @@ class Nexmo:
     """
     try:
         nexmo_keys = keys["Nexmo"]
-    except ValueError:
+    except KeyError:
         nexmo_keys = None
 
     if nexmo_keys is None:
