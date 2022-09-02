@@ -10,7 +10,8 @@ import pytest
 
 # Local imports
 from time import perf_counter  # optionally time commands
-import os
+import os  # paths
+import sys  # exiting
 
 # Project modules
 import processing
@@ -297,7 +298,7 @@ def cache(
     def verify_symbol(symbol: str) -> None:
         if symbol is None: 
             utils.console.print("You must provide a valid symbol.")
-            quit()
+            sys.exit()
 
     if time: start = perf_counter()
 
