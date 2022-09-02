@@ -6,6 +6,7 @@ import backtesting as bt
 import pandas as pd
 
 # Local imports
+import datetime as dt  # type hints
 import os
 import sys  # check operating system
 import multiprocessing  # change start method if macOS
@@ -119,10 +120,19 @@ def _process_system(
     return results
 
 
+def _fetch_walkforward(system_idx: int) -> dict[str, tuple[dt.date, dt.date]]:
+    """
+    Read through the systems catalog and return the walkforward specified in the
+    system's Params class. This was separated because it'll likely be of use in 
+    other external functions.
+    """
+    return systems.systems[system_idx][1].Params.walkforward
+
+
 def process_system_idx(
     index: int, 
     optimize: bool, 
-    optimizer: str,
+    optimizer: str = None,
     method = "grid",
     progress: bool = True
 ) -> dict[str, pd.Series]:
@@ -135,6 +145,9 @@ def process_system_idx(
     if not isinstance(index, int):
         raise ValueError("Index must be an integer.")
 
+    if optimize and optimizer is None:
+        raise ValueError("You requested optimization but provided no optimizer.")
+
     system = systems.systems[index]
 
     return _process_system(
@@ -144,7 +157,7 @@ def process_system_idx(
         data = data.data(
             symbol = system[1].Params.symbol,
             interval = system[1].Params.timeframe,
-            walkforward = system[1].Params.walkforward,
+            walkforward = _fetch_walkforward(index),
             filter_eod = system[1].Params.filter_eod
         ),
         optimize = optimize,
