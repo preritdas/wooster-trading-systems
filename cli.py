@@ -5,6 +5,8 @@ Create the CLI.
 import typer
 import pyperclip
 from rich.syntax import Syntax
+import pytest
+
 
 # Local imports
 from time import perf_counter  # optionally time commands
@@ -374,3 +376,15 @@ def coveragereport():
         return
 
     typer.launch(homepage)
+
+
+@app.command()
+def diagnose():
+    """
+    Run comprehensive unittests on the entire Wooster system. 
+    
+    If something seems awry in system functionality, this command will run 
+    comprehensive tests on all areas of functionality, including the entire
+    processing pipeline.
+    """
+    pytest.main()
