@@ -5,13 +5,13 @@ on: [push, pull_request]
 jobs:
   test:
 
-    # strategy:
-    #   fail-fast: false
-    #   matrix:
-    #     os: ["ubuntu-latest", "macos-latest", "windows-latest"]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-latest"]
+        python: ["3.10"]
 
-    # runs-on: ${{ matrix.os }}
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Check out repository code
@@ -20,7 +20,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: ${{ matrix.python }}
 
       - name: Install TA-Lib
         uses: knicknic/os-specific-run@v1.0.3
@@ -66,7 +66,7 @@ jobs:
         run: python -m pytest --cov
 
       - name: Update tests coverage badge (only Ubuntu)
-        if: always()  # update badge even if the tests failed
+        if: ${{ ( success() || failure() ) && matrix.os == 'ubuntu-latest' and matrix.python == '3.10' }}
         continue-on-error: true
         uses: knicknic/os-specific-run@v1.0.3
         with: 
