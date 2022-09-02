@@ -387,4 +387,4 @@ def diagnose():
     comprehensive tests on all areas of functionality, including the entire
     processing pipeline.
     """
-    pytest.main()
+    pytest.main(["--cov"])
