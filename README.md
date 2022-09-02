@@ -1,5 +1,6 @@
 ![pytest](https://github.com/preritdas/wooster-trading-systems/actions/workflows/pytest.yml/badge.svg)
 ![coverage-badge](tests/badge.svg)
+![version](https://img.shields.io/badge/python-3.10-blue)
 ![firebase](https://github.com/preritdas/wooster-trading-systems/actions/workflows/firebase-hosting-merge.yml/badge.svg)
 
 
