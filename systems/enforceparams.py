@@ -4,6 +4,7 @@ information. If it doesn't, the whole processing pipeline is thrown off. Eventua
 explore replacing this with Pydantic.
 """
 import datetime as dt
+import sys
 import config
 import utils
 
@@ -46,11 +47,11 @@ def check_system(params_class, idx: int) -> None:
                 f"{error_prefix} Attribute '{attr}' not in system {idx} Params class.",
                 style = error_style
             )
-            quit()
+            sys.exit()
         if not check(attrs[attr]):
             utils.console.log(
                 f"{error_prefix} "
                 f"System {idx} Params attribute '{attr}' failed its structural test.",
                 style = error_style
             )
-            quit()
+            sys.exit()
