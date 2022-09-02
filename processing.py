@@ -38,7 +38,8 @@ def _process_system(
     optimize: bool,
     optimizer: str,
     method: str,
-    progress: bool
+    progress: bool,
+    train_only: bool
 ) -> dict[str, pd.Series]:
     """
     Base processor. Backtests, stores performance website, 
@@ -55,6 +56,10 @@ def _process_system(
     assert "train" in data.keys(), "You must always provide training data."
     assert all([label in utils.LABELS for label in data.keys()])
     assert all(isinstance(value, pd.DataFrame) for value in data.values())
+
+    if train_only:
+        data = {key: val for key, val in data.items() if key == "train"}
+        if not data: raise ValueError("Training only but no training data found.")
 
     backtest = bt.Backtest(
         data = data["train"],
@@ -134,7 +139,8 @@ def process_system_idx(
     optimize: bool, 
     optimizer: str = None,
     method = "grid",
-    progress: bool = True
+    progress: bool = True,
+    train_only: bool = False
 ) -> dict[str, pd.Series]:
     """
     Find and process a system by its given index.
@@ -163,5 +169,6 @@ def process_system_idx(
         optimize = optimize,
         optimizer = optimizer,
         method = method,
-        progress = progress
+        progress = progress,
+        train_only = train_only
     )

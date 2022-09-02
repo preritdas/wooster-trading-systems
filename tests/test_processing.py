@@ -33,4 +33,4 @@ def test_process_skopt():
 
 def test_all_backtests():
     for system_idx in systems.systems:
-        processing.process_system_idx(index=system_idx, optimize=False)
+        processing.process_system_idx(index=system_idx, optimize=False, train_only=True)
