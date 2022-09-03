@@ -1,9 +1,12 @@
 """
 Test data aggregation and caching.
 """
-import data
-import datetime as dt
+import pytest
 import pandas as pd  # type checking
+import datetime as dt
+import time
+
+import data
 
 
 def test_finnhub_aggregation():
@@ -53,3 +56,28 @@ def test_data_cache():
 
     # Test deletion
     assert data.delete_cache("MSFT", "1m")
+
+
+def test_unix_conversion():
+    date = dt.date(2020, 1, 1)
+    assert data.dt_to_unix(date) == int(time.mktime(date.timetuple()))
+
+    # Check for failure handling
+    with pytest.raises(ValueError):
+        data.dt_to_unix("Jan 1, 2020")
+
+
+def test_yahoo_finance():
+    """Just make sure it's in order."""
+    res = data.data_yf(
+        symbol = "NFLX",
+        interval = "5m",
+        walkforward = {
+            "train": (dt.date.today() - dt.timedelta(15), dt.date.today() - dt.timedelta(1))
+        }
+    )
+
+    assert res
+    assert isinstance(res, dict)
+    assert all(isinstance(val, pd.DataFrame) for val in res.values())
+    assert not any(df.empty for df in res.values())
