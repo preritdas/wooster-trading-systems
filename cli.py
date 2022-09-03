@@ -358,6 +358,30 @@ def cache(
         return
 
 
+@app.command()
+def cachesystem(
+    index: int = typer.Argument(
+        ...,
+        help = "Index of the system whose walkforward data you'd like to cache."
+    )
+):
+    """
+    Cache all the data necessary to backtest and optimize a certain system. 
+    
+    This is more efficient than initializing a window of data with the cache command,
+    without any regard for which sub-windows are actually used by the processing pipeline.
+    """
+    with utils.console.status(
+        "Initializing a cache registry of all required data for "
+        f"[red]{utils.idx_to_name(index)}[/]."
+    ):
+        data.cache_walkforward_idx(index)
+    
+    utils.console.log(
+        f"All required data for [red]{utils.idx_to_name(index)}[/] has been cached."
+    )
+
+
 # ---- Meta ----
 
 @app.command()
