@@ -71,17 +71,25 @@ def _process_system(
     params: dict = stats._strategy._params
 
     if optimize:
-        stats = backtest.optimize(
-            max_tries = 1,
-            show_progress = progress,
-            method = method,
-            maximize = optimizer,
-            **systems.systems[index][1].Params.optimizers
-        )
+        # Handle no optimizers case, as optimizing is on by default
+        try:
+            stats = backtest.optimize(
+                max_tries = 1,
+                show_progress = progress,
+                method = method,
+                maximize = optimizer,
+                **systems.systems[index][1].Params.optimizers
+            )
+        except ValueError as e:
+            if not "Need some strategy parameters to optimize" in str(e):
+                raise ValueError(e)
+
+            optimize = False
 
         # Store optimized params locally and as CSV
         params = stats._strategy._params
-        utils.store_params(name, params)
+
+    utils.store_params(name, params)
 
    # Use precomputed train backtest results and save plot
     results = {"train": stats}
