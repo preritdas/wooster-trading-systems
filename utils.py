@@ -359,8 +359,8 @@ def display_results(
     """
     Print rendered results to console and save them to console.
     """
-    if not isinstance(results, Table) and not isinstance(results, dict):
-        raise ValueError("Results must be a table or dict of labeled tables.")
+    if not isinstance(results, dict):
+        raise ValueError("Results must be a dict with label keys and Series values.")
 
     html_console = create_recorded_console()
     if not record: html_console = Console()
