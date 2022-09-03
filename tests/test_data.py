@@ -3,6 +3,7 @@ Test data aggregation and caching.
 """
 import pytest
 import pandas as pd  # type checking
+import finnhub
 import datetime as dt
 import time
 
@@ -56,6 +57,24 @@ def test_data_cache():
 
     # Test deletion
     assert data.delete_cache("MSFT", "1m")
+
+
+def test_rate_limit_handling():
+    def nohandle_spam_requests():
+        for _ in range(200):
+            data.finnhub_client.last_bid_ask("GOOG")
+
+    @data.handle_rate_limit
+    def handle_spam_requests():
+        """Run right after busting the rate limit."""
+        for _ in range(2):
+            data.finnhub_client.last_bid_ask("GOOG")
+
+    # Test handling first as an exception will be raised anyways
+    handle_spam_requests()
+
+    with pytest.raises(finnhub.FinnhubAPIException):
+        nohandle_spam_requests()
 
 
 def test_unix_conversion():
