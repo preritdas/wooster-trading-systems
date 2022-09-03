@@ -1,8 +1,13 @@
 """
 Tests for the utils module.
 """
+# External
+import pytest
+
+# Internal
 import os
 
+# Project
 import utils
 
 
@@ -40,6 +45,11 @@ def test_plot_path():
     for label in utils.LABELS:
         assert os.path.exists(utils.plot_path(2, label))
 
+    with pytest.raises(ValueError):
+        utils.plot_path(1, "invalid")
+
+    assert not utils.plot_path(1, "train", flag_nonexistent=True)
+
 
 def test_stats_path():
     """
@@ -47,6 +57,7 @@ def test_stats_path():
     results in a file that already exists.
     """
     assert os.path.exists(utils.stats_path(2))
+    assert not utils.stats_path(1, flag_nonexistent=True)
 
 
 def test_read_results():
@@ -54,7 +65,13 @@ def test_read_results():
     CLI results command.
     """
     assert (res := utils.load_results(1))
+
+    # Try to display results with both recording options
     utils.display_results(res, 1, False)
+    utils.display_results(res, 1, True)
+
+    with pytest.raises(ValueError):
+        utils.display_results("notadict", 1, False)
 
 
 def test_read_optimizers():
@@ -66,3 +83,6 @@ def test_read_optimizers():
 
 def test_system_existence():
     assert utils.system_exists(1)
+    
+    with pytest.raises(ValueError):
+        utils.system_exists("notanint")
