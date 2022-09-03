@@ -63,9 +63,10 @@ def test_rate_limit_handling():
     def nohandle_spam_requests():
         try:
             for _ in range(1000):
-                data.finnhub_client.price_target("GOOG")
-        except finnhub.FinnhubAPIException:
-            return
+                data.finnhub_client.last_bid_ask("GOOG")
+        except finnhub.FinnhubAPIException as e:
+            if "API limit reached" in str(e): return
+            else: pytest.fail(f"Unintended Finnhub API exception raised: {str(e)}")
         else:
             pytest.fail("When not rate handling, no API exception was raised.")
 
@@ -76,7 +77,10 @@ def test_rate_limit_handling():
             data.finnhub_client.last_bid_ask("GOOG")
 
     nohandle_spam_requests()
+
+    start = time.perf_counter()
     handle_spam_requests()
+    assert time.perf_counter() - start > 2
 
 
 def test_unix_conversion():
