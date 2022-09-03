@@ -75,10 +75,7 @@ def test_rate_limit_handling():
         for _ in range(2):
             data.finnhub_client.last_bid_ask("GOOG")
 
-    with pytest.raises(finnhub.FinnhubAPIException):
     nohandle_spam_requests()
-
-    # Test no handling first as an exception will be raised anyways
     handle_spam_requests()
 
 
@@ -105,3 +102,29 @@ def test_yahoo_finance():
     assert isinstance(res, dict)
     assert all(isinstance(val, pd.DataFrame) for val in res.values())
     assert not any(df.empty for df in res.values())
+
+
+def test_finnhub_tf():
+    assert data.finnhub_tf("1m") == "1"
+    assert data.finnhub_tf("1", backwards=True) == "1m"
+
+    with pytest.raises(ValueError):
+        data.finnhub_tf("2m")
+
+
+def test_filter_eod():
+    with pytest.raises(ValueError):
+        data._filter_eod(pd.DataFrame(), "pst")
+
+
+def test_incremental_daily():
+    res = data._incremental_aggregation(
+        symbol = "NFLX",
+        interval = "D",
+        start = dt.date.today() - dt.timedelta(15),
+        end = dt.date.today(),
+        filter_eod = True
+    )
+
+    assert isinstance(res, pd.DataFrame)
+    assert not res.empty
