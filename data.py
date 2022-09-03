@@ -353,10 +353,10 @@ def _fetch_cache() -> pd.DataFrame:
     Read cache directory and return a DataFrame of available cache files.
     Columns: Symbol, Interval, Start, End, Path.
     """
-    if not os.path.exists((cache_path := os.path.join(current_dir, "data-cache"))):
-        return pd.DataFrame()
-
-    if not (paths := os.listdir(cache_path)):
+    if(
+        not os.path.exists((cache_path := os.path.join(current_dir, "data-cache")))
+        or not (paths := os.listdir(cache_path))
+    ):
         return pd.DataFrame()
 
     cache_files = [os.path.splitext(path)[0] for path in paths]
