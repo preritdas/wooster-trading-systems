@@ -23,16 +23,9 @@ class Nexmo:
     """
     try:
         nexmo_keys = keys["Nexmo"]
-    except KeyError:
-        nexmo_keys = None
-
-    if nexmo_keys is None:
-        api_key = None
-        api_secret = None
-        sender = None
-        receiver = None
-    else:
         api_key = nexmo_keys["api_key"]
         api_secret = nexmo_keys["api_secret"]
         sender = nexmo_keys["sender"]
         receiver = nexmo_keys["receiver"]
+    except KeyError:
+        nexmo_keys = None
