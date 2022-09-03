@@ -88,8 +88,7 @@ def _process_system(
 
         # Store optimized params locally and as CSV
         params = stats._strategy._params
-
-    utils.store_params(name, params)
+        utils.store_params(name, params)
 
    # Use precomputed train backtest results and save plot
     results = {"train": stats}
