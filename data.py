@@ -8,20 +8,18 @@ import pandas as pd
 
 import datetime as dt 
 import time
-import configparser
 import os
 
 import utils  # console data status
 import config  # datetime formats
 import systems
+import keys
 
 
 # ---- Tools and keys ----
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
-keys_path = os.path.join(current_dir, "keys.ini")
-keys = configparser.ConfigParser()
-keys.read(keys_path)
+
 
 def dt_to_unix(dt_date: dt.datetime) -> int:
     """
@@ -76,7 +74,7 @@ def data_yf(
 
 # ---- Finnhub ----
 
-finnhub_client = finnhub.Client(keys["Finnhub"]["api_key"])
+finnhub_client = finnhub.Client(keys.Finnhub.api_key)
 
 finnhub_available_timeframes = {"1", "5", "15", "30", "60", "D", "W", "M"}
 
