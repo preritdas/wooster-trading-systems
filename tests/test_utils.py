@@ -48,7 +48,7 @@ def test_plot_path():
     with pytest.raises(ValueError):
         utils.plot_path(1, "invalid")
 
-    assert not utils.plot_path(1, "train", flag_nonexistent=True)
+    assert not utils.plot_path(10000000, "train", flag_nonexistent=True)
 
 
 def test_stats_path():
@@ -57,7 +57,7 @@ def test_stats_path():
     results in a file that already exists.
     """
     assert os.path.exists(utils.stats_path(2))
-    assert not utils.stats_path(1, flag_nonexistent=True)
+    assert not utils.stats_path(10000000, flag_nonexistent=True)
 
 
 def test_read_results():
