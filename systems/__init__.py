@@ -1,4 +1,4 @@
-from . import one, two, three
+from . import one, two, three, four
 from . import enforceparams
 
 
@@ -7,7 +7,8 @@ from . import enforceparams
 systems = {
     1: ("Wooster One", one, one.WoosterOne),
     2: ("Wooster Two", two, two.WoosterTwo),
-    3: ("Wooster Three", three, three.WoosterThree)
+    3: ("Wooster Three", three, three.WoosterThree),
+    4: ("Wooster Four", four, four.WoosterFour)
 }
 
 # Enforce parameters (module enforceparams handles config dictating no checks)
