@@ -175,11 +175,12 @@ def _filter_eod(data: pd.DataFrame, timezone: str = "utc") -> pd.DataFrame:
     if timezone.lower() != "utc":
         raise ValueError("Only UTC supported currently.")
 
+    if data.empty: return data  # if empty from an incremental agg window
+
     # If the timeframe is days or higher, don't filter
     diff = data.index[1] - data.index[0]
     if diff.days > 0: return data
 
-    if data.empty: return data  # if empty from an incremental agg window
     return data.between_time(dt.time(13, 30), dt.time(20))
 
 
