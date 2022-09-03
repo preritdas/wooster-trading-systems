@@ -61,7 +61,7 @@ def test_data_cache():
 
 def test_rate_limit_handling():
     def nohandle_spam_requests():
-        for _ in range(200):
+        for _ in range(150):
             data.finnhub_client.last_bid_ask("GOOG")
 
     @data.handle_rate_limit
@@ -70,11 +70,11 @@ def test_rate_limit_handling():
         for _ in range(2):
             data.finnhub_client.last_bid_ask("GOOG")
 
-    # Test handling first as an exception will be raised anyways
-    handle_spam_requests()
-
     with pytest.raises(finnhub.FinnhubAPIException):
         nohandle_spam_requests()
+
+    # Test no handling first as an exception will be raised anyways
+    handle_spam_requests()
 
 
 def test_unix_conversion():
