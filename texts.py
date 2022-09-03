@@ -48,8 +48,8 @@ def text_me(message: str) -> bool:
 
     sms.send_message(
         {
-            "from": keys["Nexmo"]["sender"],
-            "to": keys["Nexmo"]["receiver"],
+            "from": keys.Nexmo.sender,
+            "to": keys.Nexmo.receiver,
             "text": str(message)
         }
     )
