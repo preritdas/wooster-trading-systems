@@ -22,3 +22,10 @@ def test_handle_no_keys(mocker):
     with pytest.warns(UserWarning):
         assert not texts.text_me("This should not send.")
     
+
+def test_sending_texts(mocker):
+    """Messages aren't really sent."""
+    mocker.patch("texts.nexmo.Sms.send_message", return_value = None)
+
+    import texts
+    texts.text_me("This should not send.")
