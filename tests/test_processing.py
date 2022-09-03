@@ -1,6 +1,7 @@
 import processing
 import data
 import systems
+import pytest
 
 
 # Initialize AAPL cache data to speed up tests
@@ -34,3 +35,24 @@ def test_process_skopt():
 def test_all_backtests():
     for system_idx in systems.systems:
         processing.process_system_idx(index=system_idx, optimize=False, train_only=True)
+
+
+def test_raises():
+    with pytest.raises(ValueError):
+        processing.process_system_idx(
+            "notanint", 
+            optimize = True, 
+            optimizer = "SQN",
+            method = "grid",
+            progress = True
+        )
+
+    with pytest.raises(ValueError):
+        # Asked for optimization, gave no optimizer
+        processing.process_system_idx(
+            "notanint", 
+            optimize = True, 
+            method = "grid",
+            progress = True
+        )
+  
