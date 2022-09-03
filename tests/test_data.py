@@ -61,8 +61,13 @@ def test_data_cache():
 
 def test_rate_limit_handling():
     def nohandle_spam_requests():
-        for _ in range(150):
-            data.finnhub_client.last_bid_ask("GOOG")
+        try:
+            for _ in range(1000):
+                data.finnhub_client.price_target("GOOG")
+        except finnhub.FinnhubAPIException:
+            return
+        else:
+            pytest.fail("When not rate handling, no API exception was raised.")
 
     @data.handle_rate_limit
     def handle_spam_requests():
@@ -71,7 +76,7 @@ def test_rate_limit_handling():
             data.finnhub_client.last_bid_ask("GOOG")
 
     with pytest.raises(finnhub.FinnhubAPIException):
-        nohandle_spam_requests()
+    nohandle_spam_requests()
 
     # Test no handling first as an exception will be raised anyways
     handle_spam_requests()
