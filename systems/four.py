@@ -105,6 +105,10 @@ class WoosterFour(bt.Strategy):
         prev_low = next(self.yesterday_low)
 
         if self.data.High[-1] > prev_high:
-            self.buy()
+            if self.position.is_short: self.position.close()
+            elif self.position.is_long: pass
+            else: self.buy()
         elif self.data.Low[-1] < prev_low:
-            self.sell()
+            if self.position.is_long: self.position.close()
+            elif self.position.is_short: pass
+            else: self.sell()
