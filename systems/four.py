@@ -7,6 +7,7 @@ import pandas as pd
 
 # Local imports
 import datetime as dt
+from typing import Generator
 
 
 class Params:
@@ -31,7 +32,7 @@ class Params:
     }
 
 
-def previous_high(data: pd.DataFrame) -> pd.Series:
+def previous_high(data: pd.DataFrame) -> Generator:
     """
     Returns a series of the previous day's high.
     """
@@ -43,17 +44,13 @@ def previous_high(data: pd.DataFrame) -> pd.Series:
         df = _day_df(day)
         return df["High"].max()
 
-    highest_prices = []
     for i in range(len(data)):
         today = data.index[i].to_pydatetime().date()
         yesterday = today - dt.timedelta(1)
-        highest_prices.append(highest_price(yesterday))
-
-    data["Yesterday High"] = highest_prices
-    return data["Yesterday High"]
+        yield highest_price(yesterday)
 
 
-def previous_low(data: pd.DataFrame) -> pd.Series:
+def previous_low(data: pd.DataFrame) -> Generator:
     """
     Returns a series of the previous day's high.
     """
@@ -65,14 +62,10 @@ def previous_low(data: pd.DataFrame) -> pd.Series:
         df = _day_df(day)
         return df["Low"].min()
 
-    highest_prices = []
     for i in range(len(data)):
         today = data.index[i].to_pydatetime().date()
         yesterday = today - dt.timedelta(1)
-        highest_prices.append(lowest_price(yesterday))
-
-    data["Yesterday Low"] = highest_prices
-    return data["Yesterday Low"]
+        yield lowest_price(yesterday)
 
 
 # ---- Strategy ----
@@ -87,11 +80,14 @@ class WoosterFour(bt.Strategy):
         """
         Abstract strategy method to define and wrap indicators etc.
         """
-        self.yesterday_high = self.I(previous_high, self.data.df, show_progress=True)
-        self.yesterday_low = self.I(previous_low, self.data.df, show_progress=True)
+        self.yesterday_high = previous_high(self.data.df)
+        self.yesterday_low = previous_low(self.data.df)
 
     def next(self):
-        if self.data.High[-1] > self.yesterday_high[-1]:
+        prev_high = next(self.yesterday_high)
+        prev_low = next(self.yesterday_low)
+
+        if self.data.High[-1] > prev_high:
             self.buy()
-        elif self.data.Low[-1] < self.yesterday_low[-1]:
+        elif self.data.Low[-1] < prev_low:
             self.sell()
