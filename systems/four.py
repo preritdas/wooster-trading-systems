@@ -4,6 +4,7 @@ Wooster Four trading system, trained and backtested.
 # External imports
 import backtesting as bt
 import pandas as pd
+import numpy as np
 
 # Local imports
 import datetime as dt
@@ -16,7 +17,7 @@ class Params:
     any such optimizable parameters; rather, symbols, timeframes, 
     date-ranges, etc.
     """
-    symbol = "AMD"
+    symbol = "AAPL"
     timeframe = "1m"
     filter_eod = True
 
@@ -47,7 +48,15 @@ def previous_high(data: pd.DataFrame) -> Generator:
     for i in range(len(data)):
         today = data.index[i].to_pydatetime().date()
         yesterday = today - dt.timedelta(1)
-        yield highest_price(yesterday)
+        highest = highest_price(yesterday)
+
+        tries = 0
+        while np.isnan(highest):
+            highest = highest_price(yesterday - dt.timedelta(1))
+            tries += 1
+            if tries == 5: break
+        
+        yield highest 
 
 
 def previous_low(data: pd.DataFrame) -> Generator:
@@ -65,7 +74,15 @@ def previous_low(data: pd.DataFrame) -> Generator:
     for i in range(len(data)):
         today = data.index[i].to_pydatetime().date()
         yesterday = today - dt.timedelta(1)
-        yield lowest_price(yesterday)
+        lowest = lowest_price(yesterday)
+        
+        tries = 0
+        while np.isnan(lowest):
+            lowest = lowest_price(yesterday - dt.timedelta(1))
+            tries +=1
+            if tries == 5: break
+        
+        yield lowest
 
 
 # ---- Strategy ----
