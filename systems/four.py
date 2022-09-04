@@ -31,6 +31,50 @@ class Params:
     }
 
 
+def previous_high(data: pd.DataFrame) -> pd.Series:
+    """
+    Returns a series of the previous day's high.
+    """
+    def _day_df(day: dt.date):
+        _df = data.loc[data.index.date == day]
+        return _df
+    
+    def highest_price(day: dt.date):
+        df = _day_df(day)
+        return df["High"].max()
+
+    highest_prices = []
+    for i in range(len(data)):
+        today = data.index[i].to_pydatetime().date()
+        yesterday = today - dt.timedelta(1)
+        highest_prices.append(highest_price(yesterday))
+
+    data["Yesterday High"] = highest_prices
+    return data["Yesterday High"]
+
+
+def previous_low(data: pd.DataFrame) -> pd.Series:
+    """
+    Returns a series of the previous day's high.
+    """
+    def _day_df(day: dt.date):
+        _df = data.loc[data.index.date == day]
+        return _df
+    
+    def lowest_price(day: dt.date):
+        df = _day_df(day)
+        return df["Low"].min()
+
+    highest_prices = []
+    for i in range(len(data)):
+        today = data.index[i].to_pydatetime().date()
+        yesterday = today - dt.timedelta(1)
+        highest_prices.append(lowest_price(yesterday))
+
+    data["Yesterday Low"] = highest_prices
+    return data["Yesterday Low"]
+
+
 # ---- Strategy ----
 
 class WoosterFour(bt.Strategy):
@@ -43,21 +87,11 @@ class WoosterFour(bt.Strategy):
         """
         Abstract strategy method to define and wrap indicators etc.
         """
-
-    def yesterday_extreme(self, direction):
-        assert direction in {"max", "min"}
-
-        yesterday_dt = self.data.index[0].to_pydatetime() - dt.timedelta(1)
-        yesterday = yesterday_dt.strftime("%Y-%m-%d")
-
-        high_series = self.data.High.s
-        yesterday_highs = high_series.loc[(high_series.index == yesterday)]
-
-        return yesterday_highs.max() if direction == "max" else yesterday_highs.min()
-
+        self.yesterday_high = self.I(previous_high, self.data.df, show_progress=True)
+        self.yesterday_low = self.I(previous_low, self.data.df, show_progress=True)
 
     def next(self):
-        if self.data.High[-1] > self.yesterday_extreme("max"):
+        if self.data.High[-1] > self.yesterday_high[-1]:
             self.buy()
-        elif self.data.Low[-1] < self.yesterday_extreme("min"):
+        elif self.data.Low[-1] < self.yesterday_low[-1]:
             self.sell()
