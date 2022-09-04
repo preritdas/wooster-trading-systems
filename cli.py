@@ -45,6 +45,10 @@ def process(
         default = False,
         help = "Launch a browser to interactively view the results plot."
     ),
+    processall: bool = typer.Option(
+        False,
+        help = "Override [blue]index[/] and process all systems."
+    ),
     optimize: bool = typer.Option(
         default = True,  
         help = "Optimize the strategy parameters."
@@ -78,24 +82,38 @@ def process(
 
     if time: start = perf_counter()
 
-    system_name = utils.idx_to_name(index)
-    optimizing_str = "and optimizing " if optimize else ""
-    utils.console.log(
-        f"Processing {optimizing_str}[red]{system_name}[/].\n"
-    )
+    if not processall:
+        system_name = utils.idx_to_name(index)
+        optimizing_str = "and optimizing " if optimize else ""
+        utils.console.log(
+            f"Processing {optimizing_str}[red]{system_name}[/].\n"
+        )
+    else:
+        optimizing_str = "and optimizing " if optimize else ""
+        utils.console.log(
+            f"Processing {optimizing_str}all [red]Wooster[/] systems.\n"
+        )
 
-    result = processing.process_system_idx(
-        index, 
-        optimize = optimize, 
-        optimizer = optimizer,
-        method = method.lower(),
-        progress = True
-    )
+    if not processall: process_systems = [index]
+    else: process_systems = list(processing.systems.systems.keys())
 
-    utils.console.line()
-    utils.display_results(result, index)
+    for index in process_systems:
+        if processall: 
+            utils.console.log(f"Processing [red]{utils.idx_to_name(index)}[/].")
 
-    if launch:
+        result = processing.process_system_idx(
+            index, 
+            optimize = optimize, 
+            optimizer = optimizer,
+            method = method.lower(),
+            progress = True
+        )
+
+        utils.console.line()
+        utils.display_results(result, index)
+        if processall: utils.console.line()
+
+    if launch and not processall:
         with utils.console.status("Launching interactive plot in your browser."):
             # Open stats and all interactive charts
             typer.launch(utils.stats_path(index))
@@ -108,7 +126,8 @@ def process(
                 "preferred browser."
             )
     
-    if time: utils.console.print(f"That took {perf_counter() - start:.2f} seconds.")
+    if time: 
+        utils.console.print(f"That took {perf_counter() - start:.2f} seconds.")
 
     # Text alert
     if textalert:
