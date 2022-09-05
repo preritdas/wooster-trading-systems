@@ -134,4 +134,4 @@ def test_incremental_daily():
 
 def test_resample_prep():
     with pytest.raises(ValueError):
-        data._resample_prep("1w")
+        data._resample_prep("1h")
