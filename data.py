@@ -136,8 +136,6 @@ def _fetch_data_finnhub(
     and end as datetime type, where end is at least one day prior. 
     This is because if you run the system while the market is open, plotting breaks.
     """
-    interval = finnhub_tf(interval)
-
     data = finnhub_client.stock_candles(
         symbol.upper(),
         interval,
@@ -212,10 +210,6 @@ def _incremental_aggregation(
     """
     Incremement through Finnhub data (if intraday) due to data access limitations.
     """
-    # Convert interval format
-    old_interval = interval
-    interval = finnhub_tf(old_interval)
-
     start_str = dt.datetime.strftime(start, format=config.Datetime.date_format)
     end_str = dt.datetime.strftime(end, format=config.Datetime.date_format)
 
@@ -260,12 +254,15 @@ def _resample_prep(interval: str) -> tuple[bool, str]:
     Handles the boilerplate prep work for determining resample conditions
     and intervals. Raises ValueError if ultimately nothing can be done.
     Returns a tuple of the resample boolean (if resampling should be done)
-    and a str of the int_tf for resample_data ("" if no resample).
+    and a str of the int_tf for resample_data, or the finnhub converted interval
+    if no resampling.
     """
     resample = False
-    int_tf = ""
-    if not finnhub_tf(interval):
-        if interval.endswith("m") and (int_tf := int(interval[:-1])):
+    new_interval = ""
+    if (finnhub_conversion := finnhub_tf(interval)):
+        return False, finnhub_conversion
+    else: 
+        if interval.endswith("m") and (new_interval := int(interval[:-1])):
             resample = True
         else:
             raise ValueError(
@@ -274,7 +271,7 @@ def _resample_prep(interval: str) -> tuple[bool, str]:
                 "that can be automatically resampled."
             )
 
-    return resample, int_tf
+    return resample, new_interval
 
 
 def data(
@@ -287,18 +284,18 @@ def data(
     Collect properly split walkforward data.
     """
     with utils.console.status("Aggregating market data..."):
-        resample, int_tf = _resample_prep(interval)
+        resample, interval = _resample_prep(interval)
 
         return_datas = {}
         for label, start_end in walkforward.items():
             label_data = _incremental_aggregation(
                 symbol, 
-                interval if not resample else "1m", 
+                interval if not resample else "1", 
                 start_end[0], 
                 start_end[1], 
                 filter_eod = filter_eod
             )
-            if resample: label_data = resample_data(label_data, int_tf)
+            if resample: label_data = resample_data(label_data, interval)
             return_datas[label] = label_data.dropna()
             
         return return_datas
@@ -325,9 +322,20 @@ def _store_cache(
     if not os.path.exists(cache_dir := os.path.join(current_dir, "data-cache")):
         os.mkdir(cache_dir)
 
+    # Resampling
+    resample, interval = _resample_prep(interval)
+
+    data = _incremental_aggregation(
+        symbol, 
+        interval if not resample else "1", 
+        start, 
+        end, 
+        filter_eod = filter_eod
+    )
+
     cache_path = os.path.join(
         cache_dir,
-        f"{symbol.upper()}==={interval.lower()}===" \
+        f"{symbol.upper()}==={interval.lower() if not resample else '1'}===" \
             f"{dt_format(start)}==={dt_format(end)}.csv"
     )
 
@@ -335,18 +343,7 @@ def _store_cache(
     if os.path.exists(cache_path) and not force:
         return False
 
-    # Resampling
-    resample, int_tf = _resample_prep(interval)
-
-    data = _incremental_aggregation(
-        symbol, 
-        interval if not resample else "1m", 
-        start, 
-        end, 
-        filter_eod = filter_eod
-    )
-
-    if resample: data = resample_data(data, int_tf)
+    if resample: data = resample_data(data, interval)
     data.to_csv(cache_path)
 
     return len(data)
