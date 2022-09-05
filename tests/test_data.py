@@ -130,3 +130,8 @@ def test_incremental_daily():
 
     assert isinstance(res, pd.DataFrame)
     assert not res.empty
+
+
+def test_resample_prep():
+    with pytest.raises(ValueError):
+        data._resample_prep("1w")
