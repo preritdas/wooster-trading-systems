@@ -18,14 +18,14 @@ class Params:
     date-ranges, etc.
     """
     symbol = "AAPL"
-    timeframe = "1m"
+    timeframe = "15m"
     filter_eod = True
 
     walkforward = {
-        "train": (dt.date(2014, 7, 1), dt.date(2014, 8, 1)),
-        "up": (dt.date(2021, 7, 1), dt.date(2021, 7, 14)),
-        "down": (dt.date(2018, 9, 1), dt.date(2018, 9, 14)),
-        "chop": (dt.date(2020, 9, 1), dt.date(2020, 9, 14))
+        "train": (dt.date(2022, 1, 10), dt.date(2022, 6, 23)),
+        "up": (dt.date(2022, 1, 1), dt.date(2022, 7, 13)),
+        "down": (dt.date(2022, 1, 17), dt.date(2022, 9, 3)),
+        "chop": (dt.date(2021, 6, 30), dt.date(2022, 2, 10))
     }
 
     optimizers = {
