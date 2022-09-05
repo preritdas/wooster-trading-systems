@@ -118,9 +118,7 @@ def finnhub_tf(tf: str, backwards: bool = False) -> str:
     if tf not in finnhub_available_timeframes:
         if tf in conversions: tf = conversions[tf]
         if not tf in finnhub_available_timeframes:
-            raise ValueError(
-                f"{tf} not supported by Finnhub, or in the wrong format."
-            )
+            return ""
 
     return tf
 
@@ -267,15 +265,30 @@ def data(
     Collect properly split walkforward data.
     """
     with utils.console.status("Aggregating market data..."):
-        return {
-            label: _incremental_aggregation(
+        resample = False
+        if not finnhub_tf(interval):
+            if interval.endswith("m") and (int_tf := int(interval[:-1])):
+                resample = True
+            else:
+                raise ValueError(
+                    f"Cannot operate with interval {interval}. It is neither a "
+                    "recognized Finnhub timeframe nor a recognized minute timeframe "
+                    "that can be automatically resampled."
+                )
+
+        return_datas = {}
+        for label, start_end in walkforward.items():
+            label_data = _incremental_aggregation(
                 symbol, 
-                interval, 
+                interval if not resample else "1m", 
                 start_end[0], 
-                start_end[1],
+                start_end[1], 
                 filter_eod = filter_eod
-            ) for label, start_end in walkforward.items()
-        }
+            )
+            if resample: label_data = resample_data(label_data, int_tf)
+            return_datas[label] = label_data
+            
+        return return_datas
 
 
 # ---- Cache ----
