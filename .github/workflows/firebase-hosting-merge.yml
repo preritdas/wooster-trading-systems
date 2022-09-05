@@ -6,6 +6,9 @@ name: firebase deployment
   push:
     branches:
       - master
+    paths-ignore:
+      - "README.md"
+    
 jobs:
   deploy:
     runs-on: ubuntu-latest
