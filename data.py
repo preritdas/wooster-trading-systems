@@ -408,15 +408,8 @@ def cache_all_walkforwards() -> None:
     """
     Caches walkforward data for all documented systems.
     """
-    for tup in systems.systems.values():
-        params = tup[1].Params
-        cache_walkforward(
-            walkforward = params.walkforward,
-            symbol = params.symbol,
-            interval = params.timeframe,
-            filter_eod = params.filter_eod,
-            force = False
-        )
+    for index in systems.systems:
+        cache_walkforward_idx(index)
 
 
 def _fetch_cache() -> pd.DataFrame:
