@@ -210,6 +210,10 @@ def _incremental_aggregation(
     """
     Incremement through Finnhub data (if intraday) due to data access limitations.
     """
+    # Verify interval
+    interval = finnhub_tf(interval)
+    assert interval, f"Invalid interval, {interval}."
+
     start_str = dt.datetime.strftime(start, format=config.Datetime.date_format)
     end_str = dt.datetime.strftime(end, format=config.Datetime.date_format)
 
