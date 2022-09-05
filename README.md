@@ -3,6 +3,7 @@
 ![version](https://img.shields.io/badge/python-3.10-blue)
 ![maintenance-status](https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg)
 ![firebase](https://github.com/preritdas/wooster-trading-systems/actions/workflows/firebase-hosting-merge.yml/badge.svg)
+![info site](https://github.com/preritdas/wooster-trading-systems/actions/workflows/pages.yml/badge.svg)
 
 
 # :chart_with_upwards_trend: :robot: Wooster Systems :moneybag: :money_with_wings:
