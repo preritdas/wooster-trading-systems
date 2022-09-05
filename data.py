@@ -184,6 +184,26 @@ def _filter_eod(data: pd.DataFrame, timezone: str = "utc") -> pd.DataFrame:
     return data.between_time(dt.time(13, 30), dt.time(20))
 
 
+def resample_data(data: pd.DataFrame, mins: int) -> pd.DataFrame:
+    """
+    Resamples the timeframe of the data. Best used with 1m inputted data, as this
+    is the most flexible.
+    """
+    assert isinstance(mins, int)
+
+    raw_resampled = data.resample(f"{mins}T")
+    resampled = raw_resampled.ohlc()
+    new_df = raw_resampled.mean()
+
+    new_df["Open"] = resampled["Open"]["open"]
+    new_df["High"] = resampled["High"]["high"]
+    new_df["Low"] = resampled["Low"]["low"]
+    new_df["Close"] = resampled["Close"]["close"]
+    new_df["Volume"] = resampled["Volume"]["open"] + resampled["Volume"]["close"]
+
+    return new_df 
+
+
 def _incremental_aggregation(
     symbol: str, 
     interval: str, 
