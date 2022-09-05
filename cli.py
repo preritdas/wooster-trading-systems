@@ -381,6 +381,10 @@ def cachesystem(
     index: int = typer.Argument(
         ...,
         help = "Index of the system whose walkforward data you'd like to cache."
+    ),
+    cacheall: bool = typer.Option(
+        False,
+        help = "Override index and cache necessary data for all Wooster systems."
     )
 ):
     """
@@ -389,14 +393,21 @@ def cachesystem(
     This is more efficient than initializing a window of data with the cache command,
     without any regard for which sub-windows are actually used by the processing pipeline.
     """
-    with utils.console.status(
-        "Initializing a cache registry of all required data for "
-        f"[red]{utils.idx_to_name(index)}[/]."
-    ):
-        data.cache_walkforward_idx(index)
+    if not cacheall:
+        with utils.console.status(
+            "Initializing a cache registry of all required data for "
+            f"[red]{utils.idx_to_name(index)}[/]."
+        ):
+            data.cache_walkforward_idx(index)
+    else:
+        with utils.console.status(
+            "Initializing a cache registry of all required data for "
+            f"[red]all[/] systems."
+        ):
+            data.cache_all_walkforwards()
     
     utils.console.log(
-        f"All required data for [red]{utils.idx_to_name(index)}[/] has been cached."
+        f"All required data has been cached."
     )
 
 
