@@ -286,7 +286,7 @@ def data(
                 filter_eod = filter_eod
             )
             if resample: label_data = resample_data(label_data, int_tf)
-            return_datas[label] = label_data
+            return_datas[label] = label_data.dropna()
             
         return return_datas
 
