@@ -2,27 +2,27 @@
 Start,2022-01-03 13:30:00
 End,2022-07-12 20:00:00
 Duration,190 days 06:30:00
-Exposure Time [%],98.699
-Equity Final [$],199764.84
-Equity Peak [$],202970.64
-Return [%],99.765
-Buy & Hold Return [%],-18.122
-Return (Ann.) [%],278.528
-Volatility (Ann.) [%],108.911
-Sharpe Ratio,2.557
-Sortino Ratio,18.092
-Calmar Ratio,35.154
-Max. Drawdown [%],-7.923
-Avg. Drawdown [%],-1.055
-Max. Drawdown Duration,21 days 17:30:00
-Avg. Drawdown Duration,1 days 09:27:00
-# Trades,40
-Win Rate [%],62.5
-Best Trade [%],14.785
-Worst Trade [%],-2.654
-Avg. Trade [%],1.746
-Max. Trade Duration,15 days 21:45:00
-Avg. Trade Duration,4 days 17:12:00
-Profit Factor,4.514
-Expectancy [%],1.809
-SQN,3.166
+Exposure Time [%],98.702
+Equity Final [$],187799.285
+Equity Peak [$],190836.605
+Return [%],87.799
+Buy & Hold Return [%],-18.17
+Return (Ann.) [%],236.121
+Volatility (Ann.) [%],93.063
+Sharpe Ratio,2.537
+Sortino Ratio,15.94
+Calmar Ratio,29.293
+Max. Drawdown [%],-8.061
+Avg. Drawdown [%],-1.07
+Max. Drawdown Duration,30 days 20:20:00
+Avg. Drawdown Duration,1 days 06:59:00
+# Trades,42
+Win Rate [%],54.762
+Best Trade [%],14.124
+Worst Trade [%],-2.738
+Avg. Trade [%],1.513
+Max. Trade Duration,15 days 22:00:00
+Avg. Trade Duration,4 days 11:53:00
+Profit Factor,3.64
+Expectancy [%],1.574
+SQN,2.874

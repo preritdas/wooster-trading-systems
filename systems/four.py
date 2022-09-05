@@ -18,7 +18,7 @@ class Params:
     date-ranges, etc.
     """
     symbol = "AAPL"
-    timeframe = "15m"
+    timeframe = "10m"
     filter_eod = True
 
     walkforward = {
