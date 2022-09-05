@@ -255,6 +255,28 @@ def _incremental_aggregation(
     return pd.concat(datas)
 
 
+def _resample_prep(interval: str) -> tuple[bool, str]:
+    """
+    Handles the boilerplate prep work for determining resample conditions
+    and intervals. Raises ValueError if ultimately nothing can be done.
+    Returns a tuple of the resample boolean (if resampling should be done)
+    and a str of the int_tf for resample_data ("" if no resample).
+    """
+    resample = False
+    int_tf = ""
+    if not finnhub_tf(interval):
+        if interval.endswith("m") and (int_tf := int(interval[:-1])):
+            resample = True
+        else:
+            raise ValueError(
+                f"Cannot operate with interval {interval}. It is neither a "
+                "recognized Finnhub timeframe nor a recognized minute timeframe "
+                "that can be automatically resampled."
+            )
+
+    return resample, int_tf
+
+
 def data(
     symbol: str, 
     interval: str, 
@@ -265,16 +287,7 @@ def data(
     Collect properly split walkforward data.
     """
     with utils.console.status("Aggregating market data..."):
-        resample = False
-        if not finnhub_tf(interval):
-            if interval.endswith("m") and (int_tf := int(interval[:-1])):
-                resample = True
-            else:
-                raise ValueError(
-                    f"Cannot operate with interval {interval}. It is neither a "
-                    "recognized Finnhub timeframe nor a recognized minute timeframe "
-                    "that can be automatically resampled."
-                )
+        resample, int_tf = _resample_prep(interval)
 
         return_datas = {}
         for label, start_end in walkforward.items():
@@ -322,7 +335,18 @@ def _store_cache(
     if os.path.exists(cache_path) and not force:
         return False
 
-    data = _incremental_aggregation(symbol, interval, start, end, filter_eod=filter_eod)
+    # Resampling
+    resample, int_tf = _resample_prep(interval)
+
+    data = _incremental_aggregation(
+        symbol, 
+        interval if not resample else "1m", 
+        start, 
+        end, 
+        filter_eod = filter_eod
+    )
+
+    if resample: data = resample_data(data, int_tf)
     data.to_csv(cache_path)
 
     return len(data)
@@ -333,8 +357,6 @@ def init_cache(symbol: str, interval: str, lookback_yrs: int, force: bool) -> bo
     Initialize data cache. Returns the number of bars collected, 
     for no practical purpose.
     """
-    interval = finnhub_tf(interval)
-
     today = dt.date.today()
     lookback = today - dt.timedelta(weeks=int(52*lookback_yrs))
 
@@ -358,7 +380,7 @@ def cache_walkforward(
     for start, end in walkforward.values():
         _store_cache(
             symbol, 
-            finnhub_tf(interval), 
+            interval, 
             start, 
             end, 
             filter_eod=filter_eod, 
@@ -444,7 +466,8 @@ def load_cache(symbol: str, interval: str, start: dt.date, end: dt.date) -> pd.D
     symbol_res = cache_db[cache_db.Symbol == symbol]
     interval_res = symbol_res[symbol_res.Interval == interval]
     if interval_res.empty:  # attempt with converted timeframe
-        interval_res = symbol_res[symbol_res.Interval == finnhub_tf(interval)]
+        if finnhub_tf(interval):
+            interval_res = symbol_res[symbol_res.Interval == finnhub_tf(interval)]
     start_res = interval_res[
         interval_res.Start <= pd.to_datetime(start, format=date_format)
     ]
@@ -474,7 +497,8 @@ def delete_cache(symbol: str, interval: str) -> bool:
     symbol_res = cache_db[cache_db.Symbol == symbol]
     interval_res = symbol_res[symbol_res.Interval == interval]
     if interval_res.empty:
-        interval_res = symbol_res[symbol_res.Interval == finnhub_tf(interval)]
+        if finnhub_tf(interval):
+            interval_res = symbol_res[symbol_res.Interval == finnhub_tf(interval)]
     if interval_res.empty: return False
 
     for idx in range(len(interval_res)):
