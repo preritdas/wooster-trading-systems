@@ -111,9 +111,7 @@ def test_yahoo_finance():
 def test_finnhub_tf():
     assert data.finnhub_tf("1m") == "1"
     assert data.finnhub_tf("1", backwards=True) == "1m"
-
-    with pytest.raises(ValueError):
-        data.finnhub_tf("2m")
+    assert not data.finnhub_tf("2m")
 
 
 def test_filter_eod():
@@ -132,3 +130,8 @@ def test_incremental_daily():
 
     assert isinstance(res, pd.DataFrame)
     assert not res.empty
+
+
+def test_resample_prep():
+    with pytest.raises(ValueError):
+        data._resample_prep("1h")

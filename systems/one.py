@@ -23,7 +23,7 @@ class Params:
         "train": (dt.date(2014, 7, 1), dt.date(2014, 8, 30)),
         "up": (dt.date(2021, 7, 1), dt.date(2021, 8, 1)),
         "down": (dt.date(2018, 9, 1), dt.date(2018, 10, 1)),
-        "chop": (dt.date(2020, 9, 1), dt.date(2020, 10, 20))
+        "chop": (dt.date(2020, 9, 1), dt.date(2020, 9, 20))
     }
 
     optimizers = {

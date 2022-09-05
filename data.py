@@ -118,9 +118,7 @@ def finnhub_tf(tf: str, backwards: bool = False) -> str:
     if tf not in finnhub_available_timeframes:
         if tf in conversions: tf = conversions[tf]
         if not tf in finnhub_available_timeframes:
-            raise ValueError(
-                f"{tf} not supported by Finnhub, or in the wrong format."
-            )
+            return ""
 
     return tf
 
@@ -138,8 +136,6 @@ def _fetch_data_finnhub(
     and end as datetime type, where end is at least one day prior. 
     This is because if you run the system while the market is open, plotting breaks.
     """
-    interval = finnhub_tf(interval)
-
     data = finnhub_client.stock_candles(
         symbol.upper(),
         interval,
@@ -214,9 +210,9 @@ def _incremental_aggregation(
     """
     Incremement through Finnhub data (if intraday) due to data access limitations.
     """
-    # Convert interval format
-    old_interval = interval
-    interval = finnhub_tf(old_interval)
+    # Verify interval
+    interval = finnhub_tf(interval)
+    assert interval, f"Invalid interval, {interval}."
 
     start_str = dt.datetime.strftime(start, format=config.Datetime.date_format)
     end_str = dt.datetime.strftime(end, format=config.Datetime.date_format)
@@ -257,6 +253,31 @@ def _incremental_aggregation(
     return pd.concat(datas)
 
 
+def _resample_prep(interval: str) -> tuple[bool, str]:
+    """
+    Handles the boilerplate prep work for determining resample conditions
+    and intervals. Raises ValueError if ultimately nothing can be done.
+    Returns a tuple of the resample boolean (if resampling should be done)
+    and a str of the int_tf for resample_data, or the finnhub converted interval
+    if no resampling.
+    """
+    resample = False
+    new_interval = ""
+    if (finnhub_conversion := finnhub_tf(interval)):
+        return False, finnhub_conversion
+    else: 
+        if interval.endswith("m") and (new_interval := int(interval[:-1])):
+            resample = True
+        else:
+            raise ValueError(
+                f"Cannot operate with interval {interval}. It is neither a "
+                "recognized Finnhub timeframe nor a recognized minute timeframe "
+                "that can be automatically resampled."
+            )
+
+    return resample, new_interval
+
+
 def data(
     symbol: str, 
     interval: str, 
@@ -267,15 +288,21 @@ def data(
     Collect properly split walkforward data.
     """
     with utils.console.status("Aggregating market data..."):
-        return {
-            label: _incremental_aggregation(
+        resample, interval = _resample_prep(interval)
+
+        return_datas = {}
+        for label, start_end in walkforward.items():
+            label_data = _incremental_aggregation(
                 symbol, 
-                interval, 
+                interval if not resample else "1", 
                 start_end[0], 
-                start_end[1],
+                start_end[1], 
                 filter_eod = filter_eod
-            ) for label, start_end in walkforward.items()
-        }
+            )
+            if resample: label_data = resample_data(label_data, interval)
+            return_datas[label] = label_data.dropna()
+            
+        return return_datas
 
 
 # ---- Cache ----
@@ -299,9 +326,20 @@ def _store_cache(
     if not os.path.exists(cache_dir := os.path.join(current_dir, "data-cache")):
         os.mkdir(cache_dir)
 
+    # Resampling
+    resample, interval = _resample_prep(interval)
+
+    data = _incremental_aggregation(
+        symbol, 
+        interval if not resample else "1", 
+        start, 
+        end, 
+        filter_eod = filter_eod
+    )
+
     cache_path = os.path.join(
         cache_dir,
-        f"{symbol.upper()}==={interval.lower()}===" \
+        f"{symbol.upper()}==={interval.lower() if not resample else '1'}===" \
             f"{dt_format(start)}==={dt_format(end)}.csv"
     )
 
@@ -309,7 +347,7 @@ def _store_cache(
     if os.path.exists(cache_path) and not force:
         return False
 
-    data = _incremental_aggregation(symbol, interval, start, end, filter_eod=filter_eod)
+    if resample: data = resample_data(data, interval)
     data.to_csv(cache_path)
 
     return len(data)
@@ -320,8 +358,6 @@ def init_cache(symbol: str, interval: str, lookback_yrs: int, force: bool) -> bo
     Initialize data cache. Returns the number of bars collected, 
     for no practical purpose.
     """
-    interval = finnhub_tf(interval)
-
     today = dt.date.today()
     lookback = today - dt.timedelta(weeks=int(52*lookback_yrs))
 
@@ -345,7 +381,7 @@ def cache_walkforward(
     for start, end in walkforward.values():
         _store_cache(
             symbol, 
-            finnhub_tf(interval), 
+            interval, 
             start, 
             end, 
             filter_eod=filter_eod, 
@@ -372,15 +408,8 @@ def cache_all_walkforwards() -> None:
     """
     Caches walkforward data for all documented systems.
     """
-    for tup in systems.systems.values():
-        params = tup[1].Params
-        cache_walkforward(
-            walkforward = params.walkforward,
-            symbol = params.symbol,
-            interval = params.timeframe,
-            filter_eod = params.filter_eod,
-            force = False
-        )
+    for index in systems.systems:
+        cache_walkforward_idx(index)
 
 
 def _fetch_cache() -> pd.DataFrame:
@@ -431,7 +460,8 @@ def load_cache(symbol: str, interval: str, start: dt.date, end: dt.date) -> pd.D
     symbol_res = cache_db[cache_db.Symbol == symbol]
     interval_res = symbol_res[symbol_res.Interval == interval]
     if interval_res.empty:  # attempt with converted timeframe
-        interval_res = symbol_res[symbol_res.Interval == finnhub_tf(interval)]
+        if finnhub_tf(interval):
+            interval_res = symbol_res[symbol_res.Interval == finnhub_tf(interval)]
     start_res = interval_res[
         interval_res.Start <= pd.to_datetime(start, format=date_format)
     ]
@@ -461,7 +491,8 @@ def delete_cache(symbol: str, interval: str) -> bool:
     symbol_res = cache_db[cache_db.Symbol == symbol]
     interval_res = symbol_res[symbol_res.Interval == interval]
     if interval_res.empty:
-        interval_res = symbol_res[symbol_res.Interval == finnhub_tf(interval)]
+        if finnhub_tf(interval):
+            interval_res = symbol_res[symbol_res.Interval == finnhub_tf(interval)]
     if interval_res.empty: return False
 
     for idx in range(len(interval_res)):

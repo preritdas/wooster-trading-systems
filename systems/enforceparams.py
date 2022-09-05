@@ -14,7 +14,7 @@ import utils
 params_structure = {
     "symbol": lambda attr: isinstance(attr, str),
     "timeframe": lambda attr: isinstance(attr, str) \
-        and attr in {"1m", "5m", "15m", "30m", "60m", "1d", "1w"},
+        and any(True for suf in {"m", "h", "d", "w"} if attr.endswith(suf)),
     "filter_eod": lambda attr: isinstance(attr, bool),
     "walkforward": lambda attr: isinstance(attr, dict) \
         and all([isinstance(key, str) for key in attr.keys()]) \
