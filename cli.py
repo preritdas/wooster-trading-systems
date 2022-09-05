@@ -7,7 +7,6 @@ import pyperclip
 from rich.syntax import Syntax
 import pytest
 
-
 # Local imports
 from time import perf_counter  # optionally time commands
 import os  # paths
