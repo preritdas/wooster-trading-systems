@@ -57,7 +57,7 @@ jobs:
           echo $PYTHONPATH
           export PYTHONPATH=$PYTHONPATH:.
           echo $PYTHONPATH
-          typer cli.py utils docs --name wooster --output cliref.py
+          typer cli.py utils docs --name wooster --output cliref.md
 
       - name: Update read-me
         run: |
