@@ -1,0 +1,28 @@
+name: cli docs
+
+on:
+  push:
+    paths:
+      - "cli.py"
+  workflow_run:
+  
+  
+jobs:
+  docs:
+    runs-on: "ubuntu-latest"
+    
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+        
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        
+      - name: Install dependencies
+        run: |
+          pip install -U pip wheel
+          pip install typer pyperclip rich pytest typer-cli
+          export PYTHONPATH=$PYTHONPATH:.
+          
+      - name: Display docs
+        run: typer cli.py utils docs
