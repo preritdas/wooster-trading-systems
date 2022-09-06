@@ -23,7 +23,8 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -U pip wheel
-          pip install typer pyperclip rich pytest typer-cli
+          pip install -r requirements.txt
+          pip install typer-cli
           
       - name: Display docs
         run: |
