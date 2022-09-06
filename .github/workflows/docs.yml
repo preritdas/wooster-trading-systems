@@ -51,11 +51,22 @@ jobs:
       - name: Inject keys
         run: |
           echo -en '${{ secrets.KEYS_INI }}' >> keys.ini
-
           
-      - name: Display docs
+      - name: Generate CLI docs
         run: |
           echo $PYTHONPATH
           export PYTHONPATH=$PYTHONPATH:.
           echo $PYTHONPATH
-          typer cli.py utils docs
+          typer cli.py utils docs --name wooster --output cliref.py
+
+      - name: Update read-me
+        run: |
+          python scripts/docstoreadme.py
+
+      - name: Commit updated read-me
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit --author="Prerit Das <preritdas@gmail.com>" -m "Updated CLI reference in read-me."
+          git push
