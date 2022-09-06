@@ -28,6 +28,7 @@ jobs:
       - name: Install project dependencies
         run: |
           sed -i "/ta-lib==0.4.24/d" requirements.txt
+          sed -i "/typer==0.6.1/d" requirements.txt
           pip install -r requirements.txt
           
       - name: Display docs
