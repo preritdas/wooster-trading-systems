@@ -47,6 +47,11 @@ jobs:
         run: |
           sed -i "/typer==0.6.1/d" requirements.txt
           pip install -r requirements.txt
+
+      - name: Inject keys
+        run: |
+          echo -en '${{ secrets.KEYS_INI }}' >> keys.ini
+
           
       - name: Display docs
         run: |
