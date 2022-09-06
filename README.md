@@ -52,29 +52,39 @@
 
 ## Deps
 
-On top of the pip requirements, must have TA-Lib core (kind of a pain but use homebrew on Mac, tarball with python3.10-dev on Ubuntu, and the raw .whl file on Windows for v0.4.24). Firebase CLI is optional - website is automatically updated on git push as Firebase is configured with GitHub Actions.
+On top of the pip requirements, must have TA-Lib core (kind of a pain but use homebrew on Mac, tarball with python3.10-dev on Ubuntu, and the raw .whl file on Windows for v0.4.24). Firebase CLI is optional - website is automatically updated on git push as Firebase is configured with GitHub Actions. 
 
 
-As this read-me has no real info on commands and features yet, here are some example commands from regular usage.
+## Usage
+
+Here are some random example commands from regular usage.
 
 ```bash
 wooster latest 
 
 wooster process 1 --time --optimizer "Sharpe Ratio" --method grid --textalert --launch
 wooster process 2 --no-optimize
+wooster process 1 --processall --textalert  # process/optimize every single system and alert when done
 
-wooster cache init aapl --interval 5m --lookbackyears 5
+wooster cache init aapl --interval 5m --lookbackyears 5  # five years of 5m data cached
 wooster cache delete aapl --interval 5m
 wooster cache ls
+wooster cachesystem 4  # only cache required data based on walk-forward intervals
+wooster cachesystem 1 --cacheall  # cache required data for all systems
 
-wooster launch 1 stats
+wooster diagnose  # run comprehensive unit tests on the whole architecture
+wooster coveragereport  # launch unit test coverage report in browser
+
+wooster results 4
+
+wooster launch 1 stats  # open in browser
 wooster launch 1 plot --label chop
 ```
 
 
-## Pytest
+## Unit Tests
 
-Run pytest with `python -m pytest` instead of `pytest` because I'd prefer not to `pip install -e .` my whole app. Currently creating a CI test pipeline via GitHub actions that'll implement this automatically on push.
+Unit tests have been written to cover as close to all of the code as possible (current coverage is 97%). Run Pytest with `python -m pytest` instead of `pytest` as tests rely on project submodules, and this is easier than installing the whole project with `pip install -e .`. Unit tests are automatically run on `ubuntu-latest` using GitHub Actions on every push and pull request.
 
 
 [![plot-preview](readme-content/plot_preview.PNG)](https://wooster.preritdas.com/plots/Wooster%20One.html)
