@@ -280,21 +280,18 @@ def load_results(idx: int) -> dict[str, pd.Series]:
     return results
 
 
-def _render_results(results: pd.Series, idx: int = None, name: str = "") -> Table:
+def _render_results(results: pd.Series) -> Table:
     """
     Renders results to console. Provide a results series. Only need to provide either
     `idx` or `name`. 
     """
-    if name: name += " "
-    if idx: name = idx_to_name(idx)
-
     # Get all metrics as long as they're not private attributes
     all_metrics = [metric for metric in results.index if metric[0] != "_"]
     
     # Preferred metrics
 
     preferred_table = Table(
-        title = f"[red]{name}[/]Preferred Performance Metrics",
+        title = Text("Preferred Performance Metrics"),
         style = "dim"
     )
     preferred_table.add_column("Metric")
@@ -315,7 +312,7 @@ def _render_results(results: pd.Series, idx: int = None, name: str = "") -> Tabl
     secondary_table = Table(
         title = Text(
             "Secondary Performance Metrics", 
-            style=config.Results.secondary_metrics_style
+            style = config.Results.secondary_metrics_style
         ), 
         style = config.Results.secondary_metrics_style
     )
@@ -368,7 +365,7 @@ def display_results(
     for label, result in results.items():
         table = _render_results(result)
         html_console.line()
-        html_console.rule(full_label_name(label))
+        html_console.rule(f"[red]{idx_to_name(idx)}[/] {full_label_name(label)}")
         html_console.line()
         html_console.print(table, justify="center")
         html_console.line()
