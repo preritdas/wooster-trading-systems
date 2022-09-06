@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - "cli.py"
-  workflow_run:
+  workflow_dispatch:
   
   
 jobs:
