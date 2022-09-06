@@ -111,7 +111,7 @@ def _process_system(
         )
         results[label] = _walkforward_bt.run(
             show_progress = True,
-            progress_message = f"Testing {'optimized' if optimize else ''} " \
+            progress_message = f"Testing {'optimized ' if optimize else ''}" \
                 f"strategy on {label} data...",
             newline = pos == 1,  # insert newline if first test after train
             **params
