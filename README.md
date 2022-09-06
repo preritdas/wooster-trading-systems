@@ -93,7 +93,6 @@ Unit tests have been written to cover as close to all of the code as possible (c
 
 
 # CLI Reference - `wooster`
-
 Process, optimize, and view the results for Wooster trading systems.
 
 **Usage**:
@@ -261,6 +260,8 @@ Process a strategy by index, and optimize it based on the selected optimizer.
 The default optimizer is set in config.ini, currently SQN. Specify 
 a different optimizer with the --optimizer flag. You can optimize
 pretty much any numeric metric as outputted in the results.
+
+Test if this is added to the read-me automatically.
 
 **Usage**:
 
