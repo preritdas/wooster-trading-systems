@@ -24,7 +24,10 @@ jobs:
         run: |
           pip install -U pip wheel
           pip install typer pyperclip rich pytest typer-cli
-          export PYTHONPATH=$PYTHONPATH:.
           
       - name: Display docs
-        run: typer cli.py utils docs
+        run: |
+          echo $PYTHONPATH
+          export PYTHONPATH=$PYTHONPATH:.
+          echo $PYTHONPATH
+          typer cli.py utils docs
