@@ -26,8 +26,9 @@ jobs:
           pip install typer-cli
           
       - name: Install project dependencies
-        continue-on-error: true
-        run: pip install -r requirements.txt
+        run: |
+          sed -i "/ta-lib==0.4.24/d" requirements.txt
+          pip install -r requirements.txt
           
       - name: Display docs
         run: |
