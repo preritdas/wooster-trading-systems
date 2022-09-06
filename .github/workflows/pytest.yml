@@ -6,6 +6,7 @@ on:
       - "README.md"
       - "*/**/*.html"
   pull_request:
+  workflow_dispatch:
 
 jobs:
   test:
