@@ -67,12 +67,22 @@ jobs:
           pip install -r docs/requirements.txt
           cd docs && make html && cd ..
 
-      - name: Commit updated doc files 
+      - name: Configure git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      
+      - name: Commit updated CLI reference
+        continue-on-error: true
+        run: |
           git add docs/source/cli.md
-          git diff-index --quiet HEAD || git commit --author="Prerit Das <preritdas@gmail.com>" -m "Update CLI documentation."
+          git commit --author="Prerit Das <preritdas@gmail.com>" -m "Update CLI documentation."
+
+      - name: Commit updated doc build
+        continue-on-error: true
+        run: |
           git add docs/build/*
-          git diff-index --quiet HEAD || git commit --author="Prerit Das <preritdas@gmail.com>" -m "Build documentation."
-          git push
+          git commit --author="Prerit Das <preritdas@gmail.com>" -m "Build documentation."
+
+      - name: Push committed changes
+        run: git push
