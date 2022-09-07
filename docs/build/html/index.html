@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Main features &mdash; Wooster Trading Systems  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="#" class="icon icon-home"> Wooster Trading Systems
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Main features</a><ul>
+<li><a class="reference internal" href="#smaller-features">Smaller features</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#deps">Deps</a></li>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#unit-tests">Unit Tests</a></li>
+<li><a class="reference internal" href="#cli-reference-wooster">CLI Reference - <code class="docutils literal notranslate"><span class="pre">wooster</span></code></a><ul>
+<li><a class="reference internal" href="#wooster-cache"><code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">cache</span></code></a></li>
+<li><a class="reference internal" href="#wooster-cachesystem"><code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">cachesystem</span></code></a></li>
+<li><a class="reference internal" href="#wooster-coveragereport"><code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">coveragereport</span></code></a></li>
+<li><a class="reference internal" href="#wooster-diagnose"><code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">diagnose</span></code></a></li>
+<li><a class="reference internal" href="#wooster-latest"><code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">latest</span></code></a></li>
+<li><a class="reference internal" href="#wooster-launch"><code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">launch</span></code></a></li>
+<li><a class="reference internal" href="#wooster-optimizers"><code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">optimizers</span></code></a></li>
+<li><a class="reference internal" href="#wooster-process"><code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">process</span></code></a></li>
+<li><a class="reference internal" href="#wooster-results"><code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">results</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Wooster Trading Systems</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+      <li>Main features</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <p>Welcome to the docs.</p>
+<section id="main-features">
+<h1>Main features<a class="headerlink" href="#main-features" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p>Predesigned proprietary Wooster trading strategies, most of which are ML-powered. Continually modifying and iterating on them.</p></li>
+<li><p>Comprehensive feature-packed CLI capable of independently handling all of the following features.</p></li>
+<li><p>Automatic backtesting of strategies against up to 10 years of historical data.</p></li>
+<li><p>Automatic multi-core optimization of strategy parameters on historical data, with the ability to change the optimized statistic (i.e. SQN, Sharpe Ratio, Return, etc.).</p></li>
+<li><p>Automatic backtesting of optimized strategy on out-of-sample uptrend, downtrend, and choppy market data, to combat overfitting and to see a strategy’s true performance on new, un-optimized data. Walkforward principle, applied intentionally to various market conditions.</p></li>
+<li><p>Automatically formats above results (from all conditions) into beautiful HTML files, which automatically update on the <a class="reference external" href="https://wooster.preritdas.com">Wooster website</a> on git push using GitHub Actions.</p></li>
+<li><p>Automatically generates sharp JS (Bokeh) interactive plots of above results, also automatically updated on the <a class="reference external" href="https://wooster.preritdas.com">Wooster website</a> on git push.</p></li>
+<li><p><a class="reference external" href="https://wooster.preritdas.com">Wooster website</a> written in HTML and JavaScript with smart lookup - query strategy statistics or specific performance plots from the homepage.</p></li>
+<li><p>Data cache - initialize, view, and manage a local cache data repository to speed up data aggregation in the processing phase. When tuning and reprocessing a strategy, the walkforward data windows are often the same, so it doesn’t make sense to (a) use up a data rate limit or (b) wait for the same data to download <em>again</em> (especially when loading many years of intraday data for testing and optimization). An example (more sample CLI commands below): <code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">cache</span> <span class="pre">init</span> <span class="pre">aapl</span> <span class="pre">--interval</span> <span class="pre">1m</span> <span class="pre">--lookbackyears</span> <span class="pre">10</span></code> to store 10 years of minute bar data on AAPL, automatically used whenever any program feature tries to access 1m AAPL data within the last 10 years.</p>
+<ul>
+<li><p>With cached data, you can develop, train, optimize, backtest, and export systems <em>entirely</em> offline.</p></li>
+</ul>
+</li>
+<li><p>Data resampling - not constrained by Finnhub (or active data provider) timeframe/interval API limitations. For example, Finnhub only supports 1m, 5m, 15m, hourly, daily, and weekly data, meaning you cannot train and optimize a system on 2m or 10m data, for example. Now with completely under-the-hood support for resampling, without changing the behavior of the system setups - simply change the timefrmae in a system <code class="docutils literal notranslate"><span class="pre">Params</span></code> class. Works with caching, too.</p></li>
+<li><p>Parameter enforcement - The processing pipeline is independent of individual systems. Yet, it calls cataloged systems’ <code class="docutils literal notranslate"><span class="pre">Params</span></code> class to gather all its information, from symbols to walk-forward windows to strategy optimizations. Thus, if a system’s <code class="docutils literal notranslate"><span class="pre">Params</span></code> class fails to include a necessary attribute, or incorrectly structures a necessary attribute, the entire processing pipeline will likely fail. See PR #2.</p></li>
+<li><p>Full CI/CD pipeline. On pushes and pull requests, automatically run comprehensive tests on the processing pipeline, data aggregation, data caching, file lookups, utilities, and more, on Ubuntu, Linux, and macOS (CI). Automatically deploy rendered HTML files to the <a class="reference external" href="https://wooster.preritdas.com">wooster website</a> (CD). All done via GitHub actions.</p></li>
+</ul>
+<section id="smaller-features">
+<h2>Smaller features<a class="headerlink" href="#smaller-features" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>No-loss incremental aggregation of market data to comply with freemium data provider restrictions and rate limits.</p></li>
+<li><p>This is a really small one, among many useful command options, but deserves to be here nonetheless because of the immense convenience it’s given me. <code class="docutils literal notranslate"><span class="pre">--textalert</span></code> option in <code class="docutils literal notranslate"><span class="pre">process</span></code> command to receive a text message once processing has completed. When a strategy has several parameters with wide value ranges, optimization can take a <em>very</em> long time, as optimization tests the product of all parameter configurations. <code class="docutils literal notranslate"><span class="pre">--textalert</span></code> adds convenience to server-side deployment. Note that even the <em>setup</em> for this feature is completely optional - if no Nexmo API keys are provided, no features are broken. The flag then simply does nothing.</p></li>
+<li><p>Optionally change not just the optimized statistic, but the optimization method itself - grid optimization or minimal forest optimization with scikit. If grid optimization (default) is used on most Mac/Darwin/Linux machines, optimization will make use of multiple cores, completing operations several times faster than otherwise.</p></li>
+<li><p>Defaults configuration through <code class="docutils literal notranslate"><span class="pre">config.ini</span></code> - modify preferred metrics, highlighted metrics, default optimizer, etc.</p></li>
+<li><p>Status handling across modules and submodules, because processing (aggregating up to 10 years of intraday non-cached data, backtesting, optimizing, re-backtesting on out-of-sample market conditions) can often take just a little while. Rich status icons and progress bars keep track of where the program is (and how far along) at almost all times. This includes estimated remaining time! For example, when optimizing many parameters on heavy data, you’ll see a progress bar with an estimated time to optimization completion.</p></li>
+<li><p>Stored optimized parameter - whenever a strategy is optimized (via the <code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">process</span></code> command), the found optimal parameter combination is serialized as JSON and stored in the <code class="docutils literal notranslate"><span class="pre">results/optimizers</span></code> subdirectory. The <code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">optimizers</span></code> command allows a user to view the optimal parameter combination for a given strategy by index. Example directly below.</p></li>
+<li><p>Stored computed results - redisplay backtest and optimization results for a system without having to reprocess it. See PR #1.</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Stored optimal parameters example</span>
+
+&gt; wooster optimizers <span class="m">2</span>
+
+<span class="o">{</span>
+  <span class="s1">&#39;rsi_period&#39;</span>: <span class="m">9</span>.0,
+  <span class="s1">&#39;rsi_bottom_target&#39;</span>: <span class="m">13</span>,
+  <span class="s1">&#39;rsi_top_target&#39;</span>: <span class="m">87</span>,
+  <span class="s1">&#39;lstm_window&#39;</span>: <span class="m">5</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="deps">
+<h1>Deps<a class="headerlink" href="#deps" title="Permalink to this heading"></a></h1>
+<p>On top of the pip requirements, must have TA-Lib core (kind of a pain but use homebrew on Mac, tarball with python3.10-dev on Ubuntu, and the raw .whl file on Windows for v0.4.24). Firebase CLI is optional - website is automatically updated on git push as Firebase is configured with GitHub Actions.</p>
+</section>
+<section id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h1>
+<p>Here are some random example commands from regular usage.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wooster latest 
+
+wooster process <span class="m">1</span> --time --optimizer <span class="s2">&quot;Sharpe Ratio&quot;</span> --method grid --textalert --launch
+wooster process <span class="m">2</span> --no-optimize
+wooster process <span class="m">1</span> --processall --textalert  <span class="c1"># process/optimize every single system and alert when done</span>
+
+wooster cache init aapl --interval 5m --lookbackyears <span class="m">5</span>  <span class="c1"># five years of 5m data cached</span>
+wooster cache delete aapl --interval 5m
+wooster cache ls
+wooster cachesystem <span class="m">4</span>  <span class="c1"># only cache required data based on walk-forward intervals</span>
+wooster cachesystem <span class="m">1</span> --cacheall  <span class="c1"># cache required data for all systems</span>
+
+wooster diagnose  <span class="c1"># run comprehensive unit tests on the whole architecture</span>
+wooster coveragereport  <span class="c1"># launch unit test coverage report in browser</span>
+
+wooster results <span class="m">4</span>
+
+wooster launch <span class="m">1</span> stats  <span class="c1"># open in browser</span>
+wooster launch <span class="m">1</span> plot --label chop
+</pre></div>
+</div>
+</section>
+<section id="unit-tests">
+<h1>Unit Tests<a class="headerlink" href="#unit-tests" title="Permalink to this heading"></a></h1>
+<p>Unit tests have been written to cover as close to all of the code as possible (current coverage is 97%). Run Pytest with <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pytest</span></code> instead of <code class="docutils literal notranslate"><span class="pre">pytest</span></code> as tests rely on project submodules, and this is easier than installing the whole project with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code>. Unit tests are automatically run on <code class="docutils literal notranslate"><span class="pre">ubuntu-latest</span></code> using GitHub Actions on every push and pull request.</p>
+<p><a class="reference external" href="https://wooster.preritdas.com/plots/Wooster%20One.html"><img alt="plot-preview" src="_images/plot_preview.PNG" /></a></p>
+</section>
+<section id="cli-reference-wooster">
+<h1>CLI Reference - <code class="docutils literal notranslate"><span class="pre">wooster</span></code><a class="headerlink" href="#cli-reference-wooster" title="Permalink to this heading"></a></h1>
+<p>Process, optimize, and view the results for Wooster trading systems.</p>
+<p><strong>Usage</strong>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster <span class="o">[</span>OPTIONS<span class="o">]</span> COMMAND <span class="o">[</span>ARGS<span class="o">]</span>...
+</pre></div>
+</div>
+<p><strong>Options</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--help</span></code>: Show this message and exit.</p></li>
+</ul>
+<p><strong>Commands</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cache</span></code>: Maintain a local store of cache market data,…</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cachesystem</span></code>: Cache all the data necessary to backtest and…</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">coveragereport</span></code>: Launch a browser with the latest unit test…</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">diagnose</span></code>: Run comprehensive unittests on the entire…</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">latest</span></code>: Get the name and index of the latest Wooster…</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">launch</span></code>: Launch an existing results plot or…</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">optimizers</span></code>: See a system’s optimized parameters (if the…</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">process</span></code>: Process a strategy by index, and optimize it…</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">results</span></code>: Display an already-computed system’s results.</p></li>
+</ul>
+<section id="wooster-cache">
+<h2><code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">cache</span></code><a class="headerlink" href="#wooster-cache" title="Permalink to this heading"></a></h2>
+<p>Maintain a local store of cache market data, accessible by processors, to
+drastically speed up the ‘data aggregation’ phase of processing.</p>
+<p><strong>Usage</strong>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster cache <span class="o">[</span>OPTIONS<span class="o">]</span> ACTION <span class="o">[</span>SYMBOL<span class="o">]</span>
+</pre></div>
+</div>
+<p><strong>Arguments</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ACTION</span></code>: Either ‘init’, ‘delete’, or ‘list’/’ls’.   [required]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[SYMBOL]</span></code>: Symbol to interface with. Unnecessary when using ‘list’/’ls’.</p></li>
+</ul>
+<p><strong>Options</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--interval</span> <span class="pre">TEXT</span></code>: Interval to store the data in. 1m by default.  [default: 1m]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--lookbackyears</span> <span class="pre">INTEGER</span></code>: Number of years to aggregate historical data.  [default: 10]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--force</span> <span class="pre">/</span> <span class="pre">--no-force</span></code>: If a warning is returned that your cache exists, rewrite new cache.  [default: False]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--time</span> <span class="pre">/</span> <span class="pre">--no-time</span></code>: Display the amount of time the operation took.  [default: False]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--help</span></code>: Show this message and exit.</p></li>
+</ul>
+</section>
+<section id="wooster-cachesystem">
+<h2><code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">cachesystem</span></code><a class="headerlink" href="#wooster-cachesystem" title="Permalink to this heading"></a></h2>
+<p>Cache all the data necessary to backtest and optimize a certain system.</p>
+<p>This is more efficient than initializing a window of data with the cache command,
+without any regard for which sub-windows are actually used by the processing pipeline.</p>
+<p><strong>Usage</strong>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster cachesystem <span class="o">[</span>OPTIONS<span class="o">]</span> INDEX
+</pre></div>
+</div>
+<p><strong>Arguments</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">INDEX</span></code>: Index of the system whose walkforward data you’d like to cache.  [required]</p></li>
+</ul>
+<p><strong>Options</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--cacheall</span> <span class="pre">/</span> <span class="pre">--no-cacheall</span></code>: Override index and cache necessary data for all Wooster systems.  [default: False]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--help</span></code>: Show this message and exit.</p></li>
+</ul>
+</section>
+<section id="wooster-coveragereport">
+<h2><code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">coveragereport</span></code><a class="headerlink" href="#wooster-coveragereport" title="Permalink to this heading"></a></h2>
+<p>Launch a browser with the latest unit test coverage report.</p>
+<p><strong>Usage</strong>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster coveragereport <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p><strong>Options</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--help</span></code>: Show this message and exit.</p></li>
+</ul>
+</section>
+<section id="wooster-diagnose">
+<h2><code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">diagnose</span></code><a class="headerlink" href="#wooster-diagnose" title="Permalink to this heading"></a></h2>
+<p>Run comprehensive unittests on the entire Wooster system.</p>
+<p>If something seems awry in system functionality, this command will run
+comprehensive tests on all areas of functionality, including the entire
+processing pipeline.</p>
+<p><strong>Usage</strong>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster diagnose <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p><strong>Options</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--help</span></code>: Show this message and exit.</p></li>
+</ul>
+</section>
+<section id="wooster-latest">
+<h2><code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">latest</span></code><a class="headerlink" href="#wooster-latest" title="Permalink to this heading"></a></h2>
+<p>Get the name and index of the latest Wooster system. You can use the index
+to then process or launch results, if they exist, by calling
+<code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">process</span> <span class="pre">idx</span></code> or <code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">launch</span> <span class="pre">idx</span></code> where <code class="docutils literal notranslate"><span class="pre">idx</span></code> is replaced
+by the index specified by this command.</p>
+<p><strong>Usage</strong>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster latest <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p><strong>Options</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--help</span></code>: Show this message and exit.</p></li>
+</ul>
+</section>
+<section id="wooster-launch">
+<h2><code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">launch</span></code><a class="headerlink" href="#wooster-launch" title="Permalink to this heading"></a></h2>
+<p>Launch an existing results plot or comprehensive performance stats in the browser.
+Use this command to view pre-computed results without having to re-process
+a strategy.</p>
+<p><strong>Usage</strong>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster launch <span class="o">[</span>OPTIONS<span class="o">]</span> INDEX VIEW
+</pre></div>
+</div>
+<p><strong>Arguments</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">INDEX</span></code>: Numeric index of the queried strategy.  [required]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">VIEW</span></code>: Specify whether launching the stats or a plot.  [required]</p></li>
+</ul>
+<p><strong>Options</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--label</span> <span class="pre">TEXT</span></code>: If opening a plot, specify train, up, down, or chop results.  [default: train]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--help</span></code>: Show this message and exit.</p></li>
+</ul>
+</section>
+<section id="wooster-optimizers">
+<h2><code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">optimizers</span></code><a class="headerlink" href="#wooster-optimizers" title="Permalink to this heading"></a></h2>
+<p>See a system’s optimized parameters (if the system has been optimized). If
+the system exists but no optimizers are shown, run the process command first.</p>
+<p><strong>Usage</strong>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster optimizers <span class="o">[</span>OPTIONS<span class="o">]</span> INDEX
+</pre></div>
+</div>
+<p><strong>Arguments</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">INDEX</span></code>: System index, ex. 2 for Wooster Two.  [required]</p></li>
+</ul>
+<p><strong>Options</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--help</span></code>: Show this message and exit.</p></li>
+</ul>
+</section>
+<section id="wooster-process">
+<h2><code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">process</span></code><a class="headerlink" href="#wooster-process" title="Permalink to this heading"></a></h2>
+<p>Process a strategy by index, and optimize it based on the selected optimizer.</p>
+<p>The default optimizer is set in config.ini, currently SQN. Specify
+a different optimizer with the –optimizer flag. You can optimize
+pretty much any numeric metric as outputted in the results.</p>
+<p><strong>Usage</strong>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster process <span class="o">[</span>OPTIONS<span class="o">]</span> INDEX
+</pre></div>
+</div>
+<p><strong>Arguments</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">INDEX</span></code>: Strategy identifier. Ex. 2 for Wooster Two.  [required]</p></li>
+</ul>
+<p><strong>Options</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--time</span> <span class="pre">/</span> <span class="pre">--no-time</span></code>: Time the operation and print the result to console.  [default: False]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--launch</span> <span class="pre">/</span> <span class="pre">--no-launch</span></code>: Launch a browser to interactively view the results plot.  [default: False]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--processall</span> <span class="pre">/</span> <span class="pre">--no-processall</span></code>: Override [blue]index[/] and process all systems.  [default: False]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--optimize</span> <span class="pre">/</span> <span class="pre">--no-optimize</span></code>: Optimize the strategy parameters.  [default: True]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--optimizer</span> <span class="pre">TEXT</span></code>: Change the performance metric being optimized.  [default: SQN]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--method</span> <span class="pre">TEXT</span></code>: Optimization method. Currently only grid and skopt are supported.  [default: grid]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--textalert</span> <span class="pre">/</span> <span class="pre">--no-textalert</span></code>: Send a text message alerting when the operation is over. This is useful when optimizing powerful, computationally intensive strategies. Must be pre-configured.  [default: False]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--help</span></code>: Show this message and exit.</p></li>
+</ul>
+</section>
+<section id="wooster-results">
+<h2><code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">results</span></code><a class="headerlink" href="#wooster-results" title="Permalink to this heading"></a></h2>
+<p>Display an already-computed system’s results. Does not re-process the system.
+Results are displayed in the console, just as when processing a system. Use the
+launch command to view results in the browser.</p>
+<p><strong>Usage</strong>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster results <span class="o">[</span>OPTIONS<span class="o">]</span> INDEX
+</pre></div>
+</div>
+<p><strong>Arguments</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">INDEX</span></code>: Index of the system you want to view stored results for.  [required]</p></li>
+</ul>
+<p><strong>Options</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--help</span></code>: Show this message and exit.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Prerit Das.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
