@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - "cli.py"
+      - "README.md"
+      - "docs/source/*"
   workflow_dispatch:
   
   
