@@ -51,12 +51,12 @@
 ```
 
 
-## Deps
+# Dependencies
 
 On top of the pip requirements, must have TA-Lib core (kind of a pain but use homebrew on Mac, tarball with python3.10-dev on Ubuntu, and the raw .whl file on Windows for v0.4.24). Firebase CLI is optional - website is automatically updated on git push as Firebase is configured with GitHub Actions. 
 
 
-## Usage
+# Usage
 
 Here are some random example commands from regular usage.
 
@@ -83,9 +83,9 @@ wooster launch 1 plot --label chop
 ```
 
 
-## Unit Tests
+# Unit Tests
 
 Unit tests have been written to cover as close to all of the code as possible (current coverage is 97%). Run Pytest with `python -m pytest` instead of `pytest` as tests rely on project submodules, and this is easier than installing the whole project with `pip install -e .`. Unit tests are automatically run on `ubuntu-latest` using GitHub Actions on every push and pull request.
 
 
-[![plot-preview](readme-content/plot_preview.PNG)](https://wooster.preritdas.com/plots/Wooster%20One.html)
+[![plot-preview](readme-content/plot_preview.PNG)](https://wooster.preritdas.com/plots/wooster%20one%20train.html)
