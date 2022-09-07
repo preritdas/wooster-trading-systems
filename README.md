@@ -10,6 +10,8 @@
 
 [![asciicast](https://asciinema.org/a/WZoORNecs2HiOfXnY7nquwtMo.svg)](https://asciinema.org/a/WZoORNecs2HiOfXnY7nquwtMo)
 
+Read the [CLI documentation](https://woosterinfo.preritdas.com) or visit the [system results page](https://wooster.preritdas.com).
+
 <!--features!-->
 ## Main features
 
