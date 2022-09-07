@@ -59,10 +59,17 @@ jobs:
           echo $PYTHONPATH
           typer cli.py utils docs --name wooster --output docs/source/cli.md
 
-      - name: Commit updated read-me
+      - name: Build docs with sphinx
+        run: |
+          pip install -r docs/requirements.txt
+          cd docs && make html
+
+      - name: Commit updated doc files 
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add docs/source/cli.md
           git commit --author="Prerit Das <preritdas@gmail.com>" -m "Update CLI documentation."
+          git add docs/build/*
+          git commit --author="Prerit Das <preritdas@gmail.com>" -m "Build documentation."
           git push
