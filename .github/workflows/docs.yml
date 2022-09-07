@@ -57,16 +57,12 @@ jobs:
           echo $PYTHONPATH
           export PYTHONPATH=$PYTHONPATH:.
           echo $PYTHONPATH
-          typer cli.py utils docs --name wooster --output cliref.md
-
-      - name: Update read-me
-        run: |
-          python scripts/docstoreadme.py
+          typer cli.py utils docs --name wooster --output docs/source/cli.md
 
       - name: Commit updated read-me
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add README.md
-          git commit --author="Prerit Das <preritdas@gmail.com>" -m "Update CLI reference in read-me."
+          git add docs/source/cli.md
+          git commit --author="Prerit Das <preritdas@gmail.com>" -m "Update CLI documentation."
           git push
