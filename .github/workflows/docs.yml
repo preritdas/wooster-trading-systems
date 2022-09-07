@@ -1,4 +1,4 @@
-name: cli docs
+name: docs
 
 on:
   push:
