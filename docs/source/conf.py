@@ -14,8 +14,7 @@ author = 'Prerit Das'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    "myst_parser",
-    "sphinxemoji.sphinxemoji" 
+    "myst_parser"
 ]
 
 templates_path = ['_templates']
