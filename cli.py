@@ -73,6 +73,8 @@ def process(
     The default optimizer is set in config.ini, currently SQN. Specify 
     a different optimizer with the --optimizer flag. You can optimize
     pretty much any numeric metric as outputted in the results.
+
+    This is a doc test.
     """
     # Ensure given index exists
     if not utils.system_exists(index):
