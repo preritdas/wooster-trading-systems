@@ -3,8 +3,9 @@ name: tests
 on:
   push:
     paths-ignore:
-      - "README.md"
+      - "*/**/*.md"
       - "*/**/*.html"
+      - "docs/*"
   pull_request:
   workflow_dispatch:
 
