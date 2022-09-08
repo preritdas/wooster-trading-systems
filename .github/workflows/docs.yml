@@ -43,6 +43,7 @@ jobs:
         run: |
           export PYTHONPATH=$PYTHONPATH:.
           typer cli.py utils docs --name wooster --output docs/source/cli.md
+          sed -i "1 s/.*/# CLI Reference/" docs/source/cli.md
 
       - name: Build docs with sphinx
         run: |
