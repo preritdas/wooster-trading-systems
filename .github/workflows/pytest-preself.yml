@@ -1,4 +1,4 @@
-name: tests-all
+name: tests-preself
 
 on:
   push:
