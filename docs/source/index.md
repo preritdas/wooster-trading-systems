@@ -3,7 +3,7 @@
 Welcome to the WTS documentation. See the CLI in action, processing and optimizing Wooster One.
 
 ```{toctree} 
-   :caption: 'Contents:'
+   :caption: 'Usage and Guides'
 
 cli
 ```
