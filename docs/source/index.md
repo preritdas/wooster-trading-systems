@@ -4,6 +4,8 @@ Welcome to the WTS documentation. See the CLI in action, processing and optimizi
 
 ```{toctree} 
    :caption: 'Contents:'
+
+cli
 ```
 
 [![asciicast](https://asciinema.org/a/WZoORNecs2HiOfXnY7nquwtMo.svg)](https://asciinema.org/a/WZoORNecs2HiOfXnY7nquwtMo)
@@ -17,11 +19,4 @@ Below are lists of the major and minor features, updated regularly.
 ```{include} ../../README.md
 :start-after: <!--features!-->
 :relative-images: 
-```
-
-# CLI Reference
-
-```{include} cli.md
-:start-after: wooster`
-:relative-images:
 ```
