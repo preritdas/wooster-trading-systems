@@ -142,7 +142,7 @@ def latest():
     Get the name and index of the latest Wooster system. You can use the index
     to then process or launch results, if they exist, by calling 
     `wooster process idx` or `wooster launch idx` where `idx` is replaced
-    by the index specified by this command.
+    by the output of this command.
     """
     idx = max(processing.systems.systems)
     name = utils.idx_to_name(idx)
