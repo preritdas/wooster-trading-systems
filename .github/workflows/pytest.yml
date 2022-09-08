@@ -11,13 +11,7 @@ on:
 jobs:
   test:
 
-    strategy:
-      fail-fast: true
-      matrix:
-        os: ["ubuntu-latest"]
-        python: ["3.10"]
-
-    runs-on: ${{ matrix.os }}
+    runs-on: self-hosted
 
     steps:
       - name: Check out repository code
@@ -26,35 +20,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python }}
-
-      - name: Install TA-Lib
-        uses: knicknic/os-specific-run@v1.0.3
-        with:
-          linux: |
-            sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y
-            sudo apt install wget -y
-            sudo add-apt-repository ppa:deadsnakes/ppa -y
-            sudo apt-get install build-essential -y
-            sudo apt install python3.10-dev -y
-            sudo apt-get install python3-dev -y
-
-            wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz
-            tar -xzf ta-lib-0.4.0-src.tar.gz
-            cd ta-lib
-
-            wget 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD' -O './config.guess'
-            wget 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD' -O './config.sub'
-            ./configure --prefix=/usr
-            make
-            sudo make install
-
-            pip install ta-lib
-          macos: |
-            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-            brew install ta-lib
-          windows: |
-            pip install dependencies/TA_Lib-0.4.24-cp310-cp310-win_amd64.whl
+          python-version: "3.10"
 
       - name: Install dependencies
         run: |
@@ -62,14 +28,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Inject keys
-        uses: knicknic/os-specific-run@v1.0.3
-        with:
-          linux: |
-            echo -en '${{ secrets.KEYS_INI }}' >> keys.ini
-          macos: |
-            echo -en '${{ secrets.KEYS_INI }}' >> keys.ini
-          windows: |
-            New-Item "keys.ini" -ItemType File -Value "${{ secrets.KEYS_INI }}"
+        run: |
+          echo -en '${{ secrets.KEYS_INI }}' >> keys.ini
 
       - name: Initialize test dependencies
         run: pip install -U pytest-cov coverage-badge
