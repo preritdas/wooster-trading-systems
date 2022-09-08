@@ -1,6 +1,6 @@
 # Wooster Trading Systems
 
-Welcome to the WTS documentation. See the CLI in action, processing and optimizing Wooster One.
+Welcome to the WTS documentation. This page discusses WTS's most prominent features, and provides some examples (see the CLI in action below, processing and optimizing Wooster One). The CLI Reference section details the various commands, their usage, and behavior. Further below sections will go into the concepts and background behind WTS.
 
 ```{toctree} 
    :caption: 'Usage and Guides'
