@@ -309,11 +309,11 @@ def data(
 
 
 def _store_cache(
-    symbol: str, 
-    interval: str, 
-    start: dt.date, 
-    end: dt.date, 
-    filter_eod: bool, 
+    symbol: str,
+    interval: str,
+    start: dt.date,
+    end: dt.date,
+    filter_eod: bool,
     force: bool
 ) -> bool | int:
     """
