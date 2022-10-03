@@ -2,6 +2,7 @@
 Wooster Five system, working with raw price mean reversion.
 """
 import backtesting as bt
+import pandas as pd 
 import numpy as np
 
 # Local
@@ -30,6 +31,20 @@ class Params:
     }
 
 
+def z_score(series: pd.Series):
+    items = []
+    for i in range(len(series)):
+        if i < 2:
+            items.append(0)
+            continue
+
+        mean: float = series[:i].mean()
+        distance: float = series[i] - mean
+        items.append(distance / np.std(series[:i]))
+
+    return items
+
+
 class WoosterFive(bt.Strategy):
     """
     Godspeed, Wooster Five.
@@ -39,20 +54,20 @@ class WoosterFive(bt.Strategy):
     RISK = 0.01
 
     def init(self):
-        pass
+        self.stddev = self.I(z_score, self.data.Close)
 
     def z_score(self) -> float:
         mean: float = self.data.Close.mean()
         distance: float = self.data.Close[-1] - mean
         return distance / np.std(self.data.Close)
 
-    def next(self):
-        if self.z_score() > self.Z_THRESHOLD and not self.position:
+    def next(self):      
+        if self.stddev[-1] > self.Z_THRESHOLD and not self.position:
             self.buy(
                 sl = self.data.Close[-1] * (1 - self.RISK),
                 tp = self.data.Close[-1] * (1 + (self.RR_RATIO * self.RISK))
             )
-        elif self.z_score() < -self.Z_THRESHOLD and not self.position:
+        elif self.stddev[-1] < -self.Z_THRESHOLD and not self.position:
             self.sell(
                 sl = self.data.Close[-1] * (1 + self.RISK),
                 tp = self.data.Close[-1] * (1 - (self.RR_RATIO * self.RISK))
