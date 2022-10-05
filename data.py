@@ -21,6 +21,14 @@ import keys
 current_dir = os.path.dirname(os.path.realpath(__file__))
 
 
+# ---- Errors ----
+
+class NoDataError(Exception):
+    """If data wasn't available."""
+    def __init__(self, message: str):
+        super().__init__(message)
+
+
 def dt_to_unix(dt_date: dt.datetime) -> int:
     """
     Convert Datetime object to UNIX, traditionally designed for Finnhub's
@@ -135,6 +143,9 @@ def _fetch_data_finnhub(
     Download data from Finnhub. Does not work with period, must take start
     and end as datetime type, where end is at least one day prior. 
     This is because if you run the system while the market is open, plotting breaks.
+
+    `from_aggregation` is necessary as if no data is available, an empty DataFrame
+    is returned, which `_incremental_aggregation` is capable of handling.
     """
     data = finnhub_client.stock_candles(
         symbol.upper(),
@@ -143,8 +154,10 @@ def _fetch_data_finnhub(
         dt_to_unix(end)
     )
 
-    if from_aggregation and data == {'s': 'no_data'}:
+    if from_aggregation and data == {"s": "no_data"}:
         return pd.DataFrame()
+    elif data == {"s": "no_data"}:
+        raise NoDataError("No data.")
 
     data_df = pd.DataFrame(data)
     data_df['Date'] = pd.to_datetime(data_df['t'], unit="s")
@@ -315,7 +328,7 @@ def _store_cache(
     end: dt.date,
     filter_eod: bool,
     force: bool
-) -> bool | int:
+) -> int:
     """
     Internal storer of cache data. 
     """
@@ -345,7 +358,7 @@ def _store_cache(
 
     # Specify through CLI if cached data should be re-written
     if os.path.exists(cache_path) and not force:
-        return False
+        return 0
 
     if resample: data = resample_data(data, interval)
     data.to_csv(cache_path)
@@ -353,7 +366,12 @@ def _store_cache(
     return len(data)
 
 
-def init_cache(symbol: str, interval: str, lookback_yrs: int, force: bool) -> bool | int:
+def init_cache(
+    symbol: str, 
+    interval: str, 
+    lookback_yrs: float, 
+    force: bool
+) -> int:
     """
     Initialize data cache. Returns the number of bars collected, 
     for no practical purpose.
@@ -474,7 +492,7 @@ def load_cache(symbol: str, interval: str, start: dt.date, end: dt.date) -> pd.D
     cache_df["Date"] = pd.to_datetime(cache_df["Date"])
     cache_df.set_index("Date", inplace=True)
 
-    return cache_df[start:end]
+    return cache_df
 
 
 def delete_cache(symbol: str, interval: str) -> bool:
