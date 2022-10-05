@@ -39,7 +39,7 @@ def test_finnhub_aggregation():
 
 def test_data_cache():
     # Test init
-    n_bars = data.init_cache("MSFT", "1m", 0.2, force=False)
+    n_bars = data.init_cache("AAPL", "1m", 0.2, force=False)
     assert isinstance(n_bars, int)
 
     # Test fetch
@@ -49,14 +49,14 @@ def test_data_cache():
     # Test load
     start = dt.date.today() - dt.timedelta(days=20)
     end = dt.date.today() - dt.timedelta(days=2)
-    data_loaded = data.load_cache("MSFT", "1m", start, end)
+    data_loaded = data.load_cache("AAPL", "1m", start, end)
     assert not data_loaded.empty
 
     # Test listing
     assert data.list_cache()
 
     # Test deletion
-    assert data.delete_cache("MSFT", "1m")
+    assert data.delete_cache("AAPL", "1m")
 
 
 def test_rate_limit_handling():
