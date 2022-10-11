@@ -12,7 +12,6 @@ jobs:
   test:
 
     strategy:
-      fail-fast: true
       matrix:
         os: ["ubuntu-latest"]
         python: ["3.10"]
@@ -72,7 +71,7 @@ jobs:
             New-Item "keys.ini" -ItemType File -Value "${{ secrets.KEYS_INI }}"
 
       - name: Initialize test dependencies
-        run: pip install -U pytest-cov coverage-badge
+        run: pip install -r tests/requirements.txt
 
       - name: Run tests with pytest
         run: python -m pytest --cov
