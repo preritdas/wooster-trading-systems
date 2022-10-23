@@ -1,4 +1,4 @@
-# `wooster`
+# CLI Reference
 
 Process, optimize, and view the results for Wooster trading systems.
 
