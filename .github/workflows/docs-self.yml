@@ -1,4 +1,4 @@
-name: docs-preself
+name: docs-self
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
   
 jobs:
   docs:
-    runs-on: "ubuntu-latest"
+    runs-on: self-hosted
     
     steps:
       - name: Checkout repository code
@@ -23,30 +23,6 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Install TA-Lib
-        run: |
-          sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y
-          sudo apt install wget -y
-          sudo add-apt-repository ppa:deadsnakes/ppa -y
-          sudo apt-get install build-essential -y
-          sudo apt install python3.10-dev -y
-          sudo apt-get install python3-dev -y
-
-          wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz
-          tar -xzf ta-lib-0.4.0-src.tar.gz
-          cd ta-lib
-
-          wget 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD' -O './config.guess'
-          wget 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD' -O './config.sub'
-          ./configure --prefix=/usr
-          make
-          sudo make install
-
-          sudo rm -rf ta-lib
-          sudo rm -rf ta-lib-0.4.0-src.tar.gz
-
-          pip install ta-lib
-        
       - name: Setup pip and typer-cli
         run: |
           pip install -U pip wheel
@@ -55,7 +31,9 @@ jobs:
       - name: Install project dependencies
         run: |
           sed -i "/typer==0.6.1/d" requirements.txt
+          sed -i "/ta-lib==0.4.24/d" requirements.txt
           pip install -r requirements.txt
+          pip install ta-lib
 
       - name: Inject keys
         run: |
@@ -63,16 +41,13 @@ jobs:
           
       - name: Generate CLI docs
         run: |
-          echo $PYTHONPATH
           export PYTHONPATH=$PYTHONPATH:.
-          echo $PYTHONPATH
           typer cli.py utils docs --name wooster --output docs/source/cli.md
-
-      - name: Install docs dependencies
-        run: pip install -r docs/requirements.txt
+          sed -i "1 s/.*/# CLI Reference/" docs/source/cli.md
 
       - name: Build docs with sphinx
         run: |
+          pip install -r docs/requirements.txt
           cd docs && make html && cd ..
 
       - name: Configure git
