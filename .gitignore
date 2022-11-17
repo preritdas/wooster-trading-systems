@@ -17,3 +17,7 @@ __pycache__/
 .DS_Store
 .firebase/
 firebase-debug.log
+
+
+# Dev files
+.vscode/
