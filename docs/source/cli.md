@@ -63,11 +63,10 @@ $ wooster cachesystem [OPTIONS] INDEX
 
 **Arguments**:
 
-* `INDEX`: Index of the system whose walkforward data you'd like to cache.  [required]
+* `INDEX`: Index of the system whose walkforward data you'd like to cache. 0 to cache all systems.  [required]
 
 **Options**:
 
-* `--cacheall / --no-cacheall`: Override index and cache necessary data for all Wooster systems.  [default: False]
 * `--help`: Show this message and exit.
 
 ## `wooster coveragereport`
