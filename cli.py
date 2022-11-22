@@ -380,11 +380,10 @@ def cache(
 def cachesystem(
     index: int = typer.Argument(
         ...,
-        help = "Index of the system whose walkforward data you'd like to cache."
-    ),
-    cacheall: bool = typer.Option(
-        False,
-        help = "Override index and cache necessary data for all Wooster systems."
+        help = (
+            "Index of the system whose walkforward data you'd like to cache. "
+            "0 to cache all systems."
+        )
     )
 ):
     """
@@ -393,7 +392,7 @@ def cachesystem(
     This is more efficient than initializing a window of data with the cache command,
     without any regard for which sub-windows are actually used by the processing pipeline.
     """
-    if not cacheall:
+    if index:
         with utils.console.status(
             "Initializing a cache registry of all required data for "
             f"[red]{utils.idx_to_name(index)}[/]."

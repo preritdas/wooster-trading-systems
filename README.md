@@ -73,7 +73,7 @@ wooster cache init aapl --interval 5m --lookbackyears 5  # five years of 5m data
 wooster cache delete aapl --interval 5m
 wooster cache ls
 wooster cachesystem 4  # only cache required data based on walk-forward intervals
-wooster cachesystem 1 --cacheall  # cache required data for all systems
+wooster cachesystem 0 # cache required data for all systems
 
 wooster diagnose  # run comprehensive unit tests on the whole architecture
 wooster coveragereport  # launch unit test coverage report in browser
