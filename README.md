@@ -8,9 +8,6 @@
 
 # :chart_with_upwards_trend: :robot: Wooster Systems :moneybag: :money_with_wings:
 
-> **Note**
-> Tests are failing and coverage is low because my Finnhub premium subscription expired.
-
 [![asciicast](https://asciinema.org/a/WZoORNecs2HiOfXnY7nquwtMo.svg)](https://asciinema.org/a/WZoORNecs2HiOfXnY7nquwtMo)
 
 Read the [CLI documentation](https://woosterdocs.preritdas.com) or visit the [system results page](https://wooster.preritdas.com).
