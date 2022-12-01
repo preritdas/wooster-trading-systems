@@ -93,4 +93,4 @@ jobs:
           git commit --author="Prerit Das <preritdas@gmail.com>" -m "Build documentation."
 
       - name: Push committed changes
-        run: git push
+        run: git pull && git push
