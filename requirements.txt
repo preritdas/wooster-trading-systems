@@ -7,10 +7,11 @@ finnhub-python==2.4.14
 
 # Analysis and optimization
 # scikit-optimize==0.9.0
-git+https://github.com/numpy/numpy.git@fbe1b65f5f66ca5a416b23194577a1ed5a4cf1bd  # fix Python 3.11 ob_shash
+# git+https://github.com/numpy/numpy.git@fbe1b65f5f66ca5a416b23194577a1ed5a4cf1bd  # fix Python 3.11 ob_shash
+numpy==1.23.5
 git+https://github.com/preritdas/scikit-optimize.git@np-deprecation  # np.int deprecation fix PR
 ta-lib==0.4.25
-pandas==1.4.3
+pandas==1.5.2
 
 # CLI and tools
 typer==0.6.1
