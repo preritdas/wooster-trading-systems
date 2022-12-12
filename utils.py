@@ -253,7 +253,7 @@ def store_results(idx: int, results: dict[str, pd.Series]) -> None:
         path = results_path(idx, label)
 
         # Remove private, complex items like trades df and equity curve
-        for metric, value in result.copy().iteritems():
+        for metric, value in result.copy().items():
             if metric[0] == "_": result.drop(metric, inplace=True)
             if isinstance(value, float): result[metric] = round(value, 3)
 
