@@ -10,7 +10,7 @@ finnhub-python==2.4.14
 git+https://github.com/preritdas/scikit-optimize.git@np-deprecation  # np.int deprecation fix PR
 numpy==1.23.5
 
-ta-lib==0.4.25
+ta-lib>=0.4.24
 pandas==1.5.2
 
 # CLI and tools
