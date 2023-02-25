@@ -31,7 +31,7 @@ jobs:
         uses: knicknic/os-specific-run@v1.0.3
         with:
           linux: |
-            sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y
+            sudo apt update
             sudo apt install wget -y
             sudo apt install software-properties-common -y
             sudo add-apt-repository ppa:deadsnakes/ppa -y
