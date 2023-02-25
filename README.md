@@ -57,6 +57,22 @@ Read the [CLI documentation](https://woosterdocs.preritdas.com) or visit the [sy
 
 On top of the pip requirements, must have TA-Lib core (kind of a pain but use homebrew on Mac, tarball with python3.10-dev on Ubuntu, and the raw .whl file on Windows for v0.4.24). Firebase CLI is optional - website is automatically updated on git push as Firebase is configured with GitHub Actions. 
 
+As of Feb 2023, the recommended way to use Wooster is inside of a Docker container. The [Dockerfile](Dockerfile) has been built and tested. It will install TA-Lib and everything necessary to run Wooster.
+
+To build the container:
+
+```bash
+docker build -t wooster-trading-systems .
+```
+
+To run the container:
+
+```bash
+docker run -ti wooster-trading-systems /bin/bash
+```
+
+The `-ti` flags run an interactive shell inside of the container, and `/bin/bash` provides you a BASH shell to interact with the CLI. Use the `wooster` command for all commands as demonstrated below.
+
 
 # Usage
 
