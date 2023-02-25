@@ -6,6 +6,7 @@ on:
       - "cli.py"
       - "README.md"
       - "docs/source/*"
+      - ".github/workflows/docs.yml"
   workflow_dispatch:
   pull_request:
   
@@ -25,7 +26,7 @@ jobs:
 
       - name: Install TA-Lib
         run: |
-          sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y
+          sudo apt update
           sudo apt install wget -y
           sudo add-apt-repository ppa:deadsnakes/ppa -y
           sudo apt-get install build-essential -y
