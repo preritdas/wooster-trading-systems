@@ -14,14 +14,14 @@ $ wooster [OPTIONS] COMMAND [ARGS]...
 
 **Commands**:
 
-* `cache`: Maintain a local store of cache market data,...
-* `cachesystem`: Cache all the data necessary to backtest and...
+* `cache`: Maintain a local store of cache market...
+* `cachesystem`: Cache all the data necessary to backtest...
 * `coveragereport`: Launch a browser with the latest unit test...
 * `diagnose`: Run comprehensive unittests on the entire...
-* `latest`: Get the name and index of the latest Wooster...
+* `latest`: Get the name and index of the latest...
 * `launch`: Launch an existing results plot or...
-* `optimizers`: See a system's optimized parameters (if the...
-* `process`: Process a strategy by index, and optimize it...
+* `optimizers`: See a system's optimized parameters (if...
+* `process`: Process a strategy by index, and optimize...
 * `results`: Display an already-computed system's results.
 
 ## `wooster cache`
@@ -44,8 +44,8 @@ $ wooster cache [OPTIONS] ACTION [SYMBOL]
 
 * `--interval TEXT`: Interval to store the data in. 1m by default.  [default: 1m]
 * `--lookbackyears INTEGER`: Number of years to aggregate historical data.  [default: 10]
-* `--force / --no-force`: If a warning is returned that your cache exists, rewrite new cache.  [default: False]
-* `--time / --no-time`: Display the amount of time the operation took.  [default: False]
+* `--force / --no-force`: If a warning is returned that your cache exists, rewrite new cache.  [default: no-force]
+* `--time / --no-time`: Display the amount of time the operation took.  [default: no-time]
 * `--help`: Show this message and exit.
 
 ## `wooster cachesystem`
@@ -179,13 +179,13 @@ $ wooster process [OPTIONS] INDEX
 
 **Options**:
 
-* `--time / --no-time`: Time the operation and print the result to console.  [default: False]
-* `--launch / --no-launch`: Launch a browser to interactively view the results plot.  [default: False]
-* `--processall / --no-processall`: Override [blue]index[/] and process all systems.  [default: False]
-* `--optimize / --no-optimize`: Optimize the strategy parameters.  [default: True]
+* `--time / --no-time`: Time the operation and print the result to console.  [default: no-time]
+* `--launch / --no-launch`: Launch a browser to interactively view the results plot.  [default: no-launch]
+* `--processall / --no-processall`: Override [blue]index[/] and process all systems.  [default: no-processall]
+* `--optimize / --no-optimize`: Optimize the strategy parameters.  [default: optimize]
 * `--optimizer TEXT`: Change the performance metric being optimized.  [default: SQN]
 * `--method TEXT`: Optimization method. Currently only grid and skopt are supported.  [default: grid]
-* `--textalert / --no-textalert`: Send a text message alerting when the operation is over. This is useful when optimizing powerful, computationally intensive strategies. Must be pre-configured.  [default: False]
+* `--textalert / --no-textalert`: Send a text message alerting when the operation is over. This is useful when optimizing powerful, computationally intensive strategies. Must be pre-configured.  [default: no-textalert]
 * `--help`: Show this message and exit.
 
 ## `wooster results`

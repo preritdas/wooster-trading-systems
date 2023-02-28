@@ -128,13 +128,13 @@
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Stored optimal parameters example</span>
 
-&gt; wooster optimizers <span class="m">2</span>
+&gt;<span class="w"> </span>wooster<span class="w"> </span>optimizers<span class="w"> </span><span class="m">2</span>
 
 <span class="o">{</span>
-  <span class="s1">&#39;rsi_period&#39;</span>: <span class="m">9</span>.0,
-  <span class="s1">&#39;rsi_bottom_target&#39;</span>: <span class="m">13</span>,
-  <span class="s1">&#39;rsi_top_target&#39;</span>: <span class="m">87</span>,
-  <span class="s1">&#39;lstm_window&#39;</span>: <span class="m">5</span>
+<span class="w">  </span><span class="s1">&#39;rsi_period&#39;</span>:<span class="w"> </span><span class="m">9</span>.0,
+<span class="w">  </span><span class="s1">&#39;rsi_bottom_target&#39;</span>:<span class="w"> </span><span class="m">13</span>,
+<span class="w">  </span><span class="s1">&#39;rsi_top_target&#39;</span>:<span class="w"> </span><span class="m">87</span>,
+<span class="w">  </span><span class="s1">&#39;lstm_window&#39;</span>:<span class="w"> </span><span class="m">5</span>
 <span class="o">}</span>
 </pre></div>
 </div>
@@ -144,29 +144,39 @@
 <section id="dependencies">
 <h1>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading"></a></h1>
 <p>On top of the pip requirements, must have TA-Lib core (kind of a pain but use homebrew on Mac, tarball with python3.10-dev on Ubuntu, and the raw .whl file on Windows for v0.4.24). Firebase CLI is optional - website is automatically updated on git push as Firebase is configured with GitHub Actions.</p>
+<p>As of Feb 2023, the recommended way to use Wooster is inside of a Docker container. The <span class="xref myst">Dockerfile</span> has been built and tested. It will install TA-Lib and everything necessary to run Wooster.</p>
+<p>To build the container:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>wooster-trading-systems<span class="w"> </span>.
+</pre></div>
+</div>
+<p>To run the container:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-ti<span class="w"> </span>wooster-trading-systems<span class="w"> </span>/bin/bash
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">-ti</span></code> flags run an interactive shell inside of the container, and <code class="docutils literal notranslate"><span class="pre">/bin/bash</span></code> provides you a BASH shell to interact with the CLI. Use the <code class="docutils literal notranslate"><span class="pre">wooster</span></code> command for all commands as demonstrated below.</p>
 </section>
 <section id="usage">
 <h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h1>
 <p>Here are some random example commands from regular usage.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wooster latest 
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wooster<span class="w"> </span>latest<span class="w"> </span>
 
-wooster process <span class="m">1</span> --time --optimizer <span class="s2">&quot;Sharpe Ratio&quot;</span> --method grid --textalert --launch
-wooster process <span class="m">2</span> --no-optimize
-wooster process <span class="m">1</span> --processall --textalert  <span class="c1"># process/optimize every single system and alert when done</span>
+wooster<span class="w"> </span>process<span class="w"> </span><span class="m">1</span><span class="w"> </span>--time<span class="w"> </span>--optimizer<span class="w"> </span><span class="s2">&quot;Sharpe Ratio&quot;</span><span class="w"> </span>--method<span class="w"> </span>grid<span class="w"> </span>--textalert<span class="w"> </span>--launch
+wooster<span class="w"> </span>process<span class="w"> </span><span class="m">2</span><span class="w"> </span>--no-optimize
+wooster<span class="w"> </span>process<span class="w"> </span><span class="m">1</span><span class="w"> </span>--processall<span class="w"> </span>--textalert<span class="w">  </span><span class="c1"># process/optimize every single system and alert when done</span>
 
-wooster cache init aapl --interval 5m --lookbackyears <span class="m">5</span>  <span class="c1"># five years of 5m data cached</span>
-wooster cache delete aapl --interval 5m
-wooster cache ls
-wooster cachesystem <span class="m">4</span>  <span class="c1"># only cache required data based on walk-forward intervals</span>
-wooster cachesystem <span class="m">0</span> <span class="c1"># cache required data for all systems</span>
+wooster<span class="w"> </span>cache<span class="w"> </span>init<span class="w"> </span>aapl<span class="w"> </span>--interval<span class="w"> </span>5m<span class="w"> </span>--lookbackyears<span class="w"> </span><span class="m">5</span><span class="w">  </span><span class="c1"># five years of 5m data cached</span>
+wooster<span class="w"> </span>cache<span class="w"> </span>delete<span class="w"> </span>aapl<span class="w"> </span>--interval<span class="w"> </span>5m
+wooster<span class="w"> </span>cache<span class="w"> </span>ls
+wooster<span class="w"> </span>cachesystem<span class="w"> </span><span class="m">4</span><span class="w">  </span><span class="c1"># only cache required data based on walk-forward intervals</span>
+wooster<span class="w"> </span>cachesystem<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="c1"># cache required data for all systems</span>
 
-wooster diagnose  <span class="c1"># run comprehensive unit tests on the whole architecture</span>
-wooster coveragereport  <span class="c1"># launch unit test coverage report in browser</span>
+wooster<span class="w"> </span>diagnose<span class="w">  </span><span class="c1"># run comprehensive unit tests on the whole architecture</span>
+wooster<span class="w"> </span>coveragereport<span class="w">  </span><span class="c1"># launch unit test coverage report in browser</span>
 
-wooster results <span class="m">4</span>
+wooster<span class="w"> </span>results<span class="w"> </span><span class="m">4</span>
 
-wooster launch <span class="m">1</span> stats  <span class="c1"># open in browser</span>
-wooster launch <span class="m">1</span> plot --label chop
+wooster<span class="w"> </span>launch<span class="w"> </span><span class="m">1</span><span class="w"> </span>stats<span class="w">  </span><span class="c1"># open in browser</span>
+wooster<span class="w"> </span>launch<span class="w"> </span><span class="m">1</span><span class="w"> </span>plot<span class="w"> </span>--label<span class="w"> </span>chop
 </pre></div>
 </div>
 </section>

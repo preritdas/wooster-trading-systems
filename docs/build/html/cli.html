@@ -82,7 +82,7 @@
 <h1><code class="docutils literal notranslate"><span class="pre">wooster</span></code><a class="headerlink" href="#wooster" title="Permalink to this heading"></a></h1>
 <p>Process, optimize, and view the results for Wooster trading systems.</p>
 <p><strong>Usage</strong>:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster <span class="o">[</span>OPTIONS<span class="o">]</span> COMMAND <span class="o">[</span>ARGS<span class="o">]</span>...
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
 </pre></div>
 </div>
 <p><strong>Options</strong>:</p>
@@ -91,14 +91,14 @@
 </ul>
 <p><strong>Commands</strong>:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">cache</span></code>: Maintain a local store of cache market data,…</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">cachesystem</span></code>: Cache all the data necessary to backtest and…</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cache</span></code>: Maintain a local store of cache market…</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cachesystem</span></code>: Cache all the data necessary to backtest…</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">coveragereport</span></code>: Launch a browser with the latest unit test…</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">diagnose</span></code>: Run comprehensive unittests on the entire…</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">latest</span></code>: Get the name and index of the latest Wooster…</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">latest</span></code>: Get the name and index of the latest…</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">launch</span></code>: Launch an existing results plot or…</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">optimizers</span></code>: See a system’s optimized parameters (if the…</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">process</span></code>: Process a strategy by index, and optimize it…</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">optimizers</span></code>: See a system’s optimized parameters (if…</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">process</span></code>: Process a strategy by index, and optimize…</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">results</span></code>: Display an already-computed system’s results.</p></li>
 </ul>
 <section id="wooster-cache">
@@ -106,7 +106,7 @@
 <p>Maintain a local store of cache market data, accessible by processors, to
 drastically speed up the ‘data aggregation’ phase of processing.</p>
 <p><strong>Usage</strong>:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster cache <span class="o">[</span>OPTIONS<span class="o">]</span> ACTION <span class="o">[</span>SYMBOL<span class="o">]</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster<span class="w"> </span>cache<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>ACTION<span class="w"> </span><span class="o">[</span>SYMBOL<span class="o">]</span>
 </pre></div>
 </div>
 <p><strong>Arguments</strong>:</p>
@@ -118,8 +118,8 @@ drastically speed up the ‘data aggregation’ phase of processing.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">--interval</span> <span class="pre">TEXT</span></code>: Interval to store the data in. 1m by default.  [default: 1m]</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">--lookbackyears</span> <span class="pre">INTEGER</span></code>: Number of years to aggregate historical data.  [default: 10]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">--force</span> <span class="pre">/</span> <span class="pre">--no-force</span></code>: If a warning is returned that your cache exists, rewrite new cache.  [default: False]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">--time</span> <span class="pre">/</span> <span class="pre">--no-time</span></code>: Display the amount of time the operation took.  [default: False]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--force</span> <span class="pre">/</span> <span class="pre">--no-force</span></code>: If a warning is returned that your cache exists, rewrite new cache.  [default: no-force]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--time</span> <span class="pre">/</span> <span class="pre">--no-time</span></code>: Display the amount of time the operation took.  [default: no-time]</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">--help</span></code>: Show this message and exit.</p></li>
 </ul>
 </section>
@@ -129,7 +129,7 @@ drastically speed up the ‘data aggregation’ phase of processing.</p>
 <p>This is more efficient than initializing a window of data with the cache command,
 without any regard for which sub-windows are actually used by the processing pipeline.</p>
 <p><strong>Usage</strong>:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster cachesystem <span class="o">[</span>OPTIONS<span class="o">]</span> INDEX
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster<span class="w"> </span>cachesystem<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>INDEX
 </pre></div>
 </div>
 <p><strong>Arguments</strong>:</p>
@@ -145,7 +145,7 @@ without any regard for which sub-windows are actually used by the processing pip
 <h2><code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">coveragereport</span></code><a class="headerlink" href="#wooster-coveragereport" title="Permalink to this heading"></a></h2>
 <p>Launch a browser with the latest unit test coverage report.</p>
 <p><strong>Usage</strong>:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster coveragereport <span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster<span class="w"> </span>coveragereport<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 <p><strong>Options</strong>:</p>
@@ -160,7 +160,7 @@ without any regard for which sub-windows are actually used by the processing pip
 comprehensive tests on all areas of functionality, including the entire
 processing pipeline.</p>
 <p><strong>Usage</strong>:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster diagnose <span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster<span class="w"> </span>diagnose<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 <p><strong>Options</strong>:</p>
@@ -175,7 +175,7 @@ to then process or launch results, if they exist, by calling
 <code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">process</span> <span class="pre">idx</span></code> or <code class="docutils literal notranslate"><span class="pre">wooster</span> <span class="pre">launch</span> <span class="pre">idx</span></code> where <code class="docutils literal notranslate"><span class="pre">idx</span></code> is replaced
 by the output of this command.</p>
 <p><strong>Usage</strong>:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster latest <span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster<span class="w"> </span>latest<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 <p><strong>Options</strong>:</p>
@@ -189,7 +189,7 @@ by the output of this command.</p>
 Use this command to view pre-computed results without having to re-process
 a strategy.</p>
 <p><strong>Usage</strong>:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster launch <span class="o">[</span>OPTIONS<span class="o">]</span> INDEX VIEW
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster<span class="w"> </span>launch<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>INDEX<span class="w"> </span>VIEW
 </pre></div>
 </div>
 <p><strong>Arguments</strong>:</p>
@@ -208,7 +208,7 @@ a strategy.</p>
 <p>See a system’s optimized parameters (if the system has been optimized). If
 the system exists but no optimizers are shown, run the process command first.</p>
 <p><strong>Usage</strong>:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster optimizers <span class="o">[</span>OPTIONS<span class="o">]</span> INDEX
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster<span class="w"> </span>optimizers<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>INDEX
 </pre></div>
 </div>
 <p><strong>Arguments</strong>:</p>
@@ -227,7 +227,7 @@ the system exists but no optimizers are shown, run the process command first.</p
 a different optimizer with the –optimizer flag. You can optimize
 pretty much any numeric metric as outputted in the results.</p>
 <p><strong>Usage</strong>:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster process <span class="o">[</span>OPTIONS<span class="o">]</span> INDEX
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster<span class="w"> </span>process<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>INDEX
 </pre></div>
 </div>
 <p><strong>Arguments</strong>:</p>
@@ -236,13 +236,13 @@ pretty much any numeric metric as outputted in the results.</p>
 </ul>
 <p><strong>Options</strong>:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">--time</span> <span class="pre">/</span> <span class="pre">--no-time</span></code>: Time the operation and print the result to console.  [default: False]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">--launch</span> <span class="pre">/</span> <span class="pre">--no-launch</span></code>: Launch a browser to interactively view the results plot.  [default: False]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">--processall</span> <span class="pre">/</span> <span class="pre">--no-processall</span></code>: Override [blue]index[/] and process all systems.  [default: False]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">--optimize</span> <span class="pre">/</span> <span class="pre">--no-optimize</span></code>: Optimize the strategy parameters.  [default: True]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--time</span> <span class="pre">/</span> <span class="pre">--no-time</span></code>: Time the operation and print the result to console.  [default: no-time]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--launch</span> <span class="pre">/</span> <span class="pre">--no-launch</span></code>: Launch a browser to interactively view the results plot.  [default: no-launch]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--processall</span> <span class="pre">/</span> <span class="pre">--no-processall</span></code>: Override [blue]index[/] and process all systems.  [default: no-processall]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--optimize</span> <span class="pre">/</span> <span class="pre">--no-optimize</span></code>: Optimize the strategy parameters.  [default: optimize]</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">--optimizer</span> <span class="pre">TEXT</span></code>: Change the performance metric being optimized.  [default: SQN]</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">--method</span> <span class="pre">TEXT</span></code>: Optimization method. Currently only grid and skopt are supported.  [default: grid]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">--textalert</span> <span class="pre">/</span> <span class="pre">--no-textalert</span></code>: Send a text message alerting when the operation is over. This is useful when optimizing powerful, computationally intensive strategies. Must be pre-configured.  [default: False]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--textalert</span> <span class="pre">/</span> <span class="pre">--no-textalert</span></code>: Send a text message alerting when the operation is over. This is useful when optimizing powerful, computationally intensive strategies. Must be pre-configured.  [default: no-textalert]</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">--help</span></code>: Show this message and exit.</p></li>
 </ul>
 </section>
@@ -252,7 +252,7 @@ pretty much any numeric metric as outputted in the results.</p>
 Results are displayed in the console, just as when processing a system. Use the
 launch command to view results in the browser.</p>
 <p><strong>Usage</strong>:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster results <span class="o">[</span>OPTIONS<span class="o">]</span> INDEX
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wooster<span class="w"> </span>results<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>INDEX
 </pre></div>
 </div>
 <p><strong>Arguments</strong>:</p>
