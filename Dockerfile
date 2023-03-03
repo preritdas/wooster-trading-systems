@@ -17,7 +17,8 @@ WORKDIR /app
 COPY . .
 
 # Install the dependencies
-RUN python3.10 -m pip install --no-cache-dir -r requirements.txt
+RUN python3.10 -m pip install -U pip wheel && \
+    python3.10 -m pip install --no-cache-dir -r requirements.txt
 
 # Create wooster executable
 RUN echo '#!/bin/bash\npython3.10 /app/main.py "$@"' > /usr/bin/wooster && \
