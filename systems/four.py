@@ -89,9 +89,7 @@ def previous_low(data: pd.DataFrame) -> Generator:
 
 class WoosterFour(bt.Strategy):
     """
-    Godspeed, Wooster Four.
-
-    You trade breaches of the previous day's highs and lows.
+    Trading breaches of the previous day's highs and lows.
     """
     def init(self):
         """
