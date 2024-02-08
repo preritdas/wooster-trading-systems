@@ -40,8 +40,6 @@ class Params:
 
 class WoosterTwo(bt.Strategy):
     """
-    Godspeed, Wooster Two.
-
     Same as Wooster One but sell the position if RSI crosses 50, from
     either direction. Simple strategy, see docstring at the top of this
     module.
