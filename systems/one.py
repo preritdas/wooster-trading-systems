@@ -36,8 +36,6 @@ class Params:
 
 class WoosterOne(bt.Strategy):
     """
-    Godspeed, Wooster One.
-
     A simple, first strategy. If the RSI is above 80 overbought, sell. 
     If it's under 20 oversold, buy. Wooster Two will close the position once 
     the RSI crosses 50, on either end.
