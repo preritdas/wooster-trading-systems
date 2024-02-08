@@ -35,7 +35,7 @@ class Params:
 
 class WoosterThree(bt.Strategy):
     """
-    Godspeed, Wooster Three.
+    Engulfing candle simple strategy. 
     """
     profit_percent = 1
     stop_percent = 1
