@@ -48,7 +48,8 @@ def z_score(series: pd.Series):
 
 class WoosterFive(bt.Strategy):
     """
-    Godspeed, Wooster Five.
+    Very basic mean reversion strategy looking at the standard deviations
+    of intraday price movement. 
     """
     Z_THRESHOLD = 2
     RR_RATIO = 2
