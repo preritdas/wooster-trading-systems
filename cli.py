@@ -204,11 +204,17 @@ def launch(
         return
 
     typer.launch(path)
-    pyperclip.copy(path)
+
+    try:
+        pyperclip.copy(path)
+    except Exception:
+        pass
+
     utils.console.print(
         "Launched in your browser. If you'd like to use a different "
         "browser, paste the contents of your clipboard into your preferred browser."
     )
+    utils.console.print(f"Path: {path}")
 
 
 @app.command()
