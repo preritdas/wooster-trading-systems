@@ -114,6 +114,10 @@ class WoosterSeven(bt.Strategy):
             order.cancel()
 
     def place_orders(self):
+        for order in self.orders:
+            if order.limit in {self.nearest_level_above, self.nearest_level_below}:
+                order.cancel()
+
         self.buy(
             size=1,
             tp=self.nearest_level_below + (20 * self.PIP),
