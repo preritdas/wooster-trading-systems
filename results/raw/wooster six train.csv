@@ -1,0 +1,29 @@
+,0
+Start,2024-01-30 00:00:00+00:00
+End,2024-04-22 03:38:14+01:00
+Duration,83 days 02:38:14
+Exposure Time [%],1.572
+Equity Final [$],10.002
+Equity Peak [$],10.004
+Return [%],0.02
+Buy & Hold Return [%],-1.558
+Return (Ann.) [%],0.085
+Volatility (Ann.) [%],0.04
+Sharpe Ratio,2.14
+Sortino Ratio,4.116
+Calmar Ratio,2.927
+Max. Drawdown [%],-0.029
+Avg. Drawdown [%],-0.006
+Max. Drawdown Duration,45 days 19:09:00
+Avg. Drawdown Duration,5 days 14:39:00
+# Trades,98
+Win Rate [%],50.0
+Best Trade [%],0.054
+Worst Trade [%],-0.019
+Avg. Trade [%],0.002
+Max. Trade Duration,0 days 00:40:00
+Avg. Trade Duration,0 days 00:10:00
+Profit Factor,1.221
+Expectancy [%],0.002
+SQN,0.921
+Kelly Criterion,0.072
