@@ -64,7 +64,8 @@ def _process_system(
     backtest = bt.Backtest(
         data = data["train"],
         strategy = strategy,
-        cash = 100_000
+        trade_on_close=True,
+        cash=10
     )
     
     stats = backtest.run(show_progress=progress)
@@ -96,7 +97,7 @@ def _process_system(
     with utils.console.status(
         "Plotting and exporting training results to HTML..."
     ):
-        backtest.plot(filename=_plotpath, open_browser=False, resample=False)
+        backtest.plot(filename=_plotpath, open_browser=False, resample=False, superimpose=False)
         utils.correct_html_title(f"{name.title()} Training Results", _plotpath)
         utils.insert_html_favicon(_plotpath)
 
@@ -122,7 +123,7 @@ def _process_system(
             f"Plotting and exporting {label.lower()} results to HTML..."
         ):
             _plotpath = utils.plot_path(index, label)
-            _walkforward_bt.plot(filename=_plotpath, open_browser=False, resample=False)
+            _walkforward_bt.plot(filename=_plotpath, open_browser=False, resample=False, superimpose=False)
 
             # Reset the page title so it's not the filename
             utils.correct_html_title(f"{name.title()} {label.title()} Results", _plotpath)
