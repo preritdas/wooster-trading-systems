@@ -300,6 +300,11 @@ def data(
     """
     Collect properly split walkforward data.
     """
+    if symbol == "EURUSD":
+        hist_data = yf.Ticker("EURUSD=X").history(period="60d", interval="5m")
+        return {"train": hist_data}
+        return {"train": hist_data[hist_data.index.weekday < 5]}
+
     with utils.console.status("Aggregating market data..."):
         resample, interval = _resample_prep(interval)
 
