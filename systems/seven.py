@@ -120,14 +120,14 @@ class WoosterSeven(bt.Strategy):
 
         self.buy(
             size=1,
-            tp=self.nearest_level_below + (20 * self.PIP),
-            sl=self.nearest_level_below - (20 * self.PIP),
+            tp=self.nearest_level_below + (100 * self.PIP),
+            sl=self.nearest_level_below - (100 * self.PIP),
             limit=self.nearest_level_below
         )
         self.sell(
             size=1,
-            tp=self.nearest_level_above - (20 * self.PIP),
-            sl=self.nearest_level_above + (20 * self.PIP),
+            tp=self.nearest_level_above - (100 * self.PIP),
+            sl=self.nearest_level_above + (100 * self.PIP),
             limit=self.nearest_level_above
         )
 

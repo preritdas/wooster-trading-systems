@@ -51,12 +51,12 @@ class WoosterSix(bt.Strategy):
         if self.data["High"][-1] > self.prev_nearest_level_above:
             self.sell(
                 size=1,
-                tp=self.data.Close[-1] - (20 * self.PIP),
-                sl=self.data.Close[-1] + (20 * self.PIP),
+                tp=self.data.Close[-1] - (100 * self.PIP),
+                sl=self.data.Close[-1] + (100 * self.PIP),
             )
         elif self.data["Low"][-1] < self.prev_nearest_level_below:
             self.buy(
                 size=1,
-                tp=self.data.Close[-1] + (20 * self.PIP),
-                sl=self.data.Close[-1] - (20 * self.PIP)
+                tp=self.data.Close[-1] + (100 * self.PIP),
+                sl=self.data.Close[-1] - (100 * self.PIP)
             )
